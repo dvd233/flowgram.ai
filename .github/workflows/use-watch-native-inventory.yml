@@ -1,0 +1,113 @@
+name: FlowGram native scope inventory only
+
+on:
+  push:
+    branches: [verify/use-watch-native-20261007]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: flowgram-use-watch-inventory-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  inventory:
+    name: Inventory ${{ matrix.variant }} (no tests)
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - variant: baseline
+            source_commit: 7a309c4694a89fa0398aa8d78e63ee33e72c5054
+          - variant: candidate
+            source_commit: 92ac9dcadffa1618db98ec2917de8516e7ae562d
+    steps:
+      - name: Reject any other repository or event
+        env:
+          REPOSITORY: ${{ github.repository }}
+          REPOSITORY_ID: ${{ github.repository_id }}
+          OWNER: ${{ github.repository_owner }}
+          OWNER_ID: ${{ github.repository_owner_id }}
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_REF: ${{ github.ref }}
+        run: |
+          test "$REPOSITORY" = dvd233/flowgram.ai
+          test "$REPOSITORY_ID" = 1352889832
+          test "$OWNER" = dvd233
+          test "$OWNER_ID" = 111864431
+          test "$EVENT_NAME" = push
+          test "$EVENT_REF" = refs/heads/verify/use-watch-native-20261007
+
+      - name: Checkout the immutable inventory harness
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: dvd233/flowgram.ai
+          ref: ${{ github.sha }}
+          path: harness
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Checkout fixed public source text without running it
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: dvd233/flowgram.ai
+          ref: ${{ matrix.source_commit }}
+          path: source
+          fetch-depth: 2
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            *.ts
+            *.tsx
+            *.js
+            *.jsx
+            *.mjs
+            *.cjs
+            *.py
+            *.sh
+            *.mdx
+            *.html
+            *.json
+            *.yml
+            *.yaml
+            *.md
+            *.css
+            *.less
+            *.scss
+            *.svg
+            *.snap
+            !**/pnpm-lock.yaml
+            !**/.env*
+            !**/credentials.json
+            !**/secrets.json
+            !**/token.json
+
+      - name: Export and verify bounded source inventory
+        env:
+          VARIANT: ${{ matrix.variant }}
+        run: |
+          python3 harness/.validation/use-watch-native/inventory.py inventory \
+            --plan harness/.validation/use-watch-native/plan.json \
+            --harness harness --source source --variant "$VARIANT" \
+            --output "reports/$VARIANT"
+
+      - name: Upload verified public inventory only
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: flowgram-use-watch-inventory-${{ matrix.variant }}-${{ github.run_id }}
+          path: |
+            reports/${{ matrix.variant }}/scope-${{ matrix.variant }}.zip
+            reports/${{ matrix.variant }}/inventory-manifest.json
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0

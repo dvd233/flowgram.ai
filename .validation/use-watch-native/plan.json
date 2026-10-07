@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "mode": "inventory-only",
+  "repository": "dvd233/flowgram.ai",
+  "repository_id": "1352889832",
+  "validation_branch": "verify/use-watch-native-20261007",
+  "baseline": {
+    "commit": "7a309c4694a89fa0398aa8d78e63ee33e72c5054",
+    "tree": "264d94f4b49b176b38c3d9b91cde75e53ae6e457"
+  },
+  "candidate": {
+    "commit": "92ac9dcadffa1618db98ec2917de8516e7ae562d",
+    "tree": "0b22a6f1ebbec353e3a089ec4e36ae4d6a1f97e4"
+  },
+  "candidate_files": [
+    {
+      "path": "packages/node-engine/form/src/react/use-watch.ts",
+      "oid": "a1c8933d497df6742dd8c587fef1440bd157cfdd",
+      "sha256": "2819d71490798bdcd4e3413bea53062c68feb01408beb58fad5893f877dae8ac",
+      "bytes": 1226
+    },
+    {
+      "path": "packages/node-engine/form/__tests__/use-watch.test.tsx",
+      "oid": "7f393670ca4941b0e4d908617af63ccf26502662",
+      "sha256": "5a9e7a406071a7e15222fbf35127f6e00a55e48716de451964ccaf1c27775310",
+      "bytes": 7699
+    }
+  ],
+  "limits": {
+    "archive_bytes": 5500000,
+    "expanded_bytes": 8000000,
+    "file_bytes": 1000000
+  },
+  "harness_files": {
+    ".github/workflows/use-watch-native-inventory.yml": "b9830a1cc5eaa308160accdde82b8b93a21e9e10be8ea9f75722f83984350b16",
+    ".validation/use-watch-native/base-files.json": "a09b7b0e58af7f65d973a20286bb8401064d4d562b50154d2b1c89eb761e5538",
+    ".validation/use-watch-native/inventory.py": "3b86299d1c9b3555633f3c1e1bd0f58f8f7048476cbf14b80e406927d135f828"
+  },
+  "native_validation_status": "NOT_AUTHORIZED_BY_THIS_INVENTORY_WORKFLOW; pending source/script review and separate validation gate",
+  "official_actions": {
+    "checkout": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+    "upload-artifact": "ea165f8d65b6e75b540449e92b4886f43607fa02",
+    "setup-node_future_native_only": "49933ea5288caeca8642d1e84afbd3f7d6820020"
+  },
+  "owner": "dvd233",
+  "owner_id": "111864431"
+}

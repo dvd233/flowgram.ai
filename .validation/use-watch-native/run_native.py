@@ -270,6 +270,44 @@ def collect_project(report_path, junit_path, project, source_root, process_exit)
             'live_api_cases_not_executed': LIVE_CASES if project['path'] == 'packages/runtime/js-core' else []}
 
 
+def installed_tool_metadata(package_file, command_file, expected_name, expected_version, bin_name, allowed_root):
+    """Read installed package metadata and bind it to the actual installed command.
+    No bootstrap --version call, package import, or configuration-only version claim.
+    """
+    metadata_path = package_file.resolve(strict=True)
+    metadata_path.relative_to(allowed_root.resolve(strict=True))
+    data = json.loads(metadata_path.read_text())
+    need(data.get('name') == expected_name and data.get('version') == expected_version,
+         'Unexpected installed package name/version: ' + expected_name)
+    declared_bins = data.get('bin')
+    entry = declared_bins.get(bin_name) if isinstance(declared_bins, dict) else declared_bins
+    need(isinstance(entry, str) and bool(entry), 'Installed package has no expected binary: ' + expected_name)
+    declared_binary = (metadata_path.parent / entry).resolve(strict=True)
+    declared_binary.relative_to(metadata_path.parent)
+    actual_binary = command_file.resolve(strict=True)
+    need(declared_binary.is_file() and actual_binary == declared_binary,
+         'Installed command does not resolve to its package-declared binary: ' + bin_name)
+    return {'name': data['name'], 'version': data['version'], 'metadata_path': str(metadata_path),
+            'metadata_sha256': digest(metadata_path), 'command_path': str(command_file),
+            'resolved_binary': str(actual_binary), 'binary_sha256': digest(actual_binary),
+            'evidence': 'installed package metadata bound to actual binary, not source config'}
+
+
+def record_installed_tool_versions(root, run_root, out):
+    rush_install = root / 'common/temp/install-run/@microsoft+rush@5.150.0'
+    rush = installed_tool_metadata(rush_install / 'node_modules/@microsoft/rush/package.json',
+                                   rush_install / 'node_modules/.bin/rush',
+                                   '@microsoft/rush', '5.150.0', 'rush', rush_install)
+    pnpm_local = root / 'common/temp/pnpm-local'
+    need(pnpm_local.is_symlink(), 'Rush pnpm-local link is missing')
+    pnpm_local.resolve(strict=True).relative_to((run_root / 'rush-global').resolve(strict=True))
+    pnpm = installed_tool_metadata(pnpm_local / 'node_modules/pnpm/package.json',
+                                   pnpm_local / 'node_modules/.bin/pnpm',
+                                   'pnpm', '10.6.5', 'pnpm', run_root / 'rush-global')
+    save(out / 'installed-tool-versions.json', {'rush': rush, 'pnpm': pnpm})
+    return {'rush': rush, 'pnpm': pnpm}
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument('--source', type=Path, required=True)
@@ -303,10 +341,7 @@ def main():
     need(code == 0, 'Original frozen-lock Rush install failed')
     need((root / 'common/temp/pnpm-lock.yaml').is_file(), 'Actual installed temporary lock is missing')
     save(out / 'installed-lock.json', {'original_sha256': digest(root / 'common/config/rush/pnpm-lock.yaml'), 'installed_temp_sha256': digest(root / 'common/temp/pnpm-lock.yaml'), 'byte_identical': True})
-    need(run(bootstrap + ['--version'], root, env, out, 'rush-version', 120) == 0, 'Cannot record Rush version')
-    need(run(['node', 'common/scripts/install-run-rush-pnpm.js', '--version'], root, env, out, 'pnpm-version', 120) == 0, 'Cannot record pnpm version')
-    need(re.search(r'(?m)^10\.6\.5$', (out / 'pnpm-version.log').read_text()) is not None, 'Wrong resolved pnpm version')
-    need(re.search(r'\b5\.150\.0\b', (out / 'rush-version.log').read_text()) is not None, 'Wrong resolved Rush version')
+    record_installed_tool_versions(root, run_root, out)
     need(run(['node', '-p', "JSON.stringify({vitest:require('vitest/package.json').version,react:require('react/package.json').version,typescript:require('typescript/package.json').version})"], root / 'packages/node-engine/form', env, out, 'form-tool-versions', 120) == 0, 'Cannot record native form tool versions')
     stages, cache_warnings = {}, []
     operation_state = []

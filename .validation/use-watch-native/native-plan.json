@@ -1446,7 +1446,7 @@
     ".validation/use-watch-native/expected.json": "4b1f6c9e021c799a872c2ae3e657a4c4f6cb54bcc3f4e404171eded33a6fc7a0",
     ".validation/use-watch-native/package_reports.py": "60b63435323387f0dc6023a529c1974a90535675220661ea9ac644f2901477a4",
     ".validation/use-watch-native/read_scope.py": "0f1ef0fa4619ff6a7680f7f2fba101e44df100e30e931d8c82024de4589ed39b",
-    ".validation/use-watch-native/run_native.py": "7839fcc5e18f201c2d7d175c8a9d7e2b8bc26fc1a590d941bd9c4584be3d1d19",
+    ".validation/use-watch-native/run_native.py": "f0eaf2c1c8d6a25ae2877cd201aa7637491ab91aa6d8307ad6544dd30fd33f33",
     ".validation/use-watch-native/use-watch.test.tsx": "5a9e7a406071a7e15222fbf35127f6e00a55e48716de451964ccaf1c27775310"
   },
   "lock_metadata_url_exceptions": [

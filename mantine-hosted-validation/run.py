@@ -208,19 +208,94 @@ def inspect_jest(name, expected=None, negative=False):
     save()
 
 
-def inventory():
-    install_hooks = []
-    for p in SOURCE.glob('**/package.json'):
-        if 'node_modules' not in p.parts:
+def package_root_inventory(source):
+    source = source.resolve(strict=True)
+    if (source / 'node_modules').is_symlink():
+        raise ValueError('node_modules must not be an external or linked inventory root')
+    map_path = source / 'node_modules/.package-map.json'
+    if map_path.is_symlink() or not stat.S_ISREG(map_path.lstat().st_mode):
+        raise ValueError('node_modules/.package-map.json must be a regular nonsymlink file')
+    map_bytes = map_path.read_bytes()
+    try:
+        package_map = json.loads(map_bytes)
+    except (ValueError, UnicodeError) as exc:
+        raise ValueError(f'Invalid node_modules/.package-map.json: {exc}') from exc
+    if not isinstance(package_map, dict) or set(package_map) != {'packages'}:
+        raise ValueError('Unsupported node_modules/.package-map.json schema')
+    locations = package_map['packages']
+    if not isinstance(locations, dict) or '.' not in locations:
+        raise ValueError('Package map must contain package locations and the project root')
+    records, install_hooks, seen = [], [], set()
+    project_root_seen = False
+    for locator, entry in sorted(locations.items()):
+        if not isinstance(entry, dict) or not isinstance(entry.get('url'), str) or not isinstance(entry.get('dependencies'), dict):
+            raise ValueError(f'Invalid package-map location entry: {locator}')
+        url = entry['url']
+        if not (url == '..' or url.startswith('./') or url.startswith('../')):
+            raise ValueError(f'Package-map location must be relative: {locator}')
+        try:
+            root = (map_path.parent / url).resolve(strict=True)
+        except (OSError, RuntimeError) as exc:
+            raise ValueError(f'Cannot resolve package-map location {locator}: {url}') from exc
+        if not root.is_relative_to(source) or not root.is_dir():
+            raise ValueError(f'Package-map location escapes source or is not a directory: {locator}')
+        relative = root.relative_to(source)
+        if locator == '.':
+            if root != source:
+                raise ValueError('The project-root package-map entry does not resolve to the source root')
+            project_root_seen = True
+        if 'node_modules' in relative.parts:
+            category = 'dependency'
+        elif root == source:
+            category = 'project'
+        elif ((len(relative.parts) == 3 and relative.parts[0] == 'packages') or
+              (len(relative.parts) == 2 and relative.parts[0] == 'apps')):
+            category = 'workspace'
+        else:
+            raise ValueError(f'Unexpected workspace location in package map: {relative}')
+        if root in seen:
             continue
-        data = json.loads(p.read_text())
+        seen.add(root)
+        manifest = root / 'package.json'
+        manifest_relative = str(manifest.relative_to(source))
+        if manifest.is_symlink() or not manifest.exists() or not stat.S_ISREG(manifest.lstat().st_mode):
+            raise ValueError(f'Mapped package manifest missing or not a regular nonsymlink file: {manifest_relative}')
+        raw = manifest.read_bytes()
+        try:
+            data = json.loads(raw)
+        except (ValueError, UnicodeError) as exc:
+            raise ValueError(f'Invalid mapped package manifest {manifest_relative}: {exc}') from exc
+        if not isinstance(data, dict) or not isinstance(data.get('name'), str) or not isinstance(data.get('version'), str):
+            raise ValueError(f'Invalid mapped package identity: {manifest_relative}')
         scripts = data.get('scripts', {})
+        if not isinstance(scripts, dict):
+            raise ValueError(f'Invalid scripts object in mapped package manifest: {manifest_relative}')
         selected = {k: v for k, v in scripts.items() if k in ('preinstall', 'install', 'postinstall')}
         if selected:
-            install_hooks.append({'name': data.get('name'), 'version': data.get('version'),
-                                  'path': str(p.relative_to(SOURCE)), 'scripts': selected})
-    REPORT['installed_hooks'] = {'execution_permitted': False, 'entries': install_hooks}
+            install_hooks.append({'name': data['name'], 'version': data['version'],
+                                  'path': manifest_relative, 'scripts': selected})
+        records.append({'root': str(relative), 'category': category,
+                        'manifest_sha256': hashlib.sha256(raw).hexdigest()})
+    if not project_root_seen:
+        raise ValueError('Project root was not inventoried')
+    records.sort(key=lambda record: record['root'])
+    return {
+        'complete': True, 'execution_permitted': False,
+        'scope': 'Every unique installed package root declared by Yarn 4.18.0 node_modules/.package-map.json, including workspace and project roots',
+        'excluded_scope': 'Package-internal test fixtures, documentation and other package.json files not declared as installed roots in the Yarn map; not an audit of every JSON file in package contents',
+        'map_path': 'node_modules/.package-map.json', 'map_sha256': hashlib.sha256(map_bytes).hexdigest(),
+        'mapped_location_count': len(locations), 'unique_package_root_count': len(records),
+        'dependency_package_root_count': sum(record['category'] == 'dependency' for record in records),
+        'workspace_and_project_root_count': sum(record['category'] != 'dependency' for record in records),
+        'root_manifest_inventory_sha256': hashlib.sha256(json.dumps(records, sort_keys=True, separators=(',', ':')).encode()).hexdigest(),
+        'entries': install_hooks,
+    }
 
+
+def inventory():
+    REPORT['installed_hooks'] = {'complete': False, 'execution_permitted': False,
+                                 'map_path': 'node_modules/.package-map.json'}
+    REPORT['installed_hooks'].update(package_root_inventory(SOURCE))
 
 def package_report():
     archive = TEMP / f'mantine-native-{LANE}.tar.gz'

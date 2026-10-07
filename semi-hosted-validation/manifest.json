@@ -49,7 +49,7 @@
     "version": "1.22.22",
     "url": "https://registry.npmjs.org/yarn/-/yarn-1.22.22.tgz",
     "tarball_bytes": 1238429,
-    "expanded_bytes": 5350912,
+    "expanded_bytes": 5340487,
     "sha512": "a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
     "sri": "sha512-prL3kGtyG7o9Z9Sv8IPfBNrWTDmXB4Qbes8A9rEzt6wkJV8mUvoirjU0Mp3GGAU06Y0XQyA3/2/RQFVuK7MTfg==",
     "files": [
@@ -225,5 +225,5 @@
   "claim_boundary": "Only a genuine 4-failed/3-passed assertion result with exact raw native diagnostics can validate expected RED. The workflow wrapper may succeed while the original npm test exits 1. It never means fixed implementation, UI integration or project-wide green.",
   "reference_npm_version": "11.9.0",
   "npm_version_policy": "Use the unmodified npm supplied by the pinned setup-node runtime; record actual version and executable paths without imposing the separate reference observation as a project requirement. Do not upgrade or replace npm.",
-  "parent_commit": "866f63c469601cc97d66062da37d06473faf0129"
+  "parent_commit": "387e748b00a864779bcc617114fb277cb299bcc3"
 }

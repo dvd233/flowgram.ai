@@ -28,7 +28,7 @@ HOME and a bounded environment without GitHub tokens or repository secrets.
 No project dependency cache is restored.
 
 The validation branch's parent is
-`866f63c469601cc97d66062da37d06473faf0129`; this only provides a Git parent link.
+`387e748b00a864779bcc617114fb277cb299bcc3`; this only provides a Git parent link.
 The runner checks the exact sole parent from the raw commit header, including
 in shallow checkouts. The new tree is independently constructed from five files. Parent-tree project
 files and workflows are not part of the validation tree. This branch does not
@@ -118,3 +118,13 @@ codes are retained, including the expected failing npm test exit code.
 This harness alone does not establish contribution readiness: a repair, positive
 regression run, appropriate UI/integration checks, broader repository checks and
 a fresh duplicate/ownership review would be separate work.
+
+## Preserved first attempt
+
+[The first attempt](https://github.com/dvd233/flowgram.ai/actions/runs/37692668357)
+stopped before running the verified Yarn installer or native test because the manifest recorded an
+incorrect expanded Yarn size (5,350,912 bytes). The unchanged official archive
+and npm metadata both give 5,340,487 bytes across the same eleven files. This
+revision corrects that constant and advances the declared parent; source, tests,
+runtime pins, security checks, installation commands and result gates are unchanged.
+The first attempt is a harness failure and provides no native RED result.

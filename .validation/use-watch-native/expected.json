@@ -1,0 +1,142 @@
+{
+  "note": "Static predictions from the 226-line native test source, not native execution output. Reporter title formatting and line format must be verified against actual Vitest output; fail closed on mismatch.",
+  "cases": [
+    {
+      "fullName": "useWatch updates after replacing \"user.name\"",
+      "baselineStatus": "passed",
+      "candidateStatus": "passed"
+    },
+    {
+      "fullName": "useWatch updates after replacing \"user\"",
+      "baselineStatus": "failed",
+      "candidateStatus": "passed",
+      "receivedText": "\"old\"",
+      "expectedText": "\"new\"",
+      "assertionLine": 57
+    },
+    {
+      "fullName": "useWatch updates after replacing \"\"",
+      "baselineStatus": "failed",
+      "candidateStatus": "passed",
+      "receivedText": "\"old\"",
+      "expectedText": "\"new\"",
+      "assertionLine": 57
+    },
+    {
+      "fullName": "useWatch updates a watched parent after a descendant changes",
+      "baselineStatus": "failed",
+      "candidateStatus": "passed",
+      "receivedText": "{\"name\":\"old\"}",
+      "expectedText": "{\"name\":\"new\"}",
+      "assertionLine": 66
+    },
+    {
+      "fullName": "useWatch updates a watched descendant when its parent is cleared",
+      "baselineStatus": "failed",
+      "candidateStatus": "passed",
+      "receivedText": "\"old\"",
+      "expectedText": "undefined",
+      "assertionLine": 75
+    },
+    {
+      "fullName": "useWatch updates array descendants when the array is replaced",
+      "baselineStatus": "failed",
+      "candidateStatus": "passed",
+      "receivedText": "\"old\"",
+      "expectedText": "\"new\"",
+      "assertionLine": 84
+    },
+    {
+      "fullName": "useWatch matches watched items.0.name with updated items[0].name",
+      "baselineStatus": "failed",
+      "candidateStatus": "passed",
+      "receivedText": "\"old\"",
+      "expectedText": "\"new\"",
+      "assertionLine": 96
+    },
+    {
+      "fullName": "useWatch matches watched items[0].name with updated items.0.name",
+      "baselineStatus": "failed",
+      "candidateStatus": "passed",
+      "receivedText": "\"old\"",
+      "expectedText": "\"new\"",
+      "assertionLine": 96
+    },
+    {
+      "fullName": "useWatch observes items.0.name when an array item is appended",
+      "baselineStatus": "failed",
+      "candidateStatus": "passed",
+      "receivedText": "undefined",
+      "expectedText": "\"new\"",
+      "assertionLine": 111
+    },
+    {
+      "fullName": "useWatch observes items.length when an array item is appended",
+      "baselineStatus": "failed",
+      "candidateStatus": "passed",
+      "receivedText": "0",
+      "expectedText": "1",
+      "assertionLine": 111
+    },
+    {
+      "fullName": "useWatch observes items.0.name when an array item is deleted",
+      "baselineStatus": "failed",
+      "candidateStatus": "passed",
+      "receivedText": "\"first\"",
+      "expectedText": "\"second\"",
+      "assertionLine": 125
+    },
+    {
+      "fullName": "useWatch observes items.length when an array item is deleted",
+      "baselineStatus": "failed",
+      "candidateStatus": "passed",
+      "receivedText": "2",
+      "expectedText": "1",
+      "assertionLine": 125
+    },
+    {
+      "fullName": "useWatch observes nested values when array items are swapped",
+      "baselineStatus": "failed",
+      "candidateStatus": "passed",
+      "receivedText": "\"first\"",
+      "expectedText": "\"second\"",
+      "assertionLine": 136
+    },
+    {
+      "fullName": "useWatch ignores unrelated paths with a common string prefix",
+      "baselineStatus": "passed",
+      "candidateStatus": "passed"
+    },
+    {
+      "fullName": "useWatch does not confuse a quoted dotted key with nested keys",
+      "baselineStatus": "passed",
+      "candidateStatus": "passed"
+    },
+    {
+      "fullName": "useWatch ignores array indices with a common string prefix",
+      "baselineStatus": "passed",
+      "candidateStatus": "passed"
+    },
+    {
+      "fullName": "useWatch rebinds when the watched path changes",
+      "baselineStatus": "failed",
+      "candidateStatus": "passed",
+      "receivedText": "\"b\"",
+      "expectedText": "\"new\"",
+      "assertionLine": 193
+    },
+    {
+      "fullName": "useWatch disposes the form subscription on unmount",
+      "baselineStatus": "passed",
+      "candidateStatus": "passed"
+    },
+    {
+      "fullName": "useWatch rebinds when the form model changes",
+      "baselineStatus": "failed",
+      "candidateStatus": "passed",
+      "receivedText": "\"initial\"",
+      "expectedText": "\"new\"",
+      "assertionLine": 224
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+name: FlowGram original native validation
+
+on:
+  push:
+    branches: [verify/use-watch-native-run-20261007]
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+
+concurrency:
+  group: flowgram-use-watch-native-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  native:
+    name: Native ${{ matrix.variant }} (no E2E or live API)
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - variant: baseline
+            source_commit: 7a309c4694a89fa0398aa8d78e63ee33e72c5054
+          - variant: candidate
+            source_commit: 92ac9dcadffa1618db98ec2917de8516e7ae562d
+    steps:
+      - name: Reject other repositories or events
+        env:
+          REPOSITORY: ${{ github.repository }}
+          REPOSITORY_ID: ${{ github.repository_id }}
+          OWNER: ${{ github.repository_owner }}
+          OWNER_ID: ${{ github.repository_owner_id }}
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_REF: ${{ github.ref }}
+        run: |
+          test "$REPOSITORY" = dvd233/flowgram.ai
+          test "$REPOSITORY_ID" = 1352889832
+          test "$OWNER" = dvd233
+          test "$OWNER_ID" = 111864431
+          test "$EVENT_NAME" = push
+          test "$EVENT_REF" = refs/heads/verify/use-watch-native-run-20261007
+
+      - name: Checkout immutable harness
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: dvd233/flowgram.ai
+          ref: ${{ github.sha }}
+          path: harness
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Checkout exact source in a fresh job
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: dvd233/flowgram.ai
+          ref: ${{ matrix.source_commit }}
+          path: source
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Select original supported Node 18 line without a restored cache
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 18.20.8
+          check-latest: false
+
+      - name: Original Rush stages and separate native reporter replays
+        env:
+          VARIANT: ${{ matrix.variant }}
+        run: |
+          python3 harness/.validation/use-watch-native/run_native.py \
+            --source source --variant "$VARIANT" --output "reports/$VARIANT"
+
+      - name: Package bounded public execution evidence even on failure
+        if: always()
+        env:
+          VARIANT: ${{ matrix.variant }}
+        run: |
+          python3 harness/.validation/use-watch-native/package_reports.py \
+            --source source --reports "reports/$VARIANT" --variant "$VARIANT" --output evidence
+
+      - name: Upload bounded execution evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: flowgram-use-watch-native-${{ matrix.variant }}-${{ github.run_id }}
+          path: |
+            evidence/native-${{ matrix.variant }}.zip
+            evidence/manifest-${{ matrix.variant }}.json
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0

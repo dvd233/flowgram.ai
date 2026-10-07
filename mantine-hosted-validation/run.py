@@ -54,10 +54,12 @@ REPORT = {
     'install_differences': M['install_differences'],
     'child_environment_keys': sorted(ENV), 'steps': [], 'violations': [],
     'skipped': [], 'artifact_complete': True,
+    'artifact_scope': 'Original compiler/test/lint/format logs and native JSON; docs-sponsors raw stdout/stderr and generated records deliberately excluded, with only hashes, sizes and controlled metadata published',
 }
 JEST = ['npm', 'run', 'jest', '--', '--runInBand']
 PLAN = [
     ('build', ['npm', 'run', 'build'], 1800),
+    ('docs-sponsors', ['npm', 'run', 'docs:sponsors'], 300),
     ('typecheck', ['npm', 'run', 'typecheck'], 900),
     ('target', JEST + ['--runTestsByPath', TEST, '--json', f'--outputFile={OUT / "target.json"}'], 300),
     ('full-hooks', JEST + ['packages/@mantine/hooks', '--json', f'--outputFile={OUT / "full-hooks.json"}'], 900),
@@ -108,7 +110,8 @@ def run(name, argv, seconds, bind=True, zero=True):
     REPORT['steps'].append(step)
     save()
     start = time.monotonic()
-    log = OUT / f'{name}.log'
+    private_output = name == 'docs-sponsors'
+    log = (TOOLS if private_output else OUT) / f'{name}.log'
     with log.open('wb') as output:
         proc = subprocess.Popen(argv, cwd=SOURCE, env=ENV, stdout=output,
                                 stderr=subprocess.STDOUT, start_new_session=True)
@@ -123,17 +126,33 @@ def run(name, argv, seconds, bind=True, zero=True):
                 os.killpg(proc.pid, signal.SIGKILL)
                 proc.wait()
             code = proc.returncode
-    if log.stat().st_size > M['artifact_per_file_expanded_limit_bytes']:
-        REPORT['violations'].append(f'{name}: log exceeds expanded per-file evidence limit')
-        step['log_scan_incomplete'] = True
-    with log.open('rb') as captured:
-        text = captured.read(M['artifact_per_file_expanded_limit_bytes']).decode(errors='replace')
+    text = ''
+    if not private_output:
+        if log.stat().st_size > M['artifact_per_file_expanded_limit_bytes']:
+            REPORT['violations'].append(f'{name}: log exceeds expanded per-file evidence limit')
+            step['log_scan_incomplete'] = True
+        with log.open('rb') as captured:
+            text = captured.read(M['artifact_per_file_expanded_limit_bytes']).decode(errors='replace')
     step.update(exit_code=code, elapsed_seconds=round(time.monotonic() - start, 3),
                 status='passed' if code == 0 and not step.get('timed_out') else 'failed',
                 log=log.name, log_sha256=sha(log), log_bytes=log.stat().st_size)
+    if private_output:
+        step['raw_log_sha256'] = step['log_sha256']
+        step['raw_log_bytes'] = step['log_bytes']
+        step['raw_log_uploaded'] = False
+        step['output_scope'] = 'Original stdout/stderr retained only in ephemeral runner temporary storage; no raw text or warning excerpts published'
+        safe_log = OUT / f'{name}.log'
+        safe_log.write_text('Original command: npm run docs:sponsors\n'
+                            f'Exit: {code}\nElapsed seconds: {step["elapsed_seconds"]}\n'
+                            'Raw stdout/stderr intentionally excluded; receipt records its hash and byte count.\n')
+        step['log_sha256'] = sha(safe_log)
+        step['log_bytes'] = safe_log.stat().st_size
     relevant = [line for line in text.splitlines() if re.search(r'warn|skip|deprecat|YN(?!0000)\d{4}', line, re.I)]
     step['warning_and_skip_lines'] = relevant[:100]
     step['warning_and_skip_lines_total'] = len(relevant)
+    if private_output:
+        step['warning_and_skip_lines_total'] = None
+        step['warning_excerpt_note'] = 'Not exposed for public-data preparation; no claim of zero warnings'
     if len(relevant) > 100:
         step['warning_excerpt_note'] = 'First 100 matches only; complete command output remains in log'
     if zero and (code != 0 or step.get('timed_out')):
@@ -428,7 +447,7 @@ try:
     assert modifier_matches == M['full_hooks_source_modifier_audit']['matches'], 'Unexpected skip/todo/focus marker needs review'
     affected_hooks = []
     selected_scripts = {
-        'package.json': ['build', 'typecheck', 'jest', 'lint', 'oxlint', 'stylelint', 'format:write:files'],
+        'package.json': ['build', 'docs:sponsors', 'typecheck', 'jest', 'lint', 'oxlint', 'stylelint', 'format:write:files'],
         'apps/mantine.dev/package.json': ['typecheck'],
         'apps/help.mantine.dev/package.json': ['typecheck']}
     for rel, selected in selected_scripts.items():
@@ -446,7 +465,8 @@ try:
         scripts = data.get('scripts', {})
         selected = {k: v for k, v in scripts.items() if k in (
             'preinstall', 'install', 'postinstall', 'prebuild', 'postbuild',
-            'pretypecheck', 'posttypecheck', 'prejest', 'postjest', 'prelint', 'postlint',
+            'pretypecheck', 'posttypecheck', 'predocs:sponsors', 'postdocs:sponsors',
+            'prejest', 'postjest', 'prelint', 'postlint',
             'preoxlint', 'postoxlint', 'prestylelint', 'poststylelint',
             'preformat:write:files', 'postformat:write:files')}
         if selected:
@@ -469,6 +489,9 @@ try:
     inventory()
     for binary in ('tsx', 'tsc', 'jest', 'oxlint', 'stylelint', 'oxfmt'):
         assert (SOURCE / 'node_modules/.bin' / binary).exists(), f'Missing locked tool: {binary}'
+    sponsor_output = SOURCE / M['public_build_input']['generated_path']
+    assert not sponsor_output.exists() and not sponsor_output.is_symlink(), 'Sponsor input must begin absent on the clean source checkout'
+    assert sha(SOURCE / M['public_build_input']['source_script']) == M['public_build_input']['source_script_sha256']
     for name, argv, seconds in PLAN:
         if name == 'negative':
             git('restore', '--source', M['base_commit'], '--staged', '--worktree', '--', FILES[0])
@@ -480,6 +503,30 @@ try:
             STATE = 'candidate'
             assert_source()
         step, output = run(name, argv, seconds, zero=name != 'negative')
+        if name == 'docs-sponsors':
+            metadata = {'path': M['public_build_input']['generated_path'],
+                        'endpoint': M['public_build_input']['endpoint'],
+                        'raw_data_uploaded': False, 'exists': sponsor_output.exists(),
+                        'entry_count': None, 'empty': None}
+            REPORT['public_build_input'] = metadata
+            if sponsor_output.is_symlink() or not sponsor_output.exists() or not stat.S_ISREG(sponsor_output.lstat().st_mode):
+                REPORT['violations'].append('docs-sponsors: generated input missing or not a regular nonsymlink file')
+            else:
+                metadata.update(sha256=sha(sponsor_output), bytes=sponsor_output.stat().st_size)
+                if metadata['bytes'] > M['artifact_per_file_expanded_limit_bytes']:
+                    REPORT['violations'].append('docs-sponsors: generated input exceeds metadata inspection bound')
+                else:
+                    try:
+                        sponsors = json.loads(sponsor_output.read_bytes())
+                        if not isinstance(sponsors, list):
+                            raise ValueError('Expected array')
+                        metadata.update(entry_count=len(sponsors), empty=not sponsors)
+                        if not sponsors:
+                            metadata['limitation'] = 'Public input is an empty array; no records or types fabricated, and the original typecheck determines project-check success'
+                        del sponsors
+                    except (ValueError, UnicodeError):
+                        REPORT['violations'].append('docs-sponsors: generated input is not a valid JSON array')
+            save()
         if name == 'build':
             match = re.search(r'Built:\s*(\d+),\s*skipped:\s*(\d+)', output)
             step['build_summary'] = {'built': int(match[1]), 'skipped': int(match[2])} if match else None

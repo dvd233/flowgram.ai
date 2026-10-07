@@ -55,7 +55,7 @@
   "action_pin_evidence": "Official GitHub REST GET /repos/{repository}/git/ref/tags/{tag}, object.type=commit and matching object.sha",
   "artifact_limit_bytes_per_lane": 4500000,
   "artifact_limit_bytes_all_lanes": 10000000,
-  "scope": "Original compiler and unit-test subprocess/Unix IPC only. No application servers, browsers, live APIs, docs setup, deploy/publish, release, or lifecycle hooks.",
+  "scope": "Original compiler/unit-test subprocess and internal IPC, plus unchanged npm run docs:sponsors to read public build input from the fixed unauthenticated Open Collective endpoint using normal fetch redirects. No application server, browser, model/application API test, account data, token/header injection, donor-link fetching, broader docs setup, deploy/publish/release, or lifecycle hooks.",
   "install_differences": [
     "YARN_ENABLE_SCRIPTS=false",
     "yarn install --immutable --mode=skip-build",
@@ -101,5 +101,19 @@
     "matches": [],
     "purpose": "Static audit of all 64 frozen test files for explicit skip/todo/focus markers before native result validation"
   },
-  "negative_matcher_message": "expect(jest.fn()).toHaveBeenCalledTimes(expected)\n\nExpected number of calls: 1\nReceived number of calls: 2"
+  "negative_matcher_message": "expect(jest.fn()).toHaveBeenCalledTimes(expected)\n\nExpected number of calls: 1\nReceived number of calls: 2",
+  "public_build_input": {
+    "command": [
+      "npm",
+      "run",
+      "docs:sponsors"
+    ],
+    "endpoint": "https://opencollective.com/mantinedev/members/all.json",
+    "fetch_calls_per_lane": 1,
+    "redirect_behavior": "Original fetch defaults; may follow normal HTTP redirects",
+    "source_script": "scripts/docs/sponsors.ts",
+    "source_script_sha256": "f2d721c5e50130a3b15071788e819a395a6d5246ea81702a1272ee2347a30937",
+    "generated_path": "apps/mantine.dev/src/.docgen/sponsors.json",
+    "artifact_data_policy": "Generated backer records and raw docs:sponsors stdout/stderr are not uploaded or printed; only command, real exit/elapsed, hashes, byte counts, entry count and controlled status are reported"
+  }
 }

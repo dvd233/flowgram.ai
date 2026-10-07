@@ -1,0 +1,87 @@
+name: Mantine frozen native validation
+on:
+  push:
+    branches: [verify/mantine-leading-native-20261007]
+permissions:
+  contents: read
+concurrency:
+  group: mantine-frozen-validation-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  validate:
+    name: Native ${{ matrix.lane }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    strategy:
+      fail-fast: false
+      matrix:
+        lane: [base, candidate]
+    env:
+      EXPECTED_REPOSITORY: dvd233/flowgram.ai
+      EXPECTED_REPOSITORY_ID: '1352889832'
+      EXPECTED_OWNER_ID: '111864431'
+      EXPECTED_REF: refs/heads/verify/mantine-leading-native-20261007
+      LANE: ${{ matrix.lane }}
+    steps:
+      - name: Verify exact repository, push, branch and hosted runner before checkout
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_EVENT_NAME" = push
+          test "$GITHUB_REPOSITORY" = "$EXPECTED_REPOSITORY"
+          test "$GITHUB_REPOSITORY_ID" = "$EXPECTED_REPOSITORY_ID"
+          test "$GITHUB_REPOSITORY_OWNER_ID" = "$EXPECTED_OWNER_ID"
+          test "$GITHUB_REF" = "$EXPECTED_REF"
+          test "$RUNNER_ENVIRONMENT" = github-hosted
+          test "$RUNNER_OS" = Linux
+          test "$RUNNER_ARCH" = X64
+          [[ "$GITHUB_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test "$GITHUB_WORKFLOW_SHA" = "$GITHUB_SHA"
+          python3 - <<'PY'
+          import json, os
+          event = json.load(open(os.environ['GITHUB_EVENT_PATH']))
+          assert event['after'] == os.environ['GITHUB_SHA']
+          assert event['ref'] == os.environ['EXPECTED_REF']
+          assert not event.get('deleted')
+          assert event['repository']['full_name'] == os.environ['EXPECTED_REPOSITORY']
+          assert str(event['repository']['id']) == os.environ['EXPECTED_REPOSITORY_ID']
+          assert str(event['repository']['owner']['id']) == os.environ['EXPECTED_OWNER_ID']
+          PY
+      - name: Checkout exact validation payload
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2, official tag verified
+        with:
+          ref: ${{ github.sha }}
+          path: payload
+          persist-credentials: false
+          fetch-depth: 1
+          submodules: false
+          lfs: false
+      - name: Checkout exact upstream source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          repository: mantinedev/mantine
+          ref: f0e2bc6d28b0f0b8aaefb5b859937bf77f539df7
+          path: source
+          persist-credentials: false
+          fetch-depth: 1
+          submodules: false
+          lfs: false
+      - name: Install exact Node runtime without restoring project caches
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0, official tag verified
+        with:
+          node-version: 26.3.0
+          check-latest: false
+      - name: Run original commands and collect exact receipts
+        id: native
+        shell: bash
+        run: python3 payload/mantine-hosted-validation/run.py "$GITHUB_WORKSPACE/source" "$LANE"
+      - name: Upload bounded logs and results only
+        if: ${{ always() && steps.native.outcome != 'skipped' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2, official tag verified
+        with:
+          name: mantine-native-${{ matrix.lane }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/mantine-native-${{ matrix.lane }}.tar.gz
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 3
+          include-hidden-files: false

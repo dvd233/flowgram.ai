@@ -1,4 +1,4 @@
-name: Semi frozen Foundation RED validation
+name: Semi currency native fix comparison
 on:
   push:
     branches: [verify/semi-currency-native-20261007]
@@ -9,9 +9,9 @@ concurrency:
   cancel-in-progress: false
 jobs:
   validate:
-    name: Original Foundation plus seven proposed tests
+    name: Frozen base, candidate, negative and broader checks
     runs-on: ubuntu-24.04
-    timeout-minutes: 45
+    timeout-minutes: 60
     env:
       EXPECTED_REPOSITORY: dvd233/flowgram.ai
       EXPECTED_REPOSITORY_ID: '1352889832'
@@ -67,7 +67,7 @@ jobs:
         with:
           node-version: 24.19.0
           check-latest: false
-      - name: Run original frozen install and one native Foundation test file
+      - name: Run frozen native base, candidate and negative comparisons
         id: native
         shell: bash
         run: python3 payload/semi-hosted-validation/run.py "$GITHUB_WORKSPACE/source"
@@ -75,7 +75,7 @@ jobs:
         if: ${{ always() && steps.native.outcome != 'skipped' }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # official v4.6.2
         with:
-          name: semi-foundation-red-${{ github.run_id }}-${{ github.run_attempt }}
+          name: semi-currency-comparison-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/semi-foundation-red.tar.gz
           if-no-files-found: error
           compression-level: 0

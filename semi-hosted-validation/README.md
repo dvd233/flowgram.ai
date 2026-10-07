@@ -1,130 +1,136 @@
-# Semi InputNumber currency: original-source RED verification
+# Semi currency zero-option candidate: frozen native comparison
 
-This independent validation branch contains only this public method note, a
-workflow, a Python orchestration script, a manifest and one proposed test file.
-It contains no production fix. A successful validation job means that the
-original implementation failed exactly four zero-option assertions while three
-controls passed. It does not mean that the unit tests passed, that the component
-UI works, or that Semi is green. The original npm exit code and native Jest JSON
-remain unchanged in the evidence.
+This branch is a validation experiment, not an upstream product PR. It compares
+the unchanged Semi release source with a two-line nullish-fallback candidate.
+Mixed min/max/precision precedence is unresolved: recorded candidate exceptions
+must not be described as automatically correct or backward compatible.
 
-## Frozen inputs
+## Frozen source and proposed product change
 
-- Public source: `DouyinFE/semi-design`
-- Commit: `2a4ec36222a439098e8aaea236518c66752854ca`
-- Complete original Git tree: `f1173f8221e35ec3dcd439b91be8a9f796972567`
-- Original tracked file count: 3,975
-- Source plus only the proposed test: `fdbbe866554d65b76f135b5fe796c70b161c6e49`
-- Node: `24.19.0`; Yarn: `1.22.22`; npm is the unmodified version supplied by
-  the selected setup-node runtime, with actual version and paths recorded
-- Original lock SHA-256:
-  `0f2c6320fd31d00d50cd4796f1c1ac2d2e056921b37bbcb58f9f662288aa162c`
+Public source is DouyinFE/semi-design at
+`2a4ec36222a439098e8aaea236518c66752854ca`, original tree
+`f1173f8221e35ec3dcd439b91be8a9f796972567`, 3,975 tracked files.
+The candidate changes only InputNumberFoundation.formatCurrency's two option
+expressions from `explicit || precision || undefined` to
+`explicit ?? precision ?? undefined`. It preserves zero and null/undefined
+fallback without adding clamps, catches, parser changes or dependencies.
 
-The manifest binds the proposed test bytes, seven assertion identities, original
-lock and package-manager declaration, source tree, exact Node/Yarn versions and
-official action commit pins. Checkout tokens have read-only content permission
-and are not persisted into either checkout. The test process receives a fresh
-HOME and a bounded environment without GitHub tokens or repository secrets.
-No project dependency cache is restored.
+Proposed product files are the Foundation source plus two new native test files:
+18 direct Foundation cases and seven mounted InputNumber cases. Original seven
+RED test identities remain included. The component tests cover initialization,
+blur after input, controlled updates, explicit valid bounds, defaults, positive
+precision and noncurrency zero precision. Candidate expectations are hypotheses
+until the original native runner actually produces results.
 
-The validation branch's parent is
-`387e748b00a864779bcc617114fb277cb299bcc3`; this only provides a Git parent link.
-The runner checks the exact sole parent from the raw commit header, including
-in shallow checkouts. The new tree is independently constructed from five files. Parent-tree project
-files and workflows are not part of the validation tree. This branch does not
-change the host repository's default branch or create an upstream pull request.
+The separate compatibility-probe test is diagnostic-only and is not part of the
+proposed product patch. It records six actual results or exceptions from the real
+Foundation without asserting a new public API contract. In particular,
+precision=2/max=0 and precision=0/min=1 must be reviewed against maintainers'
+intended precedence before any publication claim of compatibility.
 
-## Native procedure
+## Execution scope
 
-1. Require the exact public execution repository `dvd233/flowgram.ai`, repository
-   ID `1352889832`, owner ID `111864431`, push event, branch
-   `verify/semi-currency-native-20261007` and GitHub-hosted Linux X64 runner.
-   Bind checkout HEAD, workflow SHA and push-event SHA to one immutable commit.
-2. Checkout the exact upstream commit. Reconstruct the complete tree from its
-   index and independently hash every original regular file and executable mode.
-3. Fetch only the official Yarn 1.22.22 npm tarball. Require its previously
-   established byte count and SHA-512 SRI, which also matches the original
-   `packageManager` declaration. Extract only the eleven expected regular files.
-   Do not execute Yarn's preinstall hook, activate Corepack, or install globally.
-4. Run the original full workspace dependency installation:
-   `node <verified-yarn.js> install --frozen-lockfile --ignore-scripts --non-interactive --cache-folder <isolated-cache>`
-   All lifecycle scripts remain disabled. All 3,735 frozen lock entries have
-   integrity metadata and resolve over HTTPS to the official npm or Yarn
-   registries. Original metadata and lockfiles are not edited.
-5. Require the exact root React16, Jest24, babel-jest24, Enzyme, Cheerio and lodash
-   versions recorded in the manifest. This is a focused metadata check, not a
-   claim that every transitive package has been behaviorally audited.
-6. Add only
-   `packages/semi-ui/inputNumber/__test__/InputNumber.currency.test.js`.
-   Keep the original Jest, Babel, jsdom and Enzyme setup untouched, then run:
-   `npm run test:unit -- --runInBand --watch=false --notify=false --runTestsByPath packages/semi-ui/inputNumber/__test__/InputNumber.currency.test.js --json --outputFile=<evidence>/foundation-red.json`
-7. Independently rehash all original source files and the new test before and
-   after execution. Preserve initial, post-install and final original-file
-   inventories. Never patch production to force a predicted result.
+Only push on `dvd233/flowgram.ai`'s
+`verify/semi-currency-native-20261007` runs this workflow. Repository ID
+1352889832, owner ID 111864431, public visibility, event/ref/SHA and hosted
+Linux/X64 are checked. The declared sole parent is
+`84940446d2f0e640a5c3edabb60180e08cdc3c8d`. The payload consists of seven exact
+regular files; it does not inherit unrelated parent-tree files or workflows.
+No default branch or existing contribution PR is changed.
 
-The test imports the real InputNumberFoundation and uses its normal adapter
-interface. It calls `formatCurrency` directly with USD, en-US, symbol display and
-`showCurrencySymbol=true`; it neither copies the algorithm nor mocks Intl.
-The production import chain is nine local Foundation files plus lodash. The
-original repository test setup also executes. No InputNumber mount, UI barrel
-suite, application server, browser, Cypress, build, bootstrap, sponsor script,
-application/model API, deployment or publishing step is included.
+Both checkouts disable persisted credentials. Workflow token permission is
+contents:read. Node24.19.0, verified official Yarn1.22.22, original frozen lock
+and script-disabled whole-workspace installation are unchanged from V2. npm is
+the unmodified version supplied with Node and its actual version is recorded.
+No dependency upgrades, registry/proxy/TLS changes, package cache restores,
+Corepack/global installs, application server, browser, Cypress, real model/API
+call, bootstrap, deployment or publishing step is included.
 
-## Expected result is a hypothesis until observed
+The one explicit preparation script added in this revision is the repository's
+existing ESLint workspace build: `npm run build:lib
+--workspace=eslint-plugin-semi-design`. Its original script is `rimraf lib && tsc`.
+The generated lib directory must initially be absent. Its three reviewed source
+modules and original tsconfig are unchanged; exactly three generated JavaScript
+files are allowed and subsequently hashed. Dependency lifecycle hooks remain
+disabled. This is an explicit local-tool compile, not permission to run all
+workspace builds or install scripts.
 
-The three controls expect default USD digits (`$12.00`), positive precision 2
-(`$12.30`) and positive minimum 2 / maximum 4 (`$12.3456`). The four proposed
-regressions independently set minimum 0, maximum 0, precision 0, or both minimum
-and maximum 0. Each expects `$12` for input 12. Static review predicts that the
-original source instead returns `$12.00`; that prediction is not measured proof.
+After the frozen installation, the job runs:
 
-The evidence gate requires the actual npm exit code 1, exactly one native suite,
-all seven exact assertion names, four failed assertions, three passing controls,
-no pending assertions and four native `toBe` failure texts with exact Expected
-`"$12"` and Received `"$12.00"` lines. Native JSON is never rewritten. Optional
-Jest-version-specific fields are checked when present and their absence is
-recorded explicitly. The gate does not require Jest30 matcher metadata or swap
-reporters or transforms. Missing JSON, different failures, incomplete counts,
-setup/import errors, timeouts and unexpected results are reported as unvalidated.
-The separate maximum=0 plus precision=2 conflict is outside this test.
+1. The complete original InputNumber test file with unchanged production.
+2. The two new product test files on original production: expected 25 assertions,
+   eleven precise formatting failures and fourteen controls, no skips/todos.
+3. The separate original mixed-option diagnostic probe.
+4. The exact two-line candidate, then the same 25 cases expecting GREEN, the
+   complete original InputNumber file and the candidate mixed-option probe.
+5. Revert only production and rerun the same 25 cases for the negative control;
+   restore only the candidate and rerun them for restored GREEN.
+6. Compile the original ESLint workspace tool. Run original root no-emit
+   TypeScript and full script lint on reverted production, then restore the
+   candidate and repeat both checks. Finally lint all three product files with
+   --no-ignore. No production changes happen except the same verified revert and
+   restore operations. Source hashes are checked after every command.
 
-## Budgets, stops and evidence
+All test phases use the original npm test:unit/Jest24/Babel/jsdom/Enzyme setup.
+No reporters or transforms are substituted. Original-file inventories, candidate
+delta, generated plugin files and complete logical validation trees are checked
+throughout. Only one original source file may differ when the candidate is active;
+reverted phases must match every original blob. The diagnostic probe is explicitly
+included in validation tree inventories but excluded from the product patch.
 
-The workflow is capped at 45 minutes, installation at 30 minutes and the one
-test command at 5 minutes. A conservative 7 GiB sampled soft stop reserves room
-within an 8 GiB source/dependency/cache budget; at least 4 GiB free disk is
-required. Sampling is not a hard filesystem quota. Logs have an 8 MiB cap;
-reaching it stops the process, records any truncation and prevents a complete
-validation claim. No automatic retry or alternate install/test route exists.
+The root type check invokes installed TypeScript with original root tsconfig and
+`--noEmit --pretty false --incremental false`. Full script lint is the original
+`npm run lint:script`, with native JSON output directed to evidence. Tests are
+ignored by that script's existing eslintignore, so the three product files also
+receive an explicit `--no-ignore` lint check. No automatic --fix runs.
 
-Authentication/access, integrity, engine, lock or TLS errors stop the lane.
-Networking uses the hosted runner's ordinary HTTPS trust. TLS verification is
-not disabled, trust stores and proxies are not modified, and no local framework
-network settings are copied. If the exact Node/Yarn runtime is unavailable, the
-job stops rather than upgrading or replacing tools silently. npm is used as
-provided by setup-node and its actual version/executable paths are recorded;
-the separately observed npm 11.9.0 is a reference, not a project version pin or
-an assumption about the official Node bundle. npm is not upgraded or replaced.
+## Interpreting evidence
 
-Artifacts contain only allowlisted regular nonsymlink receipts, public command
-logs, source hash inventories, dependency version metadata and native Jest JSON.
-No source trees, dependency trees, caches or credentials are uploaded. Limits
-are 8 MiB per file, 24 MiB expanded total and 4,500,000 bytes compressed; retention
-is three days. If full evidence cannot fit, the job reports incomplete evidence
-and uploads a bounded receipt that identifies omissions. It cannot report a
-complete successful verification without complete evidence. Raw command exit
-codes are retained, including the expected failing npm test exit code.
+Raw native exit codes, logs and Jest/ESLint JSON are retained. Scoped verification
+requires original RED, candidate GREEN, production-only negative RED, restored
+GREEN, passing unchanged original InputNumber tests with identical case identities,
+and changed-file lint success. Missing/extra cases, wrong matcher messages, skips,
+runtime/setup errors, drift, interruption or incomplete artifacts fail that gate.
 
-This harness alone does not establish contribution readiness: a repair, positive
-regression run, appropriate UI/integration checks, broader repository checks and
-a fresh duplicate/ownership review would be separate work.
+The workflow wrapper can succeed for this scoped proof while broader root checks
+have pre-existing failures. Their real exits are separately recorded, and
+all_requested_checks_passed is true only if every requested broader check passes.
+Do not infer root type/lint success from the workflow badge. No full UI test suite,
+browser test, build of all packages, full upstream CI or ready-to-merge claim is
+made. Mixed compatibility always remains marked for review in this experiment.
 
-## Preserved first attempt
+The diagnostic probe's single passing Jest wrapper is not a product regression
+pass and is not included in the 25-case counts. Read its actual value/error records.
 
-[The first attempt](https://github.com/dvd233/flowgram.ai/actions/runs/37692668357)
-stopped before running the verified Yarn installer or native test because the manifest recorded an
-incorrect expanded Yarn size (5,350,912 bytes). The unchanged official archive
-and npm metadata both give 5,340,487 bytes across the same eleven files. This
-revision corrects that constant and advances the declared parent; source, tests,
-runtime pins, security checks, installation commands and result gates are unchanged.
-The first attempt is a harness failure and provides no native RED result.
+## Resource, network and evidence bounds
+
+One standard ubuntu-24.04 job, maximum 60 minutes; orchestration has a shared
+55-minute execution deadline so evidence cleanup has headroom. Install retains
+the 30-minute cap. Individual native/root checks have bounded limits recorded in
+the manifest. No automatic retries or alternative execution route exists.
+Source/dependency/cache sampling retains the 7 GiB soft stop and 4 GiB free-space
+floor. This is a sampled bound, not a filesystem quota.
+
+Public downloads are GitHub Actions/source/Node infrastructure and official npm/
+Yarn registries from the frozen lock. Artifacts go only to GitHub Actions storage.
+Child processes receive a fresh HOME/cache and an explicit environment without
+user secrets/GitHub tokens. The diagnostic phase adds one controlled output path
+under its evidence directory. The harness is not an egress firewall; it does not
+claim every third-party runtime instruction was audited.
+
+Only allowlisted regular nonsymlink evidence is uploaded: maximum 8 MiB per file,
+48 MiB expanded and 12,000,000 compressed bytes, retention 3 days. The increase from
+V2 accommodates the extra complete source snapshots and original test/root-check
+reports. Source/dependency/cache trees and credentials remain excluded. Overflow
+or truncation marks evidence incomplete and prevents scoped validation success.
+Account billing/quota state is not asserted; no paid runner tier is requested.
+
+## Preserved history
+
+[V1](https://github.com/dvd233/flowgram.ai/actions/runs/37692668357) stopped before
+the verified Yarn installer because a manifest expanded-size constant was wrong.
+[V2](https://github.com/dvd233/flowgram.ai/actions/runs/37693839026) corrected only
+that harness metadata and obtained actual original-code four-failed/three-passed
+Jest evidence. Its native npm exit was 1; no production fix had been applied.
+Both historical outcomes remain intact. This revision must establish its own
+expanded native results rather than reuse those seven counts as a GREEN result.

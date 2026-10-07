@@ -1,4 +1,4 @@
-"""Proposed hosted-only RED verification; never runs a production patch or UI suite."""
+"""Proposed frozen native comparison; mixed-option precedence remains unresolved."""
 import base64
 import hashlib
 import json
@@ -36,60 +36,57 @@ ENV = {
     'YARN_IGNORE_SCRIPTS': 'true',
 }
 REPORT = {
-    'schema_version': 1, 'status': 'not_validated', 'started_utc': None,
-    'scope': M['scope'], 'source_repository': M['upstream_repository'],
-    'base_commit': M['base_commit'], 'base_tree': M['base_tree'],
-    'source_with_test_tree': M['source_with_test_tree'],
-    'run': {key: os.environ.get(key) for key in (
-        'GITHUB_REPOSITORY', 'GITHUB_REPOSITORY_ID', 'GITHUB_REPOSITORY_OWNER_ID',
-        'GITHUB_SHA', 'GITHUB_WORKFLOW_SHA', 'GITHUB_WORKFLOW_REF', 'GITHUB_REF',
-        'GITHUB_EVENT_NAME', 'GITHUB_RUN_ID', 'GITHUB_RUN_ATTEMPT',
-        'RUNNER_ENVIRONMENT', 'RUNNER_OS', 'RUNNER_ARCH')},
-    'steps': [], 'source_checks': [], 'artifact_complete': True,
-    'artifact_omissions': [], 'child_environment_keys': sorted(ENV),
-    'production_patch_applied': False, 'native_test_started': False,
-    'expected_red_validated': False, 'whole_project_green': False,
+    'schema_version': 3, 'status': 'not_validated', 'started_utc': None,
+    'scope': M['scope'], 'base_commit': M['base_commit'], 'base_tree': M['base_tree'],
+    'run': {k: os.environ.get(k) for k in ('GITHUB_REPOSITORY', 'GITHUB_REPOSITORY_ID', 'GITHUB_REPOSITORY_OWNER_ID', 'GITHUB_SHA', 'GITHUB_WORKFLOW_SHA', 'GITHUB_REF', 'GITHUB_EVENT_NAME', 'GITHUB_RUN_ID', 'GITHUB_RUN_ATTEMPT', 'RUNNER_ENVIRONMENT', 'RUNNER_OS', 'RUNNER_ARCH')},
+    'steps': [], 'source_checks': [], 'artifact_complete': True, 'artifact_omissions': [],
+    'native_results': {}, 'broader_results': {}, 'mixed_observations': {},
+    'scoped_fix_verified': False, 'all_requested_checks_passed': False,
+    'mixed_compatibility_requires_review': True,
+    'child_environment_keys': sorted(ENV),
 }
+EXECUTION_STARTED = time.monotonic()
 BASE_ENTRIES = []
 TEST_ADDED = False
-ALLOWED_EVIDENCE = {'receipt.json', 'source-initial.json', 'source-after-install.json',
-                    'source-final.json', 'node-version.log', 'npm-version.log',
-                    'yarn-version.log', 'install.log', 'foundation-red.log',
-                    'foundation-red.json', 'dependency-metadata.json'}
+PRODUCTION_FIXED = False
+ORIGINAL_PRODUCTION = None
+GENERATED = {}
 ANSI = re.compile(r'\x1b\[[0-?]*[ -/]*[@-~]')
-
+ALLOWED_EVIDENCE = {'receipt.json', 'dependency-metadata.json'}
+for name in ('node-version', 'npm-version', 'yarn-version', 'install', 'plugin-build',
+             'original-baseline', 'base-typecheck', 'base-lint', 'expanded-red',
+             'base-compatibility', 'focused-green', 'original-candidate',
+             'candidate-compatibility', 'candidate-typecheck', 'candidate-lint',
+             'changed-lint', 'negative-control', 'restored-green'):
+    ALLOWED_EVIDENCE.update({name + '.log', name + '.json'})
+for name in ('initial', 'after-install', 'plugin', 'tests', 'candidate', 'reverted', 'restored', 'final'):
+    ALLOWED_EVIDENCE.add('source-' + name + '.json')
+ALLOWED_EVIDENCE.update({'base-compatibility-observations.json', 'candidate-compatibility-observations.json'})
 
 def check(condition, message):
     if not condition:
         raise RuntimeError(message)
 
-
 def now():
     return time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
 
-
 def digest(data, kind='sha256'):
     return hashlib.new(kind, data).hexdigest()
-
 
 def regular(path):
     check(not path.is_symlink() and stat.S_ISREG(path.lstat().st_mode),
           'Expected regular nonsymlink file: ' + str(path))
     return path
 
-
 def file_sha(path):
     with regular(path).open('rb') as stream:
         return hashlib.file_digest(stream, 'sha256').hexdigest()
 
-
 def blob(data):
     return digest(b'blob ' + str(len(data)).encode() + b'\0' + data, 'sha1')
 
-
 def save():
     (OUT / 'receipt.json').write_text(json.dumps(REPORT, indent=2) + '\n')
-
 
 def git(*args, cwd=SOURCE):
     result = subprocess.run(['git', '-c', 'core.hooksPath=/dev/null', *args],
@@ -97,7 +94,6 @@ def git(*args, cwd=SOURCE):
     check(result.returncode == 0, 'Read-only Git command failed: ' + ' '.join(args))
     check(len(result.stdout) <= 2 * 1024 * 1024, 'Git metadata exceeds bound')
     return result.stdout
-
 
 def tree_hash(entries):
     root = {}
@@ -119,7 +115,6 @@ def tree_hash(entries):
         return digest(b'tree ' + str(len(data)).encode() + b'\0' + data, 'sha1')
     return walk(root)
 
-
 def indexed_entries(cwd):
     rows = git('ls-files', '--stage', '-z', cwd=cwd).split(b'\0')
     entries = []
@@ -132,59 +127,6 @@ def indexed_entries(cwd):
               'Unsafe Git index path')
         entries.append((text, mode, sha))
     return entries
-
-
-def source_check(label, inventory=None):
-    check(git('rev-parse', 'HEAD').decode().strip() == M['base_commit'], 'Source HEAD drift')
-    check(git('rev-parse', 'HEAD^{tree}').decode().strip() == M['base_tree'], 'Base tree drift')
-    check(indexed_entries(SOURCE) == BASE_ENTRIES, 'Original index drift')
-    current = []
-    for path, mode, expected in BASE_ENTRIES:
-        target = SOURCE / path
-        check(target.resolve().is_relative_to(SOURCE), 'Source path escaped checkout')
-        value = regular(target).read_bytes()
-        check(blob(value) == expected, 'Original tracked blob changed: ' + path)
-        actual_mode = '100755' if target.stat().st_mode & stat.S_IXUSR else '100644'
-        check(actual_mode == mode, 'Original tracked executable mode changed: ' + path)
-        current.append([path, mode, expected])
-    logical = list(current)
-    if TEST_ADDED:
-        test_path = regular(SOURCE / M['test']['source_path'])
-        value = test_path.read_bytes()
-        check(digest(value) == M['test']['sha256'] and blob(value) == M['test']['git_blob'],
-              'New test bytes drift')
-        actual_mode = '100755' if test_path.stat().st_mode & stat.S_IXUSR else '100644'
-        check(actual_mode == '100644', 'New test executable mode drift')
-        logical.append([M['test']['source_path'], '100644', blob(value)])
-    allowed_paths = {entry[0] for entry in logical}
-    for folder, dirs, files in os.walk(SOURCE, followlinks=False):
-        retained = []
-        for name in dirs:
-            child = Path(folder) / name
-            if name == 'node_modules' or child == SOURCE / '.git':
-                continue
-            check(not child.is_symlink(), 'Unexpected source directory symlink: ' + str(child))
-            retained.append(name)
-        dirs[:] = retained
-        for name in files:
-            path = str((Path(folder) / name).relative_to(SOURCE))
-            check(path in allowed_paths, 'Unexpected added source file outside dependency directories: ' + path)
-    expected_tree = M['source_with_test_tree'] if TEST_ADDED else M['base_tree']
-    check(tree_hash(logical) == expected_tree, 'Logical complete source tree mismatch')
-    check(file_sha(SOURCE / 'yarn.lock') == M['lock_sha256'], 'Frozen lock drift')
-    check(file_sha(SOURCE / 'package.json') == M['package_sha256'], 'Root manifest drift')
-    serialized = (json.dumps(current, ensure_ascii=False, separators=(',', ':')) + '\n').encode()
-    result = {'label': label, 'utc': now(), 'original_blob_count': len(current),
-              'original_inventory_sha256': digest(serialized), 'logical_tree': expected_tree,
-              'test_added': TEST_ADDED, 'lock_sha256': M['lock_sha256'],
-              'all_original_blobs_and_modes_unchanged': True}
-    if inventory:
-        (OUT / inventory).write_bytes(serialized)
-        result['inventory_file'] = inventory
-    REPORT['source_checks'].append(result)
-    save()
-    return result
-
 
 def usage():
     total = 0
@@ -199,7 +141,6 @@ def usage():
                 except FileNotFoundError:
                     pass
     return total, shutil.disk_usage(WORK).free
-
 
 def stop_process(proc):
     try:
@@ -217,8 +158,10 @@ def stop_process(proc):
         pass
     proc.wait(timeout=5)
 
-
 def run(name, argv, seconds, install=False):
+    remaining = M['limits']['overall_seconds'] - (time.monotonic() - EXECUTION_STARTED)
+    check(remaining >= 1, 'Overall execution budget exhausted')
+    seconds = min(seconds, int(remaining))
     step = {'name': name, 'argv': argv, 'cwd': str(SOURCE), 'started_utc': now(),
             'timeout_seconds': seconds, 'status': 'running', 'output_truncated': False}
     REPORT['steps'].append(step)
@@ -299,7 +242,6 @@ def run(name, argv, seconds, install=False):
     check(not stop and not step['output_truncated'], name + ': ' + str(stop))
     return step
 
-
 def tooling():
     url = M['yarn']['url']
     class NoRedirect(urllib.request.HTTPRedirectHandler):
@@ -355,7 +297,6 @@ def tooling():
     save()
     return str(WORK / 'tooling/package/bin/yarn.js')
 
-
 def audit_inputs():
     package = json.loads((SOURCE / 'package.json').read_text())
     check(package['packageManager'] == M['package_manager'], 'Package manager declaration drift')
@@ -390,7 +331,6 @@ def audit_inputs():
                                   for path in M['native_configuration_files']}}
     save()
 
-
 def dependencies():
     result = {}
     for name, expected in M['required_root_dependency_versions'].items():
@@ -406,71 +346,6 @@ def dependencies():
     (OUT / 'dependency-metadata.json').write_text(json.dumps(result, indent=2) + '\n')
     REPORT['dependency_metadata'] = result
     save()
-
-
-def inspect_red(step):
-    path = regular(OUT / 'foundation-red.json')
-    check(path.stat().st_size <= M['limits']['artifact_file_bytes'], 'Native Jest JSON too large')
-    native = json.loads(path.read_text())
-    keys = ('numFailedTestSuites', 'numFailedTests', 'numPassedTestSuites', 'numPassedTests',
-            'numPendingTestSuites', 'numPendingTests', 'numRuntimeErrorTestSuites',
-            'numTodoTests', 'numTotalTestSuites', 'numTotalTests', 'wasInterrupted', 'success')
-    REPORT['native_jest'] = {key: native[key] for key in keys if key in native}
-    REPORT['native_jest_fields_absent'] = [key for key in keys if key not in native]
-    REPORT['native_jest_json_sha256'] = file_sha(path)
-    suites = native.get('testResults', [])
-    check(len(suites) == 1, 'Expected exactly one actual native suite')
-    suite = suites[0]
-    assertions = suite.get('assertionResults', [])
-    REPORT['native_assertions'] = [{'fullName': item.get('fullName'), 'status': item.get('status')}
-                                    for item in assertions]
-    save()
-    check(step['exit_code'] == 1 and native.get('success') is False,
-          'Native exit/result does not match expected RED')
-    check(('wasInterrupted' not in native or native['wasInterrupted'] is False)
-          and ('numRuntimeErrorTestSuites' not in native or native['numRuntimeErrorTestSuites'] == 0),
-          'Interrupted or runtime-error run is not assertion RED')
-    expected_counts = {'numTotalTestSuites': 1, 'numFailedTestSuites': 1,
-                       'numPassedTestSuites': 0, 'numPendingTestSuites': 0,
-                       'numTotalTests': 7, 'numFailedTests': 4,
-                       'numPassedTests': 3, 'numPendingTests': 0}
-    check(all(native.get(key) == value for key, value in expected_counts.items()),
-          'Native counts differ from four failures and three controls')
-    check(('numTodoTests' not in native or native['numTodoTests'] == 0) and not suite.get('testExecError'),
-          'Todo/setup/import error is not expected RED')
-    check(Path(suite['name']).resolve() == (SOURCE / M['test']['source_path']).resolve(),
-          'Native suite path mismatch')
-    check(suite.get('status') == 'failed', 'Native suite status mismatch')
-    actual_names = [item.get('fullName') for item in assertions]
-    check(len(actual_names) == len(set(actual_names)) == 7, 'Duplicate/missing assertions')
-    cases = {case['full_name']: case for case in M['test']['cases']}
-    check(set(actual_names) == set(cases), 'Unexpected assertion name')
-    matcher_checks = []
-    for item in assertions:
-        case = cases[item['fullName']]
-        check(item.get('status') == case['predicted_status'], 'Actual assertion status differs from hypothesis')
-        messages = item.get('failureMessages', [])
-        if case['predicted_status'] == 'passed':
-            check(not messages, 'Passing control has failure output')
-            continue
-        check(len(messages) == 1 and isinstance(messages[0], str), 'Expected one native matcher failure')
-        message = ANSI.sub('', messages[0])
-        diagnostic = 'expect(received).toBe(expected) // Object.is equality'
-        expected = re.findall(r'^\s*Expected:\s*("[^"\n]*")\s*$', message, re.M)
-        received = re.findall(r'^\s*Received:\s*("[^"\n]*")\s*$', message, re.M)
-        matched = (diagnostic in message and expected == [json.dumps(case['expected'])]
-                   and received == [json.dumps(case['predicted_received'])])
-        matcher_checks.append({'fullName': item['fullName'], 'matched': matched,
-                               'native_expected_lines': expected, 'native_received_lines': received})
-        REPORT['matcher_checks'] = matcher_checks
-        save()
-        check(matched, 'Native matcher diagnostic differs; cannot claim expected RED')
-    check(len(matcher_checks) == 4, 'Missing zero-option matcher failures')
-    REPORT['expected_red_validated'] = True
-    REPORT['status'] = 'expected_red_validated'
-    REPORT['interpretation'] = 'Original implementation failed four zero-option assertions; three controls passed. No fix, UI integration pass or full-project pass is established.'
-    save()
-
 
 def package_evidence():
     omitted = []
@@ -512,99 +387,326 @@ def package_evidence():
     write_bundle(eligible)
     if bundle.stat().st_size > M['limits']['artifact_compressed_bytes']:
         REPORT['artifact_complete'] = False
-        REPORT['artifact_omissions'].append({'reason': 'Compressed evidence exceeded 4,500,000 bytes; only receipt uploaded'})
+        REPORT['artifact_omissions'].append({'reason': 'Compressed evidence exceeded 12,000,000 bytes; only receipt uploaded'})
         REPORT['artifact_members'] = []
         save()
         write_bundle([OUT / 'receipt.json'])
     check(bundle.stat().st_size <= M['limits']['artifact_compressed_bytes'], 'Receipt bundle exceeds compressed ceiling')
     print('evidence bundle bytes=' + str(bundle.stat().st_size) + ', sha256=' + file_sha(bundle), flush=True)
 
+def source_check(label, inventory=None):
+    check(git('rev-parse', 'HEAD').decode().strip() == M['base_commit'], 'Source HEAD drift')
+    check(git('rev-parse', 'HEAD^{tree}').decode().strip() == M['base_tree'], 'Base tree drift')
+    check(indexed_entries(SOURCE) == BASE_ENTRIES, 'Original index drift')
+    current = []
+    changed = []
+    for path, mode, original_sha in BASE_ENTRIES:
+        target = SOURCE / path
+        check(target.resolve().is_relative_to(SOURCE), 'Source path escaped checkout')
+        actual = blob(regular(target).read_bytes())
+        expected = M['production']['candidate_blob'] if PRODUCTION_FIXED and path == M['production']['path'] else original_sha
+        check(actual == expected, 'Unexpected tracked blob: ' + path)
+        actual_mode = '100755' if target.stat().st_mode & stat.S_IXUSR else '100644'
+        check(actual_mode == mode, 'Tracked executable mode changed: ' + path)
+        current.append([path, mode, actual])
+        if actual != original_sha:
+            changed.append(path)
+    check(changed == ([M['production']['path']] if PRODUCTION_FIXED else []), 'Production delta differs')
+    logical = list(current)
+    if TEST_ADDED:
+        for item in M['tests']:
+            target = regular(SOURCE / item['source_path'])
+            value = target.read_bytes()
+            check(digest(value) == item['sha256'] and blob(value) == item['git_blob'], 'Test/probe bytes drift')
+            check(not target.stat().st_mode & stat.S_IXUSR, 'Test/probe mode drift')
+            logical.append([item['source_path'], '100644', item['git_blob']])
+    allowed = {row[0] for row in logical} | set(GENERATED)
+    for folder, dirs, files in os.walk(SOURCE, followlinks=False):
+        retained = []
+        for name in dirs:
+            child = Path(folder) / name
+            if name == 'node_modules' or child == SOURCE / '.git':
+                continue
+            check(not child.is_symlink(), 'Unexpected source directory symlink')
+            retained.append(name)
+        dirs[:] = retained
+        for name in files:
+            path = str((Path(folder) / name).relative_to(SOURCE))
+            check(path in allowed, 'Unexpected added source file: ' + path)
+    for path, expected in GENERATED.items():
+        check(file_sha(SOURCE / path) == expected, 'Generated plugin file drift: ' + path)
+    expected_tree = M['candidate_tree'] if PRODUCTION_FIXED else M['source_with_test_tree'] if TEST_ADDED else M['base_tree']
+    check(tree_hash(logical) == expected_tree, 'Complete logical tree mismatch')
+    check(file_sha(SOURCE / 'yarn.lock') == M['lock_sha256'], 'Frozen lock drift')
+    check(file_sha(SOURCE / 'package.json') == M['package_sha256'], 'Manifest drift')
+    data = (json.dumps(current, ensure_ascii=False, separators=(',', ':')) + '\n').encode()
+    item = {'label': label, 'utc': now(), 'tracked_count': len(current),
+            'tracked_inventory_sha256': digest(data), 'logical_tree': expected_tree,
+            'production_fixed': PRODUCTION_FIXED, 'changed_original_paths': changed,
+            'tests_added': TEST_ADDED, 'generated_plugin_files': dict(GENERATED)}
+    if inventory:
+        (OUT / inventory).write_bytes(data)
+        item['inventory_file'] = inventory
+    REPORT['source_checks'].append(item)
+    save()
+
+
+def add_tests():
+    global TEST_ADDED
+    for item in M['tests']:
+        value = regular(HERE / item['payload_name']).read_bytes()
+        check(digest(value) == item['sha256'] and blob(value) == item['git_blob'], 'Payload test/probe mismatch')
+        target = SOURCE / item['source_path']
+        check(not target.exists() and not target.is_symlink(), 'Test/probe already exists')
+        with target.open('xb') as stream:
+            stream.write(value)
+        target.chmod(0o644)
+    TEST_ADDED = True
+    source_check('tests-added', 'source-tests.json')
+
+
+def set_production(fixed):
+    global PRODUCTION_FIXED
+    target = SOURCE / M['production']['path']
+    expected = M['production']['candidate_sha256'] if PRODUCTION_FIXED else M['production']['original_sha256']
+    check(file_sha(target) == expected, 'Production pre-edit drift')
+    value = ORIGINAL_PRODUCTION
+    if fixed:
+        for old, new in M['production']['replacements']:
+            check(value.count(old.encode()) == 1, 'Production replacement is not unique')
+            value = value.replace(old.encode(), new.encode())
+    check(digest(value) == M['production']['candidate_sha256' if fixed else 'original_sha256'], 'Production result differs')
+    target.write_bytes(value)
+    PRODUCTION_FIXED = fixed
+
+
+def native_summary(label, step):
+    path = OUT / (label + '.json')
+    summary = {'exit_code': step['exit_code'], 'valid_native_result': False}
+    try:
+        regular(path)
+        check(path.stat().st_size <= M['limits']['artifact_file_bytes'], 'Native JSON over bound')
+        native = json.loads(path.read_text())
+        keys = ['numTotalTests', 'numFailedTests', 'numPassedTests', 'numPendingTests',
+                'numTotalTestSuites', 'numFailedTestSuites', 'numPassedTestSuites',
+                'numPendingTestSuites', 'numRuntimeErrorTestSuites', 'numTodoTests',
+                'wasInterrupted', 'success']
+        summary['counts'] = {key: native.get(key) for key in keys}
+        summary['assertions'] = [{'name': a['fullName'], 'status': a['status'],
+            'failureMessages': a.get('failureMessages', [])}
+            for suite in native.get('testResults', []) for a in suite.get('assertionResults', [])]
+        summary['suites'] = [{'name': suite.get('name'), 'status': suite.get('status'),
+            'testExecError': suite.get('testExecError')} for suite in native.get('testResults', [])]
+        summary['valid_native_result'] = not native.get('wasInterrupted') and native.get('numRuntimeErrorTestSuites', 0) == 0 and not any(s['testExecError'] for s in summary['suites'])
+        summary['json_sha256'] = file_sha(path)
+    except Exception as error:
+        summary['read_error'] = str(error)
+    REPORT['native_results'][label] = summary
+    save()
+    return summary
+
+
+def focused_matches(summary, fixed):
+    if not summary.get('valid_native_result'):
+        return False
+    expected = M['focused_cases']
+    actual = summary.get('assertions', [])
+    names = [a['name'] for a in actual]
+    if len(names) != len(set(names)) or set(names) != {c['full_name'] for c in expected}:
+        return False
+    if len(summary['suites']) != 2:
+        return False
+    if {Path(s['name']).name for s in summary['suites']} != {t['payload_name'] for t in M['tests'] if not t.get('diagnostic_only')}:
+        return False
+    want = {c['full_name']: c for c in expected}
+    for item in actual:
+        case = want[item['name']]
+        status = 'passed' if fixed else case['predicted_status']
+        if item['status'] != status:
+            return False
+        if status == 'passed':
+            if item['failureMessages']:
+                return False
+        else:
+            if len(item['failureMessages']) != 1:
+                return False
+            message = ANSI.sub('', item['failureMessages'][0])
+            if 'expect(received).toBe(expected) // Object.is equality' not in message:
+                return False
+            expected_lines = re.findall(r'^\s*Expected:\s*("[^"\n]*")\s*$', message, re.M)
+            received_lines = re.findall(r'^\s*Received:\s*("[^"\n]*")\s*$', message, re.M)
+            if expected_lines != [json.dumps(case['expected'])] or received_lines != [json.dumps(case['predicted_received'])]:
+                return False
+    counts = summary['counts']
+    failures = 0 if fixed else M['focused_expected_base_failed']
+    return (summary['exit_code'] == (0 if fixed else 1)
+            and counts['numTotalTests'] == M['focused_expected_total']
+            and counts['numFailedTests'] == failures
+            and counts['numPassedTests'] == M['focused_expected_total'] - failures
+            and counts['numPendingTests'] == counts['numTodoTests'] == 0
+            and counts['success'] is fixed)
+
+
+def native(label, paths, focused=False, fixed=False, diagnostic=False):
+    argv = ['npm', 'run', 'test:unit', '--', '--runInBand', '--watch=false', '--notify=false',
+            '--runTestsByPath', *paths, '--json', '--outputFile=' + str(OUT / (label + '.json'))]
+    seconds = M['limits']['test_seconds'] if focused or diagnostic else M['limits']['original_test_seconds']
+    step = run(label, argv, seconds)
+    source_check(label)
+    summary = native_summary(label, step)
+    if focused:
+        summary['expected_focused_result_verified'] = focused_matches(summary, fixed)
+    save()
+    return summary
+
+
+def observe_mixed(label):
+    target = OUT / (label + '-observations.json')
+    ENV['SEMI_CURRENCY_OBSERVATIONS'] = str(target)
+    try:
+        probe = next(t for t in M['tests'] if t.get('diagnostic_only'))
+        summary = native(label, [probe['source_path']], diagnostic=True)
+        value = json.loads(regular(target).read_text())
+        check(value.get('diagnosticOnly') is True and value.get('noPublicContractAsserted') is True,
+              'Compatibility diagnostic markers missing')
+        expected = [{'precision': 2, 'maximumFractionDigits': 0},
+                    {'precision': 0, 'minimumFractionDigits': 1},
+                    {'precision': 2, 'minimumFractionDigits': 0, 'maximumFractionDigits': 0},
+                    {'precision': 2, 'maximumFractionDigits': 1},
+                    {'minimumFractionDigits': 3, 'maximumFractionDigits': 1},
+                    {'maximumFractionDigits': 0}]
+        check([x['options'] for x in value['observations']] == expected, 'Compatibility inputs drift')
+        REPORT['mixed_observations'][label] = value
+        REPORT['mixed_observations'][label]['native_probe_exit'] = summary['exit_code']
+    except Exception as error:
+        REPORT['mixed_observations'][label] = {'error': str(error)}
+    finally:
+        ENV.pop('SEMI_CURRENCY_OBSERVATIONS', None)
+        save()
+
+
+def compile_plugin():
+    root = SOURCE / 'packages/semi-eslint-plugin/lib'
+    check(not root.exists(), 'Plugin build output must initially be absent')
+    step = run('plugin-build', ['npm', 'run', 'build:lib', '--workspace=eslint-plugin-semi-design'], 120)
+    if root.exists():
+        check(not root.is_symlink(), 'Plugin output symlink')
+        actual = []
+        for path in root.rglob('*'):
+            check(not path.is_symlink(), 'Plugin generated symlink')
+            if path.is_file():
+                actual.append(str(path.relative_to(SOURCE)))
+        check(sorted(actual) == sorted(M['generated_plugin_files']), 'Unexpected plugin output inventory')
+        GENERATED.update({path: file_sha(SOURCE / path) for path in actual})
+    REPORT['plugin_build_exit'] = step['exit_code']
+    source_check('plugin-build', 'source-plugin.json')
+
+
+def broader(label):
+    type_step = run(label + '-typecheck', ['node', 'node_modules/typescript/bin/tsc', '--noEmit', '--pretty', 'false', '--incremental', 'false'], M['limits']['check_seconds'])
+    source_check(label + '-typecheck')
+    lint_step = run(label + '-lint', ['npm', 'run', 'lint:script', '--', '--format', 'json', '--output-file=' + str(OUT / (label + '-lint.json'))], M['limits']['check_seconds'])
+    source_check(label + '-lint')
+    REPORT['broader_results'][label] = {'root_typecheck_exit': type_step['exit_code'], 'full_script_lint_exit': lint_step['exit_code']}
+    save()
+
 
 def main():
-    global BASE_ENTRIES, TEST_ADDED
+    global BASE_ENTRIES, ORIGINAL_PRODUCTION
     REPORT['started_utc'] = now()
-    expected_env = {'GITHUB_EVENT_NAME': 'push', 'GITHUB_REPOSITORY': 'dvd233/flowgram.ai',
-                    'GITHUB_REPOSITORY_ID': '1352889832', 'GITHUB_REPOSITORY_OWNER_ID': '111864431',
-                    'GITHUB_REF': 'refs/heads/verify/semi-currency-native-20261007',
-                    'RUNNER_ENVIRONMENT': 'github-hosted', 'RUNNER_OS': 'Linux', 'RUNNER_ARCH': 'X64'}
-    check(all(os.environ.get(key) == value for key, value in expected_env.items()), 'Execution destination guard failed')
-    check(re.fullmatch('[0-9a-f]{40}', os.environ.get('GITHUB_SHA', '')) is not None, 'Invalid event SHA')
+    guards = {'GITHUB_EVENT_NAME': 'push', 'GITHUB_REPOSITORY': 'dvd233/flowgram.ai',
+              'GITHUB_REPOSITORY_ID': '1352889832', 'GITHUB_REPOSITORY_OWNER_ID': '111864431',
+              'GITHUB_REF': 'refs/heads/verify/semi-currency-native-20261007',
+              'RUNNER_ENVIRONMENT': 'github-hosted', 'RUNNER_OS': 'Linux', 'RUNNER_ARCH': 'X64'}
+    check(all(os.environ.get(k) == v for k, v in guards.items()), 'Execution destination guard failed')
+    check(re.fullmatch('[0-9a-f]{40}', os.environ.get('GITHUB_SHA', '')) is not None, 'Invalid SHA')
     check(os.environ.get('GITHUB_WORKFLOW_SHA') == os.environ['GITHUB_SHA'], 'Workflow SHA mismatch')
     workspace = Path(os.environ['GITHUB_WORKSPACE']).resolve(strict=True)
-    check(SOURCE == workspace / 'source' and HERE == workspace / 'payload/semi-hosted-validation',
-          'Unexpected checkout locations')
+    check(SOURCE == workspace / 'source' and HERE == workspace / 'payload/semi-hosted-validation', 'Unexpected checkout paths')
     event = json.loads(Path(os.environ['GITHUB_EVENT_PATH']).read_text())
-    check(event.get('after') == os.environ['GITHUB_SHA'] and event.get('ref') == expected_env['GITHUB_REF']
-          and not event.get('deleted'), 'Event payload SHA/ref mismatch')
-    check(git('rev-parse', 'HEAD', cwd=HERE).decode().strip() == os.environ['GITHUB_SHA'], 'Payload checkout SHA mismatch')
-    commit_header = git('cat-file', '-p', 'HEAD', cwd=workspace / 'payload').split(b'\n\n', 1)[0]
-    parents = [line.removeprefix(b'parent ').decode('ascii') for line in commit_header.splitlines()
-               if line.startswith(b'parent ')]
-    check(parents == [M['parent_commit']], 'Payload must have exactly the declared parent')
-    REPORT['payload_parent'] = parents[0]
-    payload_entries = indexed_entries(workspace / 'payload')
-    check(sorted(path for path, _, _ in payload_entries) == sorted(M['payload_paths']), 'Payload must be exactly five files')
-    for path, mode, expected in payload_entries:
-        target = workspace / 'payload' / path
-        check(mode == '100644' and blob(regular(target).read_bytes()) == expected,
-              'Payload working bytes or indexed mode differ: ' + path)
+    check(event['after'] == os.environ['GITHUB_SHA'] and event['ref'] == guards['GITHUB_REF'] and not event.get('deleted'), 'Event mismatch')
+    check(event['repository']['private'] is False, 'Private repository not authorized')
+    check(git('rev-parse', 'HEAD', cwd=HERE).decode().strip() == os.environ['GITHUB_SHA'], 'Payload HEAD mismatch')
+    header = git('cat-file', '-p', 'HEAD', cwd=workspace / 'payload').split(b'\n\n', 1)[0]
+    parents = [x.removeprefix(b'parent ').decode() for x in header.splitlines() if x.startswith(b'parent ')]
+    check(parents == [M['parent_commit']], 'Wrong payload parent')
+    payload = indexed_entries(workspace / 'payload')
+    check(sorted(x[0] for x in payload) == sorted(M['payload_paths']), 'Payload inventory mismatch')
+    for path, mode, h in payload:
+        check(mode == '100644' and blob(regular(workspace / 'payload' / path).read_bytes()) == h, 'Payload bytes/mode mismatch')
     REPORT['payload_tree'] = git('rev-parse', 'HEAD^{tree}', cwd=HERE).decode().strip()
-    REPORT['payload_files'] = [{'path': path, 'git_blob': sha,
-                                'sha256': file_sha(workspace / 'payload' / path)}
-                               for path, _, sha in payload_entries]
+    REPORT['payload_parent'] = parents[0]
+    REPORT['payload_files'] = [{'path': p, 'git_blob': h, 'sha256': file_sha(workspace / 'payload' / p)} for p, _, h in payload]
     BASE_ENTRIES = indexed_entries(SOURCE)
-    check(len(BASE_ENTRIES) == M['base_blob_count'] and tree_hash(BASE_ENTRIES) == M['base_tree'],
-          'Complete indexed upstream tree does not match reviewed source')
-    check(not (SOURCE / M['test']['source_path']).exists()
-          and not (SOURCE / M['test']['source_path']).is_symlink(), 'New test path already exists')
-    check(not (SOURCE / 'node_modules').exists() and not (SOURCE / 'node_modules').is_symlink(),
-          'Unexpected preexisting node_modules')
+    check(len(BASE_ENTRIES) == M['base_blob_count'] and tree_hash(BASE_ENTRIES) == M['base_tree'], 'Original tree mismatch')
+    check(not (SOURCE / 'node_modules').exists(), 'Pre-existing node_modules')
+    ORIGINAL_PRODUCTION = regular(SOURCE / M['production']['path']).read_bytes()
+    check(digest(ORIGINAL_PRODUCTION) == M['production']['original_sha256'], 'Original production mismatch')
     source_check('initial', 'source-initial.json')
     audit_inputs()
     REPORT['tool_versions'] = {}
     for name in ('node', 'npm'):
         step = run(name + '-version', [name, '--version'], 30)
         actual = (OUT / (name + '-version.log')).read_text().strip()
-        executable = shutil.which(name, path=ENV['PATH'])
-        REPORT['tool_versions'][name] = {'version': actual, 'executable': executable,
-                                         'resolved_executable': str(Path(executable).resolve()) if executable else None}
-        save()
-        check(step['exit_code'] == 0 and bool(actual), name + ' version command failed')
+        REPORT['tool_versions'][name] = actual
+        check(step['exit_code'] == 0 and actual, 'Tool version failure')
         if name == 'node':
-            check(actual == M['node_version'], 'Exact Node version differs; no automatic tooling substitution')
+            check(actual == M['node_version'], 'Node version mismatch')
     yarn = tooling()
     step = run('yarn-version', ['node', yarn, '--version'], 30)
-    check(step['exit_code'] == 0 and (OUT / 'yarn-version.log').read_text().strip() == M['yarn']['version'],
-          'Exact Yarn version differs')
-    install = ['node', yarn, 'install', '--frozen-lockfile', '--ignore-scripts', '--non-interactive',
-               '--cache-folder', str(WORK / 'yarn-cache')]
-    step = run('install', install, M['limits']['install_seconds'], install=True)
+    check(step['exit_code'] == 0 and (OUT / 'yarn-version.log').read_text().strip() == M['yarn']['version'], 'Yarn version mismatch')
+    step = run('install', ['node', yarn, 'install', '--frozen-lockfile', '--ignore-scripts', '--non-interactive', '--cache-folder', str(WORK / 'yarn-cache')], M['limits']['install_seconds'], install=True)
     source_check('after-install', 'source-after-install.json')
-    check(step['exit_code'] == 0, 'Original frozen install failed; no fallback')
+    check(step['exit_code'] == 0, 'Frozen install failed')
     dependencies()
-    value = regular(HERE / 'InputNumber.currency.test.js').read_bytes()
-    check(digest(value) == M['test']['sha256'] and blob(value) == M['test']['git_blob'], 'Proposal test hash mismatch')
-    test_path = SOURCE / M['test']['source_path']
-    check(test_path.parent.resolve().is_relative_to(SOURCE), 'Test parent escaped source')
-    with test_path.open('xb') as stream:
-        stream.write(value)
-    test_path.chmod(0o644)
-    TEST_ADDED = True
-    source_check('before-native-test')
-    REPORT['native_test_started'] = True
+    baseline = native('original-baseline', [M['baseline_native_file']])
+    add_tests()
+    paths = [t['source_path'] for t in M['tests'] if not t.get('diagnostic_only')]
+    red = native('expanded-red', paths, focused=True)
+    observe_mixed('base-compatibility')
+    set_production(True)
+    source_check('candidate-applied', 'source-candidate.json')
+    green = native('focused-green', paths, focused=True, fixed=True)
+    comparison = native('original-candidate', [M['baseline_native_file']])
+    observe_mixed('candidate-compatibility')
+    set_production(False)
+    source_check('production-reverted', 'source-reverted.json')
+    negative = native('negative-control', paths, focused=True)
+    set_production(True)
+    source_check('production-restored', 'source-restored.json')
+    restored = native('restored-green', paths, focused=True, fixed=True)
+    REPORT['native_fix_cycle_verified'] = all(s.get('expected_focused_result_verified') for s in (red, green, negative, restored))
     save()
-    argv = ['npm', 'run', 'test:unit', '--', '--runInBand', '--watch=false', '--notify=false',
-            '--runTestsByPath', M['test']['source_path'], '--json', '--outputFile=' + str(OUT / 'foundation-red.json')]
-    step = run('foundation-red', argv, M['limits']['test_seconds'])
-    source_check('after-native-test')
-    inspect_red(step)
+    compile_plugin()
+    set_production(False)
+    source_check('broader-base')
+    broader('base')
+    set_production(True)
+    source_check('broader-candidate')
+    broader('candidate')
+    changed_paths = [M['production']['path'], *paths]
+    lint = run('changed-lint', ['node', 'node_modules/eslint/bin/eslint.js', '--no-ignore', '--format', 'json', '--output-file=' + str(OUT / 'changed-lint.json'), *changed_paths], 120)
+    source_check('changed-lint')
+    REPORT['changed_lint_exit'] = lint['exit_code']
+    def original_pass(s):
+        return s.get('valid_native_result') and s['exit_code'] == 0 and s['counts']['success'] is True and s['counts']['numPassedTests'] > 0
+    def fingerprint(s):
+        return sorted((a['name'], a['status']) for a in s.get('assertions', []))
+    original_comparison = original_pass(baseline) and original_pass(comparison) and fingerprint(baseline) == fingerprint(comparison)
+    REPORT['original_test_identity_and_pass_preserved'] = bool(original_comparison)
+    REPORT['scoped_fix_verified'] = all(s.get('expected_focused_result_verified') for s in (red, green, negative, restored)) and bool(original_comparison) and lint['exit_code'] == 0
+    REPORT['all_requested_checks_passed'] = REPORT['scoped_fix_verified'] and all(v == 0 for checks in REPORT['broader_results'].values() for v in checks.values())
+    REPORT['mixed_compatibility_requires_review'] = True
+    REPORT['status'] = 'scoped_fix_verified_pending_compatibility_review' if REPORT['scoped_fix_verified'] else 'not_validated'
+    save()
 
 
 try:
     main()
 except Exception as error:
     REPORT['status'] = 'not_validated'
-    REPORT['expected_red_validated'] = False
+    REPORT['scoped_fix_verified'] = False
+    REPORT['all_requested_checks_passed'] = False
     REPORT['blocker'] = {'type': type(error).__name__, 'message': str(error)}
     print('STOP: ' + type(error).__name__ + ': ' + str(error), flush=True)
 finally:
@@ -613,7 +715,8 @@ finally:
             source_check('final', 'source-final.json')
         except Exception as error:
             REPORT['status'] = 'not_validated'
-            REPORT['expected_red_validated'] = False
+            REPORT['scoped_fix_verified'] = False
+            REPORT['all_requested_checks_passed'] = False
             REPORT['source_integrity_error'] = str(error)
     REPORT['completed_utc'] = now()
     save()
@@ -624,5 +727,4 @@ finally:
         REPORT['artifact_packaging_error'] = str(error)
         save()
         print('Evidence packaging failed: ' + str(error), flush=True)
-
-raise SystemExit(0 if REPORT['expected_red_validated'] and REPORT['artifact_complete'] else 1)
+raise SystemExit(0 if REPORT['scoped_fix_verified'] and REPORT['artifact_complete'] else 1)

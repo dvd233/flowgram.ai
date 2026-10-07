@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "proposal_status": "Independent original-source RED validation harness; predictions require native evidence",
+  "proposal_status": "Unexecuted minimal currency fix and native comparison proposal",
   "upstream_repository": "DouyinFE/semi-design",
   "target_contribution_branch": "release",
   "base_commit": "2a4ec36222a439098e8aaea236518c66752854ca",
   "base_tree": "f1173f8221e35ec3dcd439b91be8a9f796972567",
   "base_blob_count": 3975,
-  "source_with_test_tree": "fdbbe866554d65b76f135b5fe796c70b161c6e49",
+  "source_with_test_tree": "ecdbf4e3e5f43569de1866264dd4957f36f5f91c",
   "package_sha256": "0aa8c5c5ff997556f722400d3577f7727548c00907a059bc6d3d472dce6fdcea",
   "lock_sha256": "0f2c6320fd31d00d50cd4796f1c1ac2d2e056921b37bbcb58f9f662288aa162c",
   "package_manager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
@@ -19,7 +19,12 @@
     "test/setup.js",
     "test/__mocks__/svgTransform.js",
     "test/__mocks__/styleMock.js",
-    "test/__mocks__/fileMock.js"
+    "test/__mocks__/fileMock.js",
+    "packages/semi-eslint-plugin/package.json",
+    "packages/semi-eslint-plugin/tsconfig.json",
+    "packages/semi-eslint-plugin/src/index.ts",
+    "packages/semi-eslint-plugin/src/rules/index.ts",
+    "packages/semi-eslint-plugin/src/rules/no-import.ts"
   ],
   "lock_blocks": 3735,
   "registry_hosts": [
@@ -75,91 +80,6 @@
     "cheerio": "1.0.0-rc.12",
     "lodash": "4.17.21"
   },
-  "test": {
-    "source_path": "packages/semi-ui/inputNumber/__test__/InputNumber.currency.test.js",
-    "sha256": "6430df7fcc956082f1a55ad055b7f882241fd1c02ed7c9807dda632a0aa5aaa9",
-    "git_blob": "852a956e0530a33fac6a6f8a9c1f48375253b20c",
-    "cases": [
-      {
-        "full_name": "InputNumberFoundation currency fraction digits keeps the default USD fraction digits when no precision options are supplied",
-        "input": 12,
-        "options": {},
-        "expected": "$12.00",
-        "predicted_status": "passed",
-        "predicted_received": "$12.00",
-        "prediction_only_not_measured": true
-      },
-      {
-        "full_name": "InputNumberFoundation currency fraction digits keeps a positive precision",
-        "input": 12.3,
-        "options": {
-          "precision": 2
-        },
-        "expected": "$12.30",
-        "predicted_status": "passed",
-        "predicted_received": "$12.30",
-        "prediction_only_not_measured": true
-      },
-      {
-        "full_name": "InputNumberFoundation currency fraction digits keeps positive minimum and maximum fraction digit options",
-        "input": 12.3456,
-        "options": {
-          "minimumFractionDigits": 2,
-          "maximumFractionDigits": 4
-        },
-        "expected": "$12.3456",
-        "predicted_status": "passed",
-        "predicted_received": "$12.3456",
-        "prediction_only_not_measured": true
-      },
-      {
-        "full_name": "InputNumberFoundation currency fraction digits respects an explicit minimumFractionDigits of zero",
-        "input": 12,
-        "options": {
-          "minimumFractionDigits": 0
-        },
-        "expected": "$12",
-        "predicted_status": "failed",
-        "predicted_received": "$12.00",
-        "prediction_only_not_measured": true
-      },
-      {
-        "full_name": "InputNumberFoundation currency fraction digits respects an explicit maximumFractionDigits of zero",
-        "input": 12,
-        "options": {
-          "maximumFractionDigits": 0
-        },
-        "expected": "$12",
-        "predicted_status": "failed",
-        "predicted_received": "$12.00",
-        "prediction_only_not_measured": true
-      },
-      {
-        "full_name": "InputNumberFoundation currency fraction digits respects an explicit precision of zero",
-        "input": 12,
-        "options": {
-          "precision": 0
-        },
-        "expected": "$12",
-        "predicted_status": "failed",
-        "predicted_received": "$12.00",
-        "prediction_only_not_measured": true
-      },
-      {
-        "full_name": "InputNumberFoundation currency fraction digits respects explicit zero minimum and maximum fraction digits together",
-        "input": 12,
-        "options": {
-          "minimumFractionDigits": 0,
-          "maximumFractionDigits": 0
-        },
-        "expected": "$12",
-        "predicted_status": "failed",
-        "predicted_received": "$12.00",
-        "prediction_only_not_measured": true
-      }
-    ],
-    "schema_caution": "Jest24 native JSON is preserved unchanged. The partial local cache has no Jest24 result formatter/types. Result-field presence is recorded; optional missing counters are not fabricated. The evidence gate also requires exact seven assertion identities and four matching native toBe failures."
-  },
   "production_import_paths": [
     "packages/semi-foundation/inputNumber/foundation.ts",
     "packages/semi-foundation/base/foundation.ts",
@@ -184,7 +104,9 @@
     "semi-hosted-validation/run.py",
     "semi-hosted-validation/manifest.json",
     "semi-hosted-validation/InputNumber.currency.test.js",
-    "semi-hosted-validation/README.md"
+    "semi-hosted-validation/InputNumber.currency.integration.test.js",
+    "semi-hosted-validation/README.md",
+    "semi-hosted-validation/InputNumber.currency.compatibility-probe.test.js"
   ],
   "actions": [
     {
@@ -205,25 +127,288 @@
   ],
   "action_pins_verified_utc": "2026-10-07T18:58:21Z",
   "action_pin_evidence": "Existing independently verified official action tag receipts; no new network lookup in this proposal",
-  "scope": "One GitHub-hosted Linux X64 lane: exact public Semi source, original script-disabled frozen full workspace dependency installation, unchanged original Jest24/Babel/jsdom/Enzyme setup, and seven proposed direct InputNumberFoundation.formatCurrency assertions in one new sibling test. Ordinary compiler/test subprocess IPC only. No production edits, UI integration suite, build, bootstrap, browser, application server, Cypress, real application/model API, credential access, sponsor preparation, publish or deploy.",
+  "scope": "One fixed-source hosted lane: same frozen script-disabled installation; compile only the existing local ESLint plugin; original InputNumber test baseline and comparison; 18 Foundation and 7 real component tests across original, fixed, reverted and restored production states; original root script lint and root no-emit TypeScript comparisons; explicit changed-file lint. No browser, server, Cypress, bootstrap, dependency version/config changes, credentials, application/model API, full UI suite, publish or deploy. Mixed min/max/precision outcomes are diagnostic-only observations, not asserted as a correct new API contract; the diagnostic probe is excluded from the product patch.",
   "limits": {
-    "workflow_minutes": 45,
+    "workflow_minutes": 60,
     "install_seconds": 1800,
     "test_seconds": 300,
     "install_soft_bytes": 7516192768,
     "install_budget_bytes": 8589934592,
     "minimum_free_bytes": 4294967296,
     "artifact_file_bytes": 8388608,
-    "artifact_expanded_bytes": 25165824,
-    "artifact_compressed_bytes": 4500000
+    "artifact_expanded_bytes": 50331648,
+    "artifact_compressed_bytes": 12000000,
+    "original_test_seconds": 600,
+    "check_seconds": 600,
+    "overall_seconds": 3300
   },
   "install_differences": [
     "Exact verified official Yarn1 tarball invoked with node, without global install or Corepack activation",
     "--ignore-scripts and child ignore-scripts settings disable all lifecycle hooks",
     "New isolated HOME/cache; no restored project cache or local proxy/CA configuration"
   ],
-  "claim_boundary": "Only a genuine 4-failed/3-passed assertion result with exact raw native diagnostics can validate expected RED. The workflow wrapper may succeed while the original npm test exits 1. It never means fixed implementation, UI integration or project-wide green.",
+  "claim_boundary": "Scoped fix verification requires exact original RED, candidate GREEN, production-only negative control and restored GREEN, with original InputNumber test identities preserved and no added failures. Full script lint and root typecheck are separate measured outcomes, never inferred from focused success.",
   "reference_npm_version": "11.9.0",
   "npm_version_policy": "Use the unmodified npm supplied by the pinned setup-node runtime; record actual version and executable paths without imposing the separate reference observation as a project requirement. Do not upgrade or replace npm.",
-  "parent_commit": "387e748b00a864779bcc617114fb277cb299bcc3"
+  "parent_commit": "84940446d2f0e640a5c3edabb60180e08cdc3c8d",
+  "baseline_native_file": "packages/semi-ui/inputNumber/__test__/inputNumber.test.js",
+  "tests": [
+    {
+      "payload_name": "InputNumber.currency.test.js",
+      "source_path": "packages/semi-ui/inputNumber/__test__/InputNumber.currency.test.js",
+      "sha256": "fbce757800cf57e4ea5e21b0dd65980140b0153641800dc06551d1e492c7b59b",
+      "git_blob": "8c494cb6bc1e35e76b555ec78555ff994f1afdd7"
+    },
+    {
+      "payload_name": "InputNumber.currency.integration.test.js",
+      "source_path": "packages/semi-ui/inputNumber/__test__/InputNumber.currency.integration.test.js",
+      "sha256": "2bc8fbca8c44d291c0193a820eb2d3ca5aac0910fafb25b873bc3b76c7115575",
+      "git_blob": "31089160e4c37f0012ef0d7a46e27e9c3968518e"
+    },
+    {
+      "payload_name": "InputNumber.currency.compatibility-probe.test.js",
+      "source_path": "packages/semi-ui/inputNumber/__test__/InputNumber.currency.compatibility-probe.test.js",
+      "sha256": "b7c18a4afbcbf14e20c5ce756aa65ad3b6a2470a712cc9699e57a2550d7d9b23",
+      "git_blob": "23713b57590d146b5d47f649f1a5e5c53998248f",
+      "diagnostic_only": true
+    }
+  ],
+  "production": {
+    "path": "packages/semi-foundation/inputNumber/foundation.ts",
+    "original_blob": "1a4e363e07b7d2f1134cadafc1fe36cbff8f0634",
+    "candidate_blob": "d3a4a4de0e916086965e74b8af1bf1c9ffee46e4",
+    "original_sha256": "b096db27e27f63b5764ebd95e2e0cf74df236976b7b750734792a712acd1fb7f",
+    "candidate_sha256": "1e6d228ad0b52ff9fe1df7a14d897f3ddc571afa4f325dcb4cb5db4d6d8a3782",
+    "replacements": [
+      [
+        "minimumFractionDigits: minimumFractionDigits || precision || undefined,",
+        "minimumFractionDigits: minimumFractionDigits ?? precision ?? undefined,"
+      ],
+      [
+        "maximumFractionDigits: maximumFractionDigits || precision || undefined,",
+        "maximumFractionDigits: maximumFractionDigits ?? precision ?? undefined,"
+      ]
+    ]
+  },
+  "focused_cases": [
+    {
+      "full_name": "InputNumberFoundation currency fraction digits keeps the default USD fraction digits when no precision options are supplied",
+      "input": 12,
+      "options": {},
+      "expected": "$12.00",
+      "predicted_status": "passed",
+      "predicted_received": "$12.00",
+      "prediction_only_not_measured": true,
+      "matcher": "toBe"
+    },
+    {
+      "full_name": "InputNumberFoundation currency fraction digits keeps a positive precision",
+      "input": 12.3,
+      "options": {
+        "precision": 2
+      },
+      "expected": "$12.30",
+      "predicted_status": "passed",
+      "predicted_received": "$12.30",
+      "prediction_only_not_measured": true,
+      "matcher": "toBe"
+    },
+    {
+      "full_name": "InputNumberFoundation currency fraction digits keeps positive minimum and maximum fraction digit options",
+      "input": 12.3456,
+      "options": {
+        "minimumFractionDigits": 2,
+        "maximumFractionDigits": 4
+      },
+      "expected": "$12.3456",
+      "predicted_status": "passed",
+      "predicted_received": "$12.3456",
+      "prediction_only_not_measured": true,
+      "matcher": "toBe"
+    },
+    {
+      "full_name": "InputNumberFoundation currency fraction digits respects an explicit minimumFractionDigits of zero",
+      "input": 12,
+      "options": {
+        "minimumFractionDigits": 0
+      },
+      "expected": "$12",
+      "predicted_status": "failed",
+      "predicted_received": "$12.00",
+      "prediction_only_not_measured": true,
+      "matcher": "toBe"
+    },
+    {
+      "full_name": "InputNumberFoundation currency fraction digits respects an explicit maximumFractionDigits of zero",
+      "input": 12,
+      "options": {
+        "maximumFractionDigits": 0
+      },
+      "expected": "$12",
+      "predicted_status": "failed",
+      "predicted_received": "$12.00",
+      "prediction_only_not_measured": true,
+      "matcher": "toBe"
+    },
+    {
+      "full_name": "InputNumberFoundation currency fraction digits respects an explicit precision of zero",
+      "input": 12,
+      "options": {
+        "precision": 0
+      },
+      "expected": "$12",
+      "predicted_status": "failed",
+      "predicted_received": "$12.00",
+      "prediction_only_not_measured": true,
+      "matcher": "toBe"
+    },
+    {
+      "full_name": "InputNumberFoundation currency fraction digits respects explicit zero minimum and maximum fraction digits together",
+      "input": 12,
+      "options": {
+        "minimumFractionDigits": 0,
+        "maximumFractionDigits": 0
+      },
+      "expected": "$12",
+      "predicted_status": "failed",
+      "predicted_received": "$12.00",
+      "prediction_only_not_measured": true,
+      "matcher": "toBe"
+    },
+    {
+      "full_name": "InputNumberFoundation currency fraction digits uses currency defaults for explicitly undefined options",
+      "predicted_status": "passed",
+      "expected": "$12.00",
+      "predicted_received": null,
+      "matcher": "toBe"
+    },
+    {
+      "full_name": "InputNumberFoundation currency fraction digits uses currency defaults for null precision",
+      "predicted_status": "passed",
+      "expected": "$12.00",
+      "predicted_received": null,
+      "matcher": "toBe"
+    },
+    {
+      "full_name": "InputNumberFoundation currency fraction digits uses currency defaults when all precision options are null",
+      "predicted_status": "passed",
+      "expected": "$12.00",
+      "predicted_received": null,
+      "matcher": "toBe"
+    },
+    {
+      "full_name": "InputNumberFoundation currency fraction digits falls back from null fraction bounds to positive precision",
+      "predicted_status": "passed",
+      "expected": "$12.30",
+      "predicted_received": null,
+      "matcher": "toBe"
+    },
+    {
+      "full_name": "InputNumberFoundation currency fraction digits falls back from null fraction bounds to zero precision",
+      "predicted_status": "failed",
+      "expected": "$13",
+      "predicted_received": "$12.60",
+      "matcher": "toBe"
+    },
+    {
+      "full_name": "InputNumberFoundation currency fraction digits lets an explicit zero minimum override positive precision",
+      "predicted_status": "failed",
+      "expected": "$12",
+      "predicted_received": "$12.00",
+      "matcher": "toBe"
+    },
+    {
+      "full_name": "InputNumberFoundation currency fraction digits lets valid explicit zero bounds override positive precision",
+      "predicted_status": "failed",
+      "expected": "$13",
+      "predicted_received": "$12.60",
+      "matcher": "toBe"
+    },
+    {
+      "full_name": "InputNumberFoundation currency fraction digits keeps positive bounds ahead of precision for each endpoint",
+      "predicted_status": "passed",
+      "expected": "$12.346",
+      "predicted_received": null,
+      "matcher": "toBe"
+    },
+    {
+      "full_name": "InputNumberFoundation currency fraction digits keeps the default JPY fraction digits",
+      "predicted_status": "passed",
+      "expected": "¥13",
+      "predicted_received": null,
+      "matcher": "toBe"
+    },
+    {
+      "full_name": "InputNumberFoundation currency fraction digits retains Intl validation for invalid explicit positive bounds",
+      "predicted_status": "passed",
+      "matcher": "toThrow"
+    },
+    {
+      "full_name": "InputNumberFoundation currency fraction digits retains Intl validation for a positive precision fallback conflict",
+      "predicted_status": "passed",
+      "matcher": "toThrow"
+    },
+    {
+      "full_name": "InputNumber currency zero precision integration formats an uncontrolled initial value with zero precision",
+      "predicted_status": "failed",
+      "matcher": "toBe",
+      "expected": "$12",
+      "predicted_received": "$12.00"
+    },
+    {
+      "full_name": "InputNumber currency zero precision integration formats a changed value with zero precision on blur",
+      "predicted_status": "failed",
+      "matcher": "toBe",
+      "expected": "$14",
+      "predicted_received": "$14.00"
+    },
+    {
+      "full_name": "InputNumber currency zero precision integration formats controlled prop updates with zero precision",
+      "predicted_status": "failed",
+      "matcher": "toBe",
+      "expected": "$14",
+      "predicted_received": "$14.00"
+    },
+    {
+      "full_name": "InputNumber currency zero precision integration honors valid zero fraction bounds with positive precision",
+      "predicted_status": "failed",
+      "matcher": "toBe",
+      "expected": "$12",
+      "predicted_received": "$12.00"
+    },
+    {
+      "full_name": "InputNumber currency zero precision integration preserves default currency fraction digits",
+      "predicted_status": "passed",
+      "matcher": "toBe",
+      "expected": "$12",
+      "predicted_received": "$12.00"
+    },
+    {
+      "full_name": "InputNumber currency zero precision integration preserves positive currency precision",
+      "predicted_status": "passed",
+      "matcher": "toBe",
+      "expected": "$12",
+      "predicted_received": "$12.00"
+    },
+    {
+      "full_name": "InputNumber currency zero precision integration preserves noncurrency zero precision",
+      "predicted_status": "passed",
+      "matcher": "toBe",
+      "expected": "$12",
+      "predicted_received": "$12.00"
+    }
+  ],
+  "focused_expected_total": 25,
+  "focused_expected_base_failed": 11,
+  "candidate_tree": "59c5d6326afa382c57eb91529cc92f1e221df07b",
+  "generated_plugin_files": [
+    "packages/semi-eslint-plugin/lib/index.js",
+    "packages/semi-eslint-plugin/lib/rules/index.js",
+    "packages/semi-eslint-plugin/lib/rules/no-import.js"
+  ],
+  "mixed_range_boundary": [
+    "precision=2, maximumFractionDigits=0: original renders $12.00; candidate raises RangeError because effective min=2,max=0",
+    "precision=0, minimumFractionDigits=1: original renders $12.0; candidate raises RangeError because effective min=1,max=0"
+  ],
+  "product_candidate_tree": "33acf3f8f30df3cb53cff1d0f44d1dd494947ac9"
 }

@@ -77,6 +77,44 @@ def original_source_guard(root, plan, variant, injected=False):
     no_env(root)
 
 
+def reviewed_lock_urls(root, plan):
+    """Distinguish two blob/line-pinned deprecation links from dependency sources.
+    The ordinary URL host allowlist is deliberately unchanged. No YAML dependency
+    is added to the runner. Exact original blob and line bytes bind each exception.
+    """
+    exceptions = plan.get('lock_metadata_url_exceptions', [])
+    observed = []
+    matched = set()
+    for lock in plan['lock_metadata']:
+        raw = (root / lock['path']).read_bytes()
+        oid = hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+        need(oid == lock['git_blob'], 'Lock bytes differ from the reviewed source: ' + lock['path'])
+        for line_number, line in enumerate(raw.decode().splitlines(), 1):
+            urls = re.findall(r'(?:https?|git\+https?|git|ssh)://[^\s\'"<>]+', line)
+            exact = [(index, item) for index, item in enumerate(exceptions)
+                     if item['path'] == lock['path'] and item['line'] == line_number]
+            if exact:
+                need(len(exact) == 1, 'Duplicate metadata URL exception')
+                index, item = exact[0]
+                need(item['git_blob'] == oid and item['line_sha256'] == hashlib.sha256(line.encode()).hexdigest(),
+                     'Reviewed metadata URL row has changed')
+                need(item['metadata_key'] == 'deprecated' and line.startswith('    deprecated: ')
+                     and item['url'] == 'https://www.npmjs.com/support' and urls == [item['url']],
+                     'Metadata exception is not the exact reviewed deprecation support link')
+                matched.add(index)
+                observed.append({'lock': lock['path'], 'line': line_number, 'git_blob': oid,
+                                 'classification': 'exact_reviewed_deprecation_text_not_download', 'url': item['url']})
+                continue
+            for url in urls:
+                parsed = urlsplit(url)
+                need(parsed.scheme == 'https' and parsed.hostname in ('registry.npmjs.org', 'registry.yarnpkg.com') and not parsed.username and not parsed.password,
+                     f"Unreviewed lockfile remote source at {lock['path']}:{line_number}; stop for source review")
+                observed.append({'lock': lock['path'], 'line': line_number,
+                                 'classification': 'allowed_registry_source', 'host': parsed.hostname})
+    need(matched == set(range(len(exceptions))), 'A reviewed metadata URL exception was not found')
+    return observed
+
+
 def preflight(root, plan, variant, out):
     for key, value in plan['context'].items():
         need(os.environ.get(key) == value, 'Wrong hosted context: ' + key)
@@ -109,17 +147,12 @@ def preflight(root, plan, variant, out):
     need(active == ['registry=https://registry.npmjs.org/', 'always-auth=false'], 'Unexpected npm registry or auth configuration')
     publish = root / 'common/config/rush/.npmrc-publish'
     need(not [line for line in publish.read_text().splitlines() if line.strip() and not line.lstrip().startswith(('#', ';'))], 'Unexpected publish configuration')
-    # Lockfiles remain original. No replacement registry, lock update, or bypass.
-    for lock in plan['lock_metadata']:
-        text = (root / lock['path']).read_text()
-        for url in re.findall(r'(?:https?|git\+https?|git|ssh)://[^\s\'"<>]+', text):
-            parsed = urlsplit(url)
-            need(parsed.scheme == 'https' and parsed.hostname in ('registry.npmjs.org', 'registry.yarnpkg.com') and not parsed.username and not parsed.password,
-                 'Unreviewed lockfile remote source; stop for source review')
+    # Original fixed locks; only two exact reviewed deprecation-text rows are metadata.
+    lock_url_review = reviewed_lock_urls(root, plan)
     save(out / 'preflight.json', {'variant': variant, 'source': plan[variant], 'fresh_source': True,
          'cache_restored': False, 'original_build_cache_enabled': False, 'all_original_locks_verified': True,
          'dotenv_inputs_present': False, 'real_tests_enabled': False, 'credentials_passed': False,
-         'live_api_cases_not_executed': LIVE_CASES, 'e2e_executed': False})
+         'live_api_cases_not_executed': LIVE_CASES, 'e2e_executed': False, 'lock_url_review': lock_url_review})
 
 
 def run(command, cwd, env, out, name, timeout):

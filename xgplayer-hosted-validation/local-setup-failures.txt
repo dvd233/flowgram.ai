@@ -1,0 +1,21 @@
+Local dependency setup failed before native tests. Both attempts used the same frozen lockfile, registry destinations, and disabled scripts. The second was admitted with formal network escalation. Neither is a test RED result.
+
+Attempt 1 (default network):
+yarn install v1.22.22
+(node:5) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[1/4] Resolving packages...
+[2/4] Fetching packages...
+error Error: getaddrinfo EAI_AGAIN registry.yarnpkg.com
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)
+info Visit https://yarnpkg.com/en/docs/cli/install for documentation about this command.
+
+Attempt 2 (formal network escalation):
+yarn install v1.22.22
+(node:5) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[1/4] Resolving packages...
+[2/4] Fetching packages...
+error Error: getaddrinfo EAI_AGAIN registry.yarnpkg.com
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)
+info Visit https://yarnpkg.com/en/docs/cli/install for documentation about this command.

@@ -1,0 +1,3482 @@
+{
+  "schema_version": 1,
+  "source_repository": "bytedance/xgplayer",
+  "source_commit": "65b6a0ec223e3a92d55c4453df419197806967d4",
+  "source_tree": "6e33b67e21186dd63e218b2cbebe4848df1852de",
+  "source_blob_count": 565,
+  "source_blob_bytes": 5765956,
+  "source_files": [
+    {
+      "path": ".claude/settings.local.json",
+      "mode": "100644",
+      "sha": "b7c825abe1142f9ef2a9bc547ce34427d2e6eb89",
+      "size": 157
+    },
+    {
+      "path": ".czrc",
+      "mode": "100644",
+      "sha": "a273d33c02375a5658177db7d676a51bbf14e5f4",
+      "size": 39
+    },
+    {
+      "path": ".editorconfig",
+      "mode": "100644",
+      "sha": "d91fdeb662d9e2a886a374148810540e8392d439",
+      "size": 168
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/\u95ee\u9898\u53cd\u9988-bug-report.md",
+      "mode": "100644",
+      "sha": "a9adb9a1b41f5bf13bb8cddd58803f748d8dd836",
+      "size": 1129
+    },
+    {
+      "path": ".github/actions/setup-node-env/action.yml",
+      "mode": "100644",
+      "sha": "7d5bb16798111103d5dae6818c1170730e5c9156",
+      "size": 1127
+    },
+    {
+      "path": ".github/copilot-instructions.md",
+      "mode": "100644",
+      "sha": "537812e4f11542fdb8d0e0e6081f1327a30fa876",
+      "size": 2530
+    },
+    {
+      "path": ".github/release-guideline.md",
+      "mode": "100644",
+      "sha": "adb3faa70a10088a5d521a666a4b70dc2e636088",
+      "size": 2835
+    },
+    {
+      "path": ".github/release-guideline.zh-CN.md",
+      "mode": "100644",
+      "sha": "8dfb98aa40d7b0b6adc030dfeff39f56e23eb16b",
+      "size": 2751
+    },
+    {
+      "path": ".github/workflows/publish.yml",
+      "mode": "100644",
+      "sha": "ce4e7d421084d1177e8226e77ebc99bdcaa5f0a0",
+      "size": 7736
+    },
+    {
+      "path": ".github/workflows/stale.yml",
+      "mode": "100644",
+      "sha": "5660573333d2ee7d830f5ef7cdd6c8dbdb8de67d",
+      "size": 1447
+    },
+    {
+      "path": ".gitignore",
+      "mode": "100755",
+      "sha": "114d9b0303e353b21ba2524d9513a02fc7a04224",
+      "size": 1320
+    },
+    {
+      "path": ".husky/pre-commit",
+      "mode": "100755",
+      "sha": "8a38cd3ae9e81dca5e78ff7ca10d5a207f6d5e98",
+      "size": 22
+    },
+    {
+      "path": ".npmrc",
+      "mode": "100644",
+      "sha": "825c83e09df4dad076d980d1236c532d689edf75",
+      "size": 38
+    },
+    {
+      "path": ".vscode/settings.json",
+      "mode": "100644",
+      "sha": "9519b6f0ca33aa1c42c87eff2a0e6f55791c8597",
+      "size": 105
+    },
+    {
+      "path": ".yarnrc",
+      "mode": "100644",
+      "sha": "8a9519b319c987dbf7eb3d4b119d685954df0eb1",
+      "size": 46
+    },
+    {
+      "path": "AGENTS.md",
+      "mode": "100644",
+      "sha": "522580406eb3ab4e42b72e25e62d548ba4a1b8d9",
+      "size": 2048
+    },
+    {
+      "path": "CLAUDE.md",
+      "mode": "120000",
+      "sha": "47dc3e3d863cfb5727b87d785d09abf9743c0a72",
+      "size": 9
+    },
+    {
+      "path": "LICENSE",
+      "mode": "100755",
+      "sha": "6083adcd054fc516dae6fca058750a3d70e46ffb",
+      "size": 1071
+    },
+    {
+      "path": "README.md",
+      "mode": "100755",
+      "sha": "16e62d50c086ed90c012cdc896efc6a2c5a3810c",
+      "size": 3177
+    },
+    {
+      "path": "README.zh-CN.md",
+      "mode": "100755",
+      "sha": "6d0472f63e600a3cd5aeefaa12c5c37118aedf09",
+      "size": 3285
+    },
+    {
+      "path": "__mocks__/fileMock.js",
+      "mode": "100644",
+      "sha": "0e56c5b5f76550eeeafcb929345e596c31a667e7",
+      "size": 34
+    },
+    {
+      "path": "__mocks__/styleMock.js",
+      "mode": "100644",
+      "sha": "4ba52ba2c8df6758685c8f65f490306b5c44eb76",
+      "size": 20
+    },
+    {
+      "path": "biome.json",
+      "mode": "100644",
+      "sha": "b9c52f124a956ca0354a270011abcd2dd243d87a",
+      "size": 2923
+    },
+    {
+      "path": "docs/ai-harness/quality-gates.md",
+      "mode": "100644",
+      "sha": "ee3462186d433d9edb6f206c211e7f07e63ebd8f",
+      "size": 2921
+    },
+    {
+      "path": "docs/bvc2-main-merge-assessment.md",
+      "mode": "100644",
+      "sha": "49b9eff96a0e75c136bf501a969d96a54ea0f6c2",
+      "size": 7876
+    },
+    {
+      "path": "fixtures/ads/index.html",
+      "mode": "100644",
+      "sha": "5da9875108db1f826b097ad94a9d58f0aa4dad35",
+      "size": 10288
+    },
+    {
+      "path": "fixtures/ads/index.js",
+      "mode": "100644",
+      "sha": "9e21273d273aea0f2e0c50a1a399498201c0e3fa",
+      "size": 4593
+    },
+    {
+      "path": "fixtures/cast/index.html",
+      "mode": "100644",
+      "sha": "6cebaa9b27953fd565ca1b9539d61fc59c34599c",
+      "size": 4428
+    },
+    {
+      "path": "fixtures/cast/index.js",
+      "mode": "100644",
+      "sha": "2c9d79f54067578ff434419d8034cff484c94f93",
+      "size": 12726
+    },
+    {
+      "path": "fixtures/dash/index.html",
+      "mode": "100644",
+      "sha": "b35b80fcbe2fbf5d831593336dcdcbc9e4697c68",
+      "size": 646
+    },
+    {
+      "path": "fixtures/dash/index.js",
+      "mode": "100644",
+      "sha": "79f0c0fa039f287a788bff476ebc9c21aa5978a6",
+      "size": 334
+    },
+    {
+      "path": "fixtures/flv/index.html",
+      "mode": "100644",
+      "sha": "69652f030d32bd66a174f5decb58b6f3b8487bbb",
+      "size": 6307
+    },
+    {
+      "path": "fixtures/flv/index.js",
+      "mode": "100644",
+      "sha": "c72de79b6f27074e6936c17a453bf48a4816d83a",
+      "size": 14530
+    },
+    {
+      "path": "fixtures/flvjs/index.html",
+      "mode": "100644",
+      "sha": "cfe2253c2a0f4f85cedc520de1802ec64a7e373a",
+      "size": 1124
+    },
+    {
+      "path": "fixtures/flvjs/index.js",
+      "mode": "100644",
+      "sha": "c9a97fc75b2bc708d6b3690ab889cdd27d5cd7f4",
+      "size": 4354
+    },
+    {
+      "path": "fixtures/hls/index.html",
+      "mode": "100644",
+      "sha": "3abe081d1ee9812fbc67b7e331f7c24b7c21059a",
+      "size": 7564
+    },
+    {
+      "path": "fixtures/hls/index.js",
+      "mode": "100644",
+      "sha": "1eca2403cfe2ee8544e40480a0d82de49815424c",
+      "size": 18400
+    },
+    {
+      "path": "fixtures/hlsjs/index.html",
+      "mode": "100644",
+      "sha": "4978aaa6467d96ebfb84e7de3bf6effe3e2bfd0d",
+      "size": 1124
+    },
+    {
+      "path": "fixtures/hlsjs/index.js",
+      "mode": "100644",
+      "sha": "239c0e43e180848ab3d8b64943be5fab30e5ef4e",
+      "size": 4183
+    },
+    {
+      "path": "fixtures/mp4/index.html",
+      "mode": "100644",
+      "sha": "d74be8d6ffec4bfd4b4f2b8cfb8d25cbf1c01d14",
+      "size": 4018
+    },
+    {
+      "path": "fixtures/mp4/index.js",
+      "mode": "100644",
+      "sha": "e0cc55a1dba82685421da11fc546530a40a85058",
+      "size": 814
+    },
+    {
+      "path": "fixtures/music/index.html",
+      "mode": "100644",
+      "sha": "d0f8667f9d42fd9c14d3e1dda0e3f27cad8728a5",
+      "size": 1315
+    },
+    {
+      "path": "fixtures/music/index.js",
+      "mode": "100644",
+      "sha": "eeabac940a953a69bcbea38885996e36cbbb7141",
+      "size": 2594
+    },
+    {
+      "path": "fixtures/subtitle/index.html",
+      "mode": "100644",
+      "sha": "ebc757ed7abd7d1c611d094c095d4236cc3bb068",
+      "size": 8002
+    },
+    {
+      "path": "fixtures/subtitle/index.js",
+      "mode": "100644",
+      "sha": "8cfaacf25f2bb4e1287fae6c3f360b9dbbc4d1d2",
+      "size": 7196
+    },
+    {
+      "path": "fixtures/subtitle/shared/timeline.js",
+      "mode": "100644",
+      "sha": "e6d79bc00c5764d082013ef27c7515057234d31d",
+      "size": 1783
+    },
+    {
+      "path": "fixtures/subtitle/shared/tracks.js",
+      "mode": "100644",
+      "sha": "e9e7aeb5186cb1905016c36313c7e71aa8bd3cb2",
+      "size": 5995
+    },
+    {
+      "path": "fixtures/subtitle/shared/utils.js",
+      "mode": "100644",
+      "sha": "90f21d83e567409d4734200392e5e9cbad4ac49e",
+      "size": 1280
+    },
+    {
+      "path": "fixtures/xgplayer/danmu.html",
+      "mode": "100644",
+      "sha": "672b0939b448b237670f4fee7180ece085364f73",
+      "size": 301
+    },
+    {
+      "path": "fixtures/xgplayer/danmu.js",
+      "mode": "100644",
+      "sha": "f7b509e0173e7ee0aae203d05ca587e344000b48",
+      "size": 575
+    },
+    {
+      "path": "fixtures/xgplayer/index.html",
+      "mode": "100644",
+      "sha": "c53cee2b3dc7c13a268216864ed080f018760c37",
+      "size": 299
+    },
+    {
+      "path": "fixtures/xgplayer/index.js",
+      "mode": "100644",
+      "sha": "726afbe91d1794f44d28de2f387c80d472ea69f0",
+      "size": 304
+    },
+    {
+      "path": "jest.config.js",
+      "mode": "100644",
+      "sha": "9a999061c655c00e1addc8f3ab4cc62ef3da3acf",
+      "size": 7664
+    },
+    {
+      "path": "jest.setup.js",
+      "mode": "100644",
+      "sha": "3617405a67f69d92e4ffb092acd7a05a90f861bd",
+      "size": 28
+    },
+    {
+      "path": "package.json",
+      "mode": "100755",
+      "sha": "8be5d0d6677d02f79283c1c2011e10a604d61001",
+      "size": 3140
+    },
+    {
+      "path": "packages/xgplayer-ads/CHANGELOG.md",
+      "mode": "100644",
+      "sha": "4e6f488a7209715dce563edfea6b1fc0acf002eb",
+      "size": 1356
+    },
+    {
+      "path": "packages/xgplayer-ads/README-ZH.md",
+      "mode": "100644",
+      "sha": "1144eac603e74319532bc886682206ca6c8bcd7f",
+      "size": 6034
+    },
+    {
+      "path": "packages/xgplayer-ads/README.md",
+      "mode": "100644",
+      "sha": "1a31c3f8067ec392f142fcbf0ddf4958695b5a61",
+      "size": 6359
+    },
+    {
+      "path": "packages/xgplayer-ads/package.json",
+      "mode": "100644",
+      "sha": "e68553e5ca7d14005fe5a01915abefe4c5c243c8",
+      "size": 727
+    },
+    {
+      "path": "packages/xgplayer-ads/src/baseAdManager.js",
+      "mode": "100644",
+      "sha": "64f572daa58b06075269cdd06c63c13be1275d2e",
+      "size": 4139
+    },
+    {
+      "path": "packages/xgplayer-ads/src/events.js",
+      "mode": "100644",
+      "sha": "0ed2cb3a6077f73b4967f0d1a5e07b7f68465f7e",
+      "size": 1278
+    },
+    {
+      "path": "packages/xgplayer-ads/src/imaAdManager.js",
+      "mode": "100644",
+      "sha": "c4361c0ba1ac838256b16af8f6425412e62b7ce5",
+      "size": 18935
+    },
+    {
+      "path": "packages/xgplayer-ads/src/index.js",
+      "mode": "100644",
+      "sha": "d4836a1a203174d30bc86c674b8a7c7188866827",
+      "size": 131
+    },
+    {
+      "path": "packages/xgplayer-ads/src/index.scss",
+      "mode": "100644",
+      "sha": "8bf59a34fe2a2b1dd9d9552b51f75b2c7d545219",
+      "size": 260
+    },
+    {
+      "path": "packages/xgplayer-ads/src/index.umd.js",
+      "mode": "100644",
+      "sha": "43d3555a2e112bd3602ce3e88be06234ec41841e",
+      "size": 176
+    },
+    {
+      "path": "packages/xgplayer-ads/src/plugin.js",
+      "mode": "100644",
+      "sha": "c1e16af23723ab30f140686502dafbb2b349934d",
+      "size": 3495
+    },
+    {
+      "path": "packages/xgplayer-ads/src/ui/adStateClass.js",
+      "mode": "100644",
+      "sha": "0f3b4971084903d33818b471e63930c3a3ec4799",
+      "size": 97
+    },
+    {
+      "path": "packages/xgplayer-ads/src/ui/adUIManager.js",
+      "mode": "100644",
+      "sha": "5bc5b2e9659abbb6b1f469080058838d7c63a663",
+      "size": 10242
+    },
+    {
+      "path": "packages/xgplayer-ads/src/ui/plugins/adPlay.js",
+      "mode": "100644",
+      "sha": "8ab281be4af1b74377ef6ffd8f285b28d127e32b",
+      "size": 763
+    },
+    {
+      "path": "packages/xgplayer-ads/src/ui/plugins/adProgress.js",
+      "mode": "100644",
+      "sha": "2f8625a758cb9d229a4697712698f5495fe9d631",
+      "size": 982
+    },
+    {
+      "path": "packages/xgplayer-ads/src/ui/plugins/adTime.js",
+      "mode": "100644",
+      "sha": "3cfa6706acc0feecd568e8343a24566c47f7df54",
+      "size": 659
+    },
+    {
+      "path": "packages/xgplayer-cast/CHANGELOG.md",
+      "mode": "100644",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0
+    },
+    {
+      "path": "packages/xgplayer-cast/README.md",
+      "mode": "100644",
+      "sha": "00a801d95ef47430cb9272b617a4d426f3befb1e",
+      "size": 17072
+    },
+    {
+      "path": "packages/xgplayer-cast/__tests__/airplay.spec.js",
+      "mode": "100644",
+      "sha": "15dc1e3511ef35f16f2ad25c2883fe9e724727f0",
+      "size": 16442
+    },
+    {
+      "path": "packages/xgplayer-cast/__tests__/cast-media.spec.js",
+      "mode": "100644",
+      "sha": "a6f3c23a938c0c281704286f797e94676be71bde",
+      "size": 7832
+    },
+    {
+      "path": "packages/xgplayer-cast/__tests__/chromecast-config.spec.js",
+      "mode": "100644",
+      "sha": "0fa653e65c868e6a4fa6e299cf5a02f02d8074ce",
+      "size": 2010
+    },
+    {
+      "path": "packages/xgplayer-cast/__tests__/chromecast-remote-controller.spec.js",
+      "mode": "100644",
+      "sha": "3c78554531ac5bfbca0cfcf33f8e6aa8f129ee10",
+      "size": 5349
+    },
+    {
+      "path": "packages/xgplayer-cast/__tests__/chromecast-sdk.spec.js",
+      "mode": "100644",
+      "sha": "58cf2b06ca3311aaa1b871cadbdebe2925185660",
+      "size": 3544
+    },
+    {
+      "path": "packages/xgplayer-cast/__tests__/chromecast.spec.js",
+      "mode": "100644",
+      "sha": "bacbbb17b871e45d256d89f71d0e206a58bb9462",
+      "size": 38834
+    },
+    {
+      "path": "packages/xgplayer-cast/__tests__/plugin.spec.js",
+      "mode": "100644",
+      "sha": "0c67429ed1dde76aa7ca12c5d8e104560192e4a9",
+      "size": 17174
+    },
+    {
+      "path": "packages/xgplayer-cast/__tests__/smoke.spec.js",
+      "mode": "100644",
+      "sha": "d836db5fb62356966b1ad92a377c41e258dd996d",
+      "size": 140
+    },
+    {
+      "path": "packages/xgplayer-cast/package.json",
+      "mode": "100644",
+      "sha": "c108acc4751194472e12fdd7dbc0ed62f045e88d",
+      "size": 722
+    },
+    {
+      "path": "packages/xgplayer-cast/src/assets/airplay.svg",
+      "mode": "100644",
+      "sha": "dff015b18f9e0e095404ee9e03e0feea2aae308a",
+      "size": 402
+    },
+    {
+      "path": "packages/xgplayer-cast/src/assets/cast.svg",
+      "mode": "100644",
+      "sha": "af5592b38078964d4ad1da064cce88cc81928b63",
+      "size": 640
+    },
+    {
+      "path": "packages/xgplayer-cast/src/cast-i18n.ts",
+      "mode": "100644",
+      "sha": "d3c1daf18e8d0ec19177b4698990a48fea7febe9",
+      "size": 631
+    },
+    {
+      "path": "packages/xgplayer-cast/src/index.scss",
+      "mode": "100644",
+      "sha": "c2ba9e9d8cf61937e39d0a6b6b79d39a41991034",
+      "size": 285
+    },
+    {
+      "path": "packages/xgplayer-cast/src/index.ts",
+      "mode": "100644",
+      "sha": "1af1957985a40511653cdc32c1dcdc1cbdba0d23",
+      "size": 65
+    },
+    {
+      "path": "packages/xgplayer-cast/src/index.umd.ts",
+      "mode": "100644",
+      "sha": "1af1957985a40511653cdc32c1dcdc1cbdba0d23",
+      "size": 65
+    },
+    {
+      "path": "packages/xgplayer-cast/src/platform/airplay.ts",
+      "mode": "100644",
+      "sha": "608798c0c0e1647a41b77c903024ee5898140ea2",
+      "size": 14569
+    },
+    {
+      "path": "packages/xgplayer-cast/src/platform/cast-handoff-state.ts",
+      "mode": "100644",
+      "sha": "b8c15116dc17906bc3991e244e9c3ab995b4578b",
+      "size": 2526
+    },
+    {
+      "path": "packages/xgplayer-cast/src/platform/cast-media.ts",
+      "mode": "100644",
+      "sha": "1096b634040dbba9e7a53d802cca6ea1ded95c97",
+      "size": 6599
+    },
+    {
+      "path": "packages/xgplayer-cast/src/platform/chromecast-config.ts",
+      "mode": "100644",
+      "sha": "6e885e813d611ddbea0a44b071844a93ffdb74ea",
+      "size": 1441
+    },
+    {
+      "path": "packages/xgplayer-cast/src/platform/chromecast-remote-controller.ts",
+      "mode": "100644",
+      "sha": "72024a931c783417285aa35991b1966a8e0c2ffd",
+      "size": 4619
+    },
+    {
+      "path": "packages/xgplayer-cast/src/platform/chromecast-sdk.ts",
+      "mode": "100644",
+      "sha": "624d02003a4ce0bb6e45869b4ca2d785b22e6e6c",
+      "size": 1969
+    },
+    {
+      "path": "packages/xgplayer-cast/src/platform/chromecast.ts",
+      "mode": "100644",
+      "sha": "7861fb8f04348495a94eb75ed04d51dae6b4d806",
+      "size": 15904
+    },
+    {
+      "path": "packages/xgplayer-cast/src/plugin.ts",
+      "mode": "100644",
+      "sha": "69f84a8318f212284a22a615ec2113179e247255",
+      "size": 10997
+    },
+    {
+      "path": "packages/xgplayer-cast/src/shims.d.ts",
+      "mode": "100644",
+      "sha": "e33505577c81f146d19bf0753da302dd6dee849e",
+      "size": 466
+    },
+    {
+      "path": "packages/xgplayer-cast/src/types.ts",
+      "mode": "100644",
+      "sha": "e92d8f94cd75f942d58bf464080e4f1e98cc9496",
+      "size": 1058
+    },
+    {
+      "path": "packages/xgplayer-cast/tsconfig.json",
+      "mode": "100644",
+      "sha": "8b402f6853f51d69386f80317403211474e176f7",
+      "size": 144
+    },
+    {
+      "path": "packages/xgplayer-dash/CHANGELOG.md",
+      "mode": "100644",
+      "sha": "e47f47886594e9470a417deb48e718edab71e091",
+      "size": 94
+    },
+    {
+      "path": "packages/xgplayer-dash/README.md",
+      "mode": "100755",
+      "sha": "2b7de702cbf40af10ada295d0e5fe67bbc899f2e",
+      "size": 622
+    },
+    {
+      "path": "packages/xgplayer-dash/__tests__/mpd.spec.js",
+      "mode": "100644",
+      "sha": "a0e57ce2d584645a9caea422cf45d2aa685c23b0",
+      "size": 3746
+    },
+    {
+      "path": "packages/xgplayer-dash/package.json",
+      "mode": "100755",
+      "sha": "529af8bdc4fe48dd73cef26d4b069e3e1f4921f3",
+      "size": 841
+    },
+    {
+      "path": "packages/xgplayer-dash/src/dash.js",
+      "mode": "100755",
+      "sha": "b3c980f72dc49a39832fd1e2fe2ff345c7ee9fcd",
+      "size": 4972
+    },
+    {
+      "path": "packages/xgplayer-dash/src/error.js",
+      "mode": "100755",
+      "sha": "b25c27132459f141ab5f2686819b7888968a6034",
+      "size": 321
+    },
+    {
+      "path": "packages/xgplayer-dash/src/index.js",
+      "mode": "100755",
+      "sha": "17d0326180acc051f1ebddd7f222e8f334dc2226",
+      "size": 5924
+    },
+    {
+      "path": "packages/xgplayer-dash/src/m4s/mpd.js",
+      "mode": "100755",
+      "sha": "a76b54cde8ff5e56f99a1a9f2d2efeb6416c5232",
+      "size": 12608
+    },
+    {
+      "path": "packages/xgplayer-dash/src/m4s/xml2json.js",
+      "mode": "100644",
+      "sha": "b83d844064919c6f3236002c5be62c9923256d7d",
+      "size": 4740
+    },
+    {
+      "path": "packages/xgplayer-dash/src/media/eme.js",
+      "mode": "100755",
+      "sha": "25cc99f4e255e9cc4b89b9ed6f93691a807cb7e7",
+      "size": 7514
+    },
+    {
+      "path": "packages/xgplayer-dash/src/media/mse.js",
+      "mode": "100755",
+      "sha": "5d7e29d12f8950774a56e094df5d02db55313235",
+      "size": 2501
+    },
+    {
+      "path": "packages/xgplayer-dash/src/media/task.js",
+      "mode": "100755",
+      "sha": "f3e860826022025d9e211d8a59ff6a6c6320ce97",
+      "size": 1954
+    },
+    {
+      "path": "packages/xgplayer-dash/src/parse/box.js",
+      "mode": "100755",
+      "sha": "5e1a6d7d16ce2cbe7d485e4fffde7a10bc099cfd",
+      "size": 1812
+    },
+    {
+      "path": "packages/xgplayer-dash/src/parse/box/sidx.js",
+      "mode": "100755",
+      "sha": "bc62fb2a36ae3262b366fb50e618c5da75fb90a8",
+      "size": 1180
+    },
+    {
+      "path": "packages/xgplayer-dash/src/parse/date.js",
+      "mode": "100755",
+      "sha": "d72a6a8281c80149b3097a0741e3b1e8664aacc3",
+      "size": 359
+    },
+    {
+      "path": "packages/xgplayer-dash/src/parse/index.js",
+      "mode": "100755",
+      "sha": "699ab658ce67066262483382bac8038a23814759",
+      "size": 1088
+    },
+    {
+      "path": "packages/xgplayer-dash/src/parse/stream.js",
+      "mode": "100755",
+      "sha": "6b4e670aef0cc4de00dc56098179269e80a42738",
+      "size": 2702
+    },
+    {
+      "path": "packages/xgplayer-dash/src/util/index.js",
+      "mode": "100755",
+      "sha": "b45466f98a012b9f0ab07cce852e0d90797e23f7",
+      "size": 5446
+    },
+    {
+      "path": "packages/xgplayer-dash/src/util/xhr.js",
+      "mode": "100755",
+      "sha": "888487e1645ae6ee3f9125efcbd145a20dcf4a9d",
+      "size": 1270
+    },
+    {
+      "path": "packages/xgplayer-flv.js/package.json",
+      "mode": "100755",
+      "sha": "78e4f6469eef930521f6eb804a70b90decfbe5a2",
+      "size": 828
+    },
+    {
+      "path": "packages/xgplayer-flv.js/readme.md",
+      "mode": "100755",
+      "sha": "d0590a9a25d36e02b402cc3bad22ba0d558c7c0a",
+      "size": 650
+    },
+    {
+      "path": "packages/xgplayer-flv.js/src/index.js",
+      "mode": "100755",
+      "sha": "4d8e328cef7f38147a05367054e75cf73b415373",
+      "size": 104
+    },
+    {
+      "path": "packages/xgplayer-flv.js/src/index.umd.js",
+      "mode": "100644",
+      "sha": "d2012b2de0b524f08c9104fb27ea0485740f7699",
+      "size": 63
+    },
+    {
+      "path": "packages/xgplayer-flv.js/src/plugin.js",
+      "mode": "100644",
+      "sha": "4fdd78b3bf67b92ceb6cc1bf5e03c1a7733e5d76",
+      "size": 4200
+    },
+    {
+      "path": "packages/xgplayer-flv/CHANGELOG.md",
+      "mode": "100644",
+      "sha": "74a4e6129c8b83c2485a6cefd0719c52ade2c340",
+      "size": 7615
+    },
+    {
+      "path": "packages/xgplayer-flv/__tests__/flv.spec.js",
+      "mode": "100644",
+      "sha": "3feddbb9ab15d796d276cbfc83db31f108107e0f",
+      "size": 5439
+    },
+    {
+      "path": "packages/xgplayer-flv/__tests__/options.spec.js",
+      "mode": "100644",
+      "sha": "7f6784f168a5f45e188e0237c777a5d5dac8f74d",
+      "size": 1467
+    },
+    {
+      "path": "packages/xgplayer-flv/__tests__/plugin-extenasion.spec.js",
+      "mode": "100644",
+      "sha": "614454f450ebd6cf7495934119728d1b95b10405",
+      "size": 1502
+    },
+    {
+      "path": "packages/xgplayer-flv/__tests__/plugin.spec.js",
+      "mode": "100644",
+      "sha": "a62ad7ff6469ba761f193b42816834c1d98d479d",
+      "size": 2744
+    },
+    {
+      "path": "packages/xgplayer-flv/__tests__/services/buffer.spec.js",
+      "mode": "100644",
+      "sha": "d0fc0e79e0f697099a89fa2aea84e2c1971936b3",
+      "size": 7909
+    },
+    {
+      "path": "packages/xgplayer-flv/__tests__/utils.spec.js",
+      "mode": "100644",
+      "sha": "3b8e09fda7b9e0beabd3c952ad0177606a4ae650",
+      "size": 404
+    },
+    {
+      "path": "packages/xgplayer-flv/package.json",
+      "mode": "100755",
+      "sha": "95ec62afe7f0f2be505afe7fca823008c3c83864",
+      "size": 736
+    },
+    {
+      "path": "packages/xgplayer-flv/src/flv/index.js",
+      "mode": "100644",
+      "sha": "9f6bca6619af69e9274b2bf1e03988c9b6644a3d",
+      "size": 16183
+    },
+    {
+      "path": "packages/xgplayer-flv/src/flv/options.js",
+      "mode": "100644",
+      "sha": "b0a21c21b01d64339e9f0fc9044412bbeb6b29da",
+      "size": 2290
+    },
+    {
+      "path": "packages/xgplayer-flv/src/flv/services/buffer-service.js",
+      "mode": "100644",
+      "sha": "716df3c87094f1d894e49a0e3d25cffe91c35641",
+      "size": 11885
+    },
+    {
+      "path": "packages/xgplayer-flv/src/flv/services/index.js",
+      "mode": "100644",
+      "sha": "b3d8911c9dba599da03a43725761dd54a51f41cf",
+      "size": 33
+    },
+    {
+      "path": "packages/xgplayer-flv/src/flv/services/transfer-cost.js",
+      "mode": "100644",
+      "sha": "41c724932c2390ac183be3294c9ffe3538274943",
+      "size": 763
+    },
+    {
+      "path": "packages/xgplayer-flv/src/flv/utils.js",
+      "mode": "100644",
+      "sha": "8adba9a38bda8d4e06de216236891c8e32760db8",
+      "size": 535
+    },
+    {
+      "path": "packages/xgplayer-flv/src/index.js",
+      "mode": "100644",
+      "sha": "daba3c3ecf71f3edc25a422106882d0753095b5e",
+      "size": 220
+    },
+    {
+      "path": "packages/xgplayer-flv/src/index.umd.js",
+      "mode": "100644",
+      "sha": "c19ba14e91c3cf4de2038710e6c89e6e56490c7b",
+      "size": 48
+    },
+    {
+      "path": "packages/xgplayer-flv/src/plugin-extension.js",
+      "mode": "100644",
+      "sha": "446671679807e2d91b5b37f5e1966a8d841f5c4f",
+      "size": 2228
+    },
+    {
+      "path": "packages/xgplayer-flv/src/plugin.js",
+      "mode": "100644",
+      "sha": "613806f4547ecc7061ca63d89516c5513be70ec5",
+      "size": 5202
+    },
+    {
+      "path": "packages/xgplayer-hls.js/README.md",
+      "mode": "100755",
+      "sha": "0d6f315bafe206c1732e7757e1bb24873287c9e8",
+      "size": 662
+    },
+    {
+      "path": "packages/xgplayer-hls.js/package.json",
+      "mode": "100755",
+      "sha": "255164c48d8eba31728a0ee192ada7ceaf6224bc",
+      "size": 842
+    },
+    {
+      "path": "packages/xgplayer-hls.js/src/index.js",
+      "mode": "100755",
+      "sha": "8cf8e032c9ad92fb72f307bf497fdedba6a134f3",
+      "size": 4972
+    },
+    {
+      "path": "packages/xgplayer-hls.js/src/utils/index.js",
+      "mode": "100755",
+      "sha": "6b9f58957d750cceb47c636f2722981fc00282bc",
+      "size": 1811
+    },
+    {
+      "path": "packages/xgplayer-hls/CHANGELOG.md",
+      "mode": "100644",
+      "sha": "746e7c16a6801c2ba418b08b25882288316b5531",
+      "size": 10406
+    },
+    {
+      "path": "packages/xgplayer-hls/__tests__/assets/audio-init.mp4",
+      "mode": "100644",
+      "sha": "460f1809c396c538e75a1fd82a2a02982fd12a8c",
+      "size": 822
+    },
+    {
+      "path": "packages/xgplayer-hls/__tests__/assets/video-init.mp4",
+      "mode": "100644",
+      "sha": "d9d64b94ccc72ba88c946288ebaa2cf64d36234d",
+      "size": 821
+    },
+    {
+      "path": "packages/xgplayer-hls/__tests__/hls.spec.js",
+      "mode": "100644",
+      "sha": "b6999f48c22d2e8280ef9f7405d452d4501ada91",
+      "size": 8765
+    },
+    {
+      "path": "packages/xgplayer-hls/__tests__/index.spec.js",
+      "mode": "100644",
+      "sha": "2bb28845c57faac35a962abdbb3b8d28fa31b07e",
+      "size": 364
+    },
+    {
+      "path": "packages/xgplayer-hls/__tests__/mse-airplay.spec.js",
+      "mode": "100644",
+      "sha": "8f199abc34c2d9bd39cfbd66ac3f3541fec7479e",
+      "size": 3935
+    },
+    {
+      "path": "packages/xgplayer-hls/__tests__/options.spec.js",
+      "mode": "100644",
+      "sha": "c5a86e5beb8ce56336255fda90444b7d9ac2f384",
+      "size": 1309
+    },
+    {
+      "path": "packages/xgplayer-hls/__tests__/parser.spec.js",
+      "mode": "100644",
+      "sha": "545b876c7fe7a2d1fdb490b25872a7ce70bc1f2f",
+      "size": 15660
+    },
+    {
+      "path": "packages/xgplayer-hls/__tests__/playlist.spec.js",
+      "mode": "100644",
+      "sha": "e4488a45bdc6e204986a04a703fa07b578147c60",
+      "size": 4944
+    },
+    {
+      "path": "packages/xgplayer-hls/__tests__/plugin-extenasion.spec.js",
+      "mode": "100644",
+      "sha": "a41abe4ca0f719988c49074dfb5ec81de482d2ca",
+      "size": 1502
+    },
+    {
+      "path": "packages/xgplayer-hls/__tests__/plugin.spec.js",
+      "mode": "100644",
+      "sha": "d07929a08f06aa9bc12a3ab741a01b324fa4eba1",
+      "size": 4600
+    },
+    {
+      "path": "packages/xgplayer-hls/__tests__/services/buffer.spec.js",
+      "mode": "100644",
+      "sha": "7463176dc51d3cd593bee941a5d366f9f7c32f94",
+      "size": 7413
+    },
+    {
+      "path": "packages/xgplayer-hls/__tests__/utils.spec.js",
+      "mode": "100644",
+      "sha": "d1c6d3f9c1417af286f418c58d947acdfdcbdacb",
+      "size": 314
+    },
+    {
+      "path": "packages/xgplayer-hls/package.json",
+      "mode": "100755",
+      "sha": "25d3da4974a7aa9a0d438cb9a2eebd02405e860d",
+      "size": 735
+    },
+    {
+      "path": "packages/xgplayer-hls/src/hls/buffer-service/decrypt/index.js",
+      "mode": "100644",
+      "sha": "db9e77ee24cabad0e5cfa7799c46706814669fc5",
+      "size": 1578
+    },
+    {
+      "path": "packages/xgplayer-hls/src/hls/buffer-service/index.js",
+      "mode": "100644",
+      "sha": "925034ea5b92db7300e26550559823380a9863b0",
+      "size": 12185
+    },
+    {
+      "path": "packages/xgplayer-hls/src/hls/buffer-service/transmuxer/index.js",
+      "mode": "100644",
+      "sha": "afd930602a8c0c93af672c47d8e1a086b810f7de",
+      "size": 6102
+    },
+    {
+      "path": "packages/xgplayer-hls/src/hls/config.ts",
+      "mode": "100644",
+      "sha": "ff7cbc340a9d7be64c515167706ea1d75408f1c1",
+      "size": 2530
+    },
+    {
+      "path": "packages/xgplayer-hls/src/hls/constants.js",
+      "mode": "100644",
+      "sha": "d5681b3819a146492fe19c18cc916d8716f25ea8",
+      "size": 333
+    },
+    {
+      "path": "packages/xgplayer-hls/src/hls/index.js",
+      "mode": "100644",
+      "sha": "1b5df71c8b19ad9fdbe7cabb67d44cd227029655",
+      "size": 30655
+    },
+    {
+      "path": "packages/xgplayer-hls/src/hls/manifest-loader/index.js",
+      "mode": "100644",
+      "sha": "6401208bb38271bf7285b152bfbaee9dac6a9461",
+      "size": 6160
+    },
+    {
+      "path": "packages/xgplayer-hls/src/hls/manifest-loader/parser/index.js",
+      "mode": "100644",
+      "sha": "4f52a7884459d306fd15e68d040f3916529effe8",
+      "size": 605
+    },
+    {
+      "path": "packages/xgplayer-hls/src/hls/manifest-loader/parser/master.js",
+      "mode": "100644",
+      "sha": "70cb81507beadeaa45265d9f6f5f9f936646a9ca",
+      "size": 3046
+    },
+    {
+      "path": "packages/xgplayer-hls/src/hls/manifest-loader/parser/media.js",
+      "mode": "100644",
+      "sha": "1b64acd5ac212278679c5019e933b01441b28e46",
+      "size": 6702
+    },
+    {
+      "path": "packages/xgplayer-hls/src/hls/manifest-loader/parser/model.js",
+      "mode": "100644",
+      "sha": "f43f06f4bc87e4ce05ba339dad5ac8e1a441c31d",
+      "size": 5381
+    },
+    {
+      "path": "packages/xgplayer-hls/src/hls/manifest-loader/parser/utils.js",
+      "mode": "100644",
+      "sha": "7922588f2ca4148ff1442ed290ed433081b04347",
+      "size": 2943
+    },
+    {
+      "path": "packages/xgplayer-hls/src/hls/playlist/index.js",
+      "mode": "100644",
+      "sha": "7dfd588e559fc7822e4be0f09be19535eef6a4a7",
+      "size": 5585
+    },
+    {
+      "path": "packages/xgplayer-hls/src/hls/playlist/stream.js",
+      "mode": "100644",
+      "sha": "d1a704f304f306aa40d2cd4bc7834ae160fec4dc",
+      "size": 8101
+    },
+    {
+      "path": "packages/xgplayer-hls/src/hls/segment-loader/index.js",
+      "mode": "100644",
+      "sha": "55d81b4822ac8820b12503fad6da0071ad933ecf",
+      "size": 5054
+    },
+    {
+      "path": "packages/xgplayer-hls/src/hls/utils.js",
+      "mode": "100644",
+      "sha": "dead02ec7efa3499cd3ad6b7306778bc9baeb784",
+      "size": 122
+    },
+    {
+      "path": "packages/xgplayer-hls/src/index.js",
+      "mode": "100644",
+      "sha": "8819ced52d2086ebb9cfa06f03ec71d837afe71d",
+      "size": 485
+    },
+    {
+      "path": "packages/xgplayer-hls/src/index.umd.js",
+      "mode": "100644",
+      "sha": "523058ff26c681444565ce6906147f720c0a9388",
+      "size": 48
+    },
+    {
+      "path": "packages/xgplayer-hls/src/plugin-extension.js",
+      "mode": "100644",
+      "sha": "2e0831b9b71ac96439fe0558f9e653094dd60dc5",
+      "size": 2083
+    },
+    {
+      "path": "packages/xgplayer-hls/src/plugin.js",
+      "mode": "100644",
+      "sha": "61e85a73aa1a2109512ac216898f0e88d0224c41",
+      "size": 7387
+    },
+    {
+      "path": "packages/xgplayer-mp4-loader/README.md",
+      "mode": "100644",
+      "sha": "d7ee1b7e5a7054f8855cd7ae3379270f80145943",
+      "size": 2075
+    },
+    {
+      "path": "packages/xgplayer-mp4-loader/package.json",
+      "mode": "100755",
+      "sha": "84535966aba1d894da016fe924fe8b8f46195239",
+      "size": 716
+    },
+    {
+      "path": "packages/xgplayer-mp4-loader/src/cache.js",
+      "mode": "100644",
+      "sha": "936de342f25128940170001c539d7576261c5cf5",
+      "size": 202
+    },
+    {
+      "path": "packages/xgplayer-mp4-loader/src/config.js",
+      "mode": "100644",
+      "sha": "5ba2321d02604fa7bae335cd498426190b058e70",
+      "size": 367
+    },
+    {
+      "path": "packages/xgplayer-mp4-loader/src/error.js",
+      "mode": "100644",
+      "sha": "00893bd35ca65e91693d906d61013c8827c130b6",
+      "size": 127
+    },
+    {
+      "path": "packages/xgplayer-mp4-loader/src/gopItem.js",
+      "mode": "100644",
+      "sha": "75e3ef126949101bad66c878220ec6871e69b6af",
+      "size": 436
+    },
+    {
+      "path": "packages/xgplayer-mp4-loader/src/index.js",
+      "mode": "100644",
+      "sha": "05fbd773ff6314c4d20a5068d2d6d5bf5ea382d3",
+      "size": 63
+    },
+    {
+      "path": "packages/xgplayer-mp4-loader/src/loader.js",
+      "mode": "100644",
+      "sha": "9f3aaf6ffe763e73ec50231a71e20df7796b2481",
+      "size": 16132
+    },
+    {
+      "path": "packages/xgplayer-mp4-loader/src/utils.js",
+      "mode": "100644",
+      "sha": "1361e4bbb3c97643365b3cceffc24ba3c58a95a7",
+      "size": 21985
+    },
+    {
+      "path": "packages/xgplayer-mp4-new/package.json",
+      "mode": "100755",
+      "sha": "0fea67261013eed2d7d61371fff52f6954dd5ce0",
+      "size": 701
+    },
+    {
+      "path": "packages/xgplayer-mp4-new/src/index.js",
+      "mode": "100644",
+      "sha": "b652b9242b8580757c8961168a686c50fe99e31a",
+      "size": 220
+    },
+    {
+      "path": "packages/xgplayer-mp4-new/src/index.umd.js",
+      "mode": "100644",
+      "sha": "912c75f4889aaa3072867f925080ad24b6e4c864",
+      "size": 48
+    },
+    {
+      "path": "packages/xgplayer-mp4-new/src/mp4/buffer-service.js",
+      "mode": "100644",
+      "sha": "6990dcde84e9e1e2a658ad02c814ac151a296fc8",
+      "size": 4215
+    },
+    {
+      "path": "packages/xgplayer-mp4-new/src/mp4/config.js",
+      "mode": "100644",
+      "sha": "b6db1bdc3ea51fe6085cfe497f9a4b21dd6601a7",
+      "size": 304
+    },
+    {
+      "path": "packages/xgplayer-mp4-new/src/mp4/index.js",
+      "mode": "100644",
+      "sha": "4736ee17ea2842d8db0d4e5624b7352ab3c369f9",
+      "size": 4161
+    },
+    {
+      "path": "packages/xgplayer-mp4-new/src/plugin.js",
+      "mode": "100644",
+      "sha": "b07fd8a02e7902354cf74e79fd8d41fc32e115bb",
+      "size": 2498
+    },
+    {
+      "path": "packages/xgplayer-mp4/CHANGELOG.md",
+      "mode": "100644",
+      "sha": "5aa84aacc2e3970d9900e48c04dfb5f72c1ce4fd",
+      "size": 217
+    },
+    {
+      "path": "packages/xgplayer-mp4/README.md",
+      "mode": "100644",
+      "sha": "2e9dc1757cc621fbc1b25e504f0ce85016ff3f98",
+      "size": 1706
+    },
+    {
+      "path": "packages/xgplayer-mp4/__tests__/buffer.spec.js",
+      "mode": "100755",
+      "sha": "921b1d343fb85706741e2b51720354ebb83b9e5d",
+      "size": 187
+    },
+    {
+      "path": "packages/xgplayer-mp4/__tests__/mp4.spec.js",
+      "mode": "100755",
+      "sha": "3ee2ca174d9fb76aa21ecc6f8c607020a3c83f2a",
+      "size": 296
+    },
+    {
+      "path": "packages/xgplayer-mp4/__tests__/util.spec.js",
+      "mode": "100755",
+      "sha": "78576023a234ebd0a5d3d505716464ac4eef54d2",
+      "size": 1142
+    },
+    {
+      "path": "packages/xgplayer-mp4/package.json",
+      "mode": "100755",
+      "sha": "ee810d862c14b306068b54a3a08de70aee062910",
+      "size": 1019
+    },
+    {
+      "path": "packages/xgplayer-mp4/src/error.js",
+      "mode": "100644",
+      "sha": "4ae9c4588ce24f47d3149c4b692a32cc6704cdbc",
+      "size": 2674
+    },
+    {
+      "path": "packages/xgplayer-mp4/src/index.js",
+      "mode": "100644",
+      "sha": "a42906de71dda70955ee338f21c203da21f7ab7d",
+      "size": 70
+    },
+    {
+      "path": "packages/xgplayer-mp4/src/index.umd.js",
+      "mode": "100644",
+      "sha": "76b5275d22a5ef9002016568d130b9a21f16c84d",
+      "size": 61
+    },
+    {
+      "path": "packages/xgplayer-mp4/src/mp4.js",
+      "mode": "100644",
+      "sha": "d16ed92d9eaf2f0068d29947c389e128a87f278b",
+      "size": 24430
+    },
+    {
+      "path": "packages/xgplayer-mp4/src/mp4Plugin.js",
+      "mode": "100644",
+      "sha": "f9ec4ec18cda2d5cce835d5d71cd6ee81618e892",
+      "size": 30550
+    },
+    {
+      "path": "packages/xgplayer-mp4/src/util/download.js",
+      "mode": "100644",
+      "sha": "b4dcacee519c36d75c28aafec4c2cd59ec15b66a",
+      "size": 360
+    },
+    {
+      "path": "packages/xgplayer-mp4/src/util/index.js",
+      "mode": "100644",
+      "sha": "aa086dcf9ad7a4ebfbac2656129fbab16a5043db",
+      "size": 694
+    },
+    {
+      "path": "packages/xgplayer-mp4/src/util/logger.js",
+      "mode": "100644",
+      "sha": "51c1b19f415c4ab6f260ca5a39e42b90d2bb5f27",
+      "size": 1284
+    },
+    {
+      "path": "packages/xgplayer-mp4/src/util/proxy-promise.js",
+      "mode": "100644",
+      "sha": "14f59d00fa52110414defa92433aba38b4a3aca3",
+      "size": 824
+    },
+    {
+      "path": "packages/xgplayer-mp4/src/util/timer.js",
+      "mode": "100644",
+      "sha": "a57f76f819e63d585d67f1ad213e652437e6fddd",
+      "size": 769
+    },
+    {
+      "path": "packages/xgplayer-mp4/src/version.js",
+      "mode": "100644",
+      "sha": "be327251d66b4d8d35e90f26b89e83659265fbd6",
+      "size": 55
+    },
+    {
+      "path": "packages/xgplayer-mp4/src/worker/index.js",
+      "mode": "100644",
+      "sha": "24816487a90ba1faf38fea3a5e67878012fb1edb",
+      "size": 1100
+    },
+    {
+      "path": "packages/xgplayer-mp4/src/worker/transmuxerworker.js",
+      "mode": "100644",
+      "sha": "017cc03aa9fcedf62c78534065893d5bc50c8530",
+      "size": 2147
+    },
+    {
+      "path": "packages/xgplayer-music/CHANGELOG.md",
+      "mode": "100755",
+      "sha": "a925c4c23840075c62e0ce4292e82157abc98212",
+      "size": 329
+    },
+    {
+      "path": "packages/xgplayer-music/README.md",
+      "mode": "100755",
+      "sha": "932dc4ff3b24d4c9f52268182aa12f85af32bfae",
+      "size": 2484
+    },
+    {
+      "path": "packages/xgplayer-music/package.json",
+      "mode": "100755",
+      "sha": "d2a6cc83e1415ca175b7dc7327a19f6c2a667158",
+      "size": 923
+    },
+    {
+      "path": "packages/xgplayer-music/src/analyze/drawBars.js",
+      "mode": "100644",
+      "sha": "b277d6a59a7d88f4d0091e2d1bb0077234a2bbdf",
+      "size": 589
+    },
+    {
+      "path": "packages/xgplayer-music/src/analyze/drawDoubleBars.js",
+      "mode": "100644",
+      "sha": "d238459d13f4282b0ff35da48014f9cee07b1776",
+      "size": 593
+    },
+    {
+      "path": "packages/xgplayer-music/src/analyze/drawDoubleline.js",
+      "mode": "100644",
+      "sha": "426bf21ebeb5fa6b8420c298afd3ccf490808d88",
+      "size": 901
+    },
+    {
+      "path": "packages/xgplayer-music/src/analyze/drawLightning.js",
+      "mode": "100644",
+      "sha": "abe2fa44cba265b380234b9bbc1f451898c49e86",
+      "size": 634
+    },
+    {
+      "path": "packages/xgplayer-music/src/analyze/drawVertlines.js",
+      "mode": "100644",
+      "sha": "4db7d14de91d44b58827c52c3385ce8585bbf364",
+      "size": 604
+    },
+    {
+      "path": "packages/xgplayer-music/src/analyze/drawWaves.js",
+      "mode": "100644",
+      "sha": "1f462dc01776da9ce13bc03c064b0f5126290200",
+      "size": 1158
+    },
+    {
+      "path": "packages/xgplayer-music/src/analyze/helper.js",
+      "mode": "100644",
+      "sha": "ca6b1bd548e78c41da8ff1679d199eb8642a6773",
+      "size": 2835
+    },
+    {
+      "path": "packages/xgplayer-music/src/analyze/index.js",
+      "mode": "100644",
+      "sha": "561283da000d4d879cf5750dffd7a90b3501a64b",
+      "size": 4246
+    },
+    {
+      "path": "packages/xgplayer-music/src/analyze/render.js",
+      "mode": "100644",
+      "sha": "c1a00fa1711e0a3b538e240d00715b28333e7cb5",
+      "size": 1505
+    },
+    {
+      "path": "packages/xgplayer-music/src/index.js",
+      "mode": "100755",
+      "sha": "27fd816456c813935c379d73f401705611f2d5d1",
+      "size": 502
+    },
+    {
+      "path": "packages/xgplayer-music/src/index.umd.js",
+      "mode": "100644",
+      "sha": "d1995f3661c575cb1c1c893e056ebad9882df4fe",
+      "size": 233
+    },
+    {
+      "path": "packages/xgplayer-music/src/lyric.js",
+      "mode": "100755",
+      "sha": "98c68fff603a5a3a5318c62ed0f96f021d0f62eb",
+      "size": 6240
+    },
+    {
+      "path": "packages/xgplayer-music/src/music.js",
+      "mode": "100755",
+      "sha": "207d58dd8c7d9b4313ae6c64cbd18d40d11acfa4",
+      "size": 12033
+    },
+    {
+      "path": "packages/xgplayer-music/src/plugins/index.js",
+      "mode": "100644",
+      "sha": "a00e5992e206370fa8c5da85c9aa5e7a45e8e6a8",
+      "size": 175
+    },
+    {
+      "path": "packages/xgplayer-music/src/plugins/index.scss",
+      "mode": "100644",
+      "sha": "0e5b2e1bc3b6137eb09ce506f9400b7704229da6",
+      "size": 521
+    },
+    {
+      "path": "packages/xgplayer-music/src/plugins/musicBackward.js",
+      "mode": "100755",
+      "sha": "bf35112e6c4ad3fed59cb9866ade7058a4d30b7a",
+      "size": 1253
+    },
+    {
+      "path": "packages/xgplayer-music/src/plugins/musicCover.js",
+      "mode": "100755",
+      "sha": "93ffff956fdb3771420710c82656ded369f73971",
+      "size": 881
+    },
+    {
+      "path": "packages/xgplayer-music/src/plugins/musicForward.js",
+      "mode": "100755",
+      "sha": "ff57b6df4ddfd661d99dc861c41cf7ef446a590f",
+      "size": 1249
+    },
+    {
+      "path": "packages/xgplayer-music/src/plugins/musicMeta.js",
+      "mode": "100755",
+      "sha": "c526c91ac1637d2ca47bcd3eed1647a893cb56b6",
+      "size": 694
+    },
+    {
+      "path": "packages/xgplayer-music/src/plugins/musicNext.js",
+      "mode": "100755",
+      "sha": "9777df626992ceec8c30754f7786f5990f632e92",
+      "size": 1211
+    },
+    {
+      "path": "packages/xgplayer-music/src/plugins/musicPrev.js",
+      "mode": "100755",
+      "sha": "3cc885d445797d034a5adb5ad6e88811a557d593",
+      "size": 1215
+    },
+    {
+      "path": "packages/xgplayer-music/src/preset.js",
+      "mode": "100644",
+      "sha": "30bf4964e874557164e48efa0c0b5e6fce3cd1f1",
+      "size": 1770
+    },
+    {
+      "path": "packages/xgplayer-music/src/theme-default.js",
+      "mode": "100755",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0
+    },
+    {
+      "path": "packages/xgplayer-music/src/util.js",
+      "mode": "100755",
+      "sha": "e4b4d7ea1aed471b49591aca1c4bf647bb43c5a6",
+      "size": 2438
+    },
+    {
+      "path": "packages/xgplayer-music/src/xhr.js",
+      "mode": "100755",
+      "sha": "b4ab2dd5ea5e5d57a5d43f7230902eb54ad8deea",
+      "size": 699
+    },
+    {
+      "path": "packages/xgplayer-shaka/README.md",
+      "mode": "100755",
+      "sha": "c0548e274d1b542b8a1ca8813aba45d54068c1ff",
+      "size": 649
+    },
+    {
+      "path": "packages/xgplayer-shaka/package.json",
+      "mode": "100755",
+      "sha": "ef4fc02557c0ad522fe2720a81375641dcdffedd",
+      "size": 798
+    },
+    {
+      "path": "packages/xgplayer-shaka/src/index.js",
+      "mode": "100755",
+      "sha": "df809f4b23058246696b93accaadfb7e1ed5f6b3",
+      "size": 7474
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/CHANGELOG.md",
+      "mode": "100644",
+      "sha": "0dd77f6ccd85afebaaa2f7ca82b7e2e5d30eb569",
+      "size": 151
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/__tests__/net/fetch.spec.js",
+      "mode": "100644",
+      "sha": "8237411331a51d6c752b7bdb555d0438358ea37b",
+      "size": 3489
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/__tests__/net/xhr.spec.js",
+      "mode": "100644",
+      "sha": "462d418dc2bd102c64bbb3964803c2f35aa28014",
+      "size": 3782
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/package.json",
+      "mode": "100755",
+      "sha": "aae6625c605ce4d8bc108c0c1ac58ff0eed75271",
+      "size": 656
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/src/buffer.js",
+      "mode": "100644",
+      "sha": "dcfdd54f3a0f3bab0068c2b8bab975cfcfa2f44a",
+      "size": 3628
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/src/env.js",
+      "mode": "100644",
+      "sha": "eb377ab6d266ba0e26b24159ae45675ba0a73934",
+      "size": 55
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/src/error.js",
+      "mode": "100644",
+      "sha": "d44108d49da7337377759997c6ec9faf8ecbc1d0",
+      "size": 3305
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/src/event.js",
+      "mode": "100644",
+      "sha": "3645eefbd3c4e12c604ccf05e233669f720befcc",
+      "size": 1404
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/src/index.js",
+      "mode": "100644",
+      "sha": "4b90aabba6e8ac86f4b3526dd5eae64046c10266",
+      "size": 252
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/src/index.umd.js",
+      "mode": "100644",
+      "sha": "a6c318fd46fba95cf668245e7f9d7c455c72cb8a",
+      "size": 409
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/src/is.js",
+      "mode": "100644",
+      "sha": "f5932ecfe4530a647cd62c80b8cd5fa57c129591",
+      "size": 507
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/src/logger.js",
+      "mode": "100644",
+      "sha": "48ef1c8d129e07f0b3db284ae085756da1d5295a",
+      "size": 3321
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/src/mse.js",
+      "mode": "100644",
+      "sha": "89e46295d1c7e9dc341d5e210c54a1f2e7af7828",
+      "size": 20715
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/src/net/config.js",
+      "mode": "100644",
+      "sha": "607f2b3230994b327e92e8f8467194aa7ecd9c67",
+      "size": 991
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/src/net/dynamic-timeout.js",
+      "mode": "100755",
+      "sha": "397e8650982abdfe502b136360dce81316529c6a",
+      "size": 3587
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/src/net/error.js",
+      "mode": "100644",
+      "sha": "b5a8ea806c25555034220fa3f911c9946f811997",
+      "size": 333
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/src/net/fetch.js",
+      "mode": "100644",
+      "sha": "5765b9df4bb8358666e1079cd7d70c0daa696d50",
+      "size": 14436
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/src/net/helper.js",
+      "mode": "100644",
+      "sha": "4ccf716b1ce917ba8a23d72642e2537dde88c55d",
+      "size": 3462
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/src/net/index.js",
+      "mode": "100644",
+      "sha": "e767ef8904cad48667aebe264b61a19549162e69",
+      "size": 2895
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/src/net/task.js",
+      "mode": "100644",
+      "sha": "02c494bafe5923d2da0dda0ff5a84d6683468789",
+      "size": 4773
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/src/net/types.js",
+      "mode": "100644",
+      "sha": "cfcb30a9b5fbfb80e9a6873fe2083fc3c70f8ad3",
+      "size": 156
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/src/net/xhr.js",
+      "mode": "100644",
+      "sha": "c1a0a3ee9374f221e1a674c3b421977a7007a5ac",
+      "size": 13448
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/src/services/bandwidth.js",
+      "mode": "100644",
+      "sha": "f23503580b653c4a36cd2707f1473e0a76c60356",
+      "size": 2580
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/src/services/gap.js",
+      "mode": "100644",
+      "sha": "bfb20a97717bf9c2daaec24d467d7e9664725d9b",
+      "size": 827
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/src/services/index.js",
+      "mode": "100644",
+      "sha": "9da7001d08e605df70a688efd0b5720b1feb24ff",
+      "size": 161
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/src/services/sei.js",
+      "mode": "100644",
+      "sha": "992ab5ae93d3e5a72edb07c53c372011fa0f8cda",
+      "size": 862
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/src/services/stats.js",
+      "mode": "100644",
+      "sha": "59b2fc38f8ba7e3b3ea57720e1a8795ea027485e",
+      "size": 4319
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/src/streaming-helper.js",
+      "mode": "100644",
+      "sha": "943aa43ec9c2e303b6d8217557799c59b6a06f0e",
+      "size": 1604
+    },
+    {
+      "path": "packages/xgplayer-streaming-shared/src/utils.js",
+      "mode": "100644",
+      "sha": "31b24247747a791ffc22c06b041e2da81a0c0c34",
+      "size": 743
+    },
+    {
+      "path": "packages/xgplayer-subtitles/CHANGELOG.md",
+      "mode": "100755",
+      "sha": "00b19744f090567ad6841b0d281a8fba1ae91a53",
+      "size": 270
+    },
+    {
+      "path": "packages/xgplayer-subtitles/README.md",
+      "mode": "100755",
+      "sha": "2df4e113fcd8625a49a5c47961731e90f41a1e06",
+      "size": 5630
+    },
+    {
+      "path": "packages/xgplayer-subtitles/__tests__/xss.spec.js",
+      "mode": "100644",
+      "sha": "f9b650afba1a97cccf66e77a107abeac4969b31b",
+      "size": 5063
+    },
+    {
+      "path": "packages/xgplayer-subtitles/package.json",
+      "mode": "100644",
+      "sha": "a027685f7ac876fd9e93daaf19c69541a7e66971",
+      "size": 806
+    },
+    {
+      "path": "packages/xgplayer-subtitles/src/constants.js",
+      "mode": "100644",
+      "sha": "279ee0f955882f73939a88656ffc86accb834c2d",
+      "size": 130
+    },
+    {
+      "path": "packages/xgplayer-subtitles/src/error.js",
+      "mode": "100644",
+      "sha": "49101db71825bc9db0947db155467242f8167cb2",
+      "size": 1291
+    },
+    {
+      "path": "packages/xgplayer-subtitles/src/index.js",
+      "mode": "100644",
+      "sha": "9962026db0fd433d57d4cf0a918bc1186fee441f",
+      "size": 34830
+    },
+    {
+      "path": "packages/xgplayer-subtitles/src/observer.js",
+      "mode": "100644",
+      "sha": "593905ba7ffdc931df948c8d4842f6585adb03d0",
+      "size": 2236
+    },
+    {
+      "path": "packages/xgplayer-subtitles/src/parser.js",
+      "mode": "100644",
+      "sha": "811d47fc3ab68741471ab450290b6e4bdbb9a710",
+      "size": 12742
+    },
+    {
+      "path": "packages/xgplayer-subtitles/src/proxyPromise.js",
+      "mode": "100644",
+      "sha": "cca2ec076812d2a3a3afe0e194724e4a779a5f6e",
+      "size": 715
+    },
+    {
+      "path": "packages/xgplayer-subtitles/src/style/index.scss",
+      "mode": "100644",
+      "sha": "fc85f7e39e61a9b8f1273c2d561b72b9a0127ba4",
+      "size": 1638
+    },
+    {
+      "path": "packages/xgplayer-subtitles/src/utils.js",
+      "mode": "100644",
+      "sha": "758452944c183386ab891b2fe9256bf48f9eee4f",
+      "size": 12959
+    },
+    {
+      "path": "packages/xgplayer-subtitles/src/xhr.js",
+      "mode": "100644",
+      "sha": "aa35404536ebfa021763eb09891cfca8c570c37f",
+      "size": 1393
+    },
+    {
+      "path": "packages/xgplayer-subtitles/src/xss/safeInlineRenderer.js",
+      "mode": "100644",
+      "sha": "b5eebdea326f2f09eea7479f0e23384e9995b5ca",
+      "size": 4608
+    },
+    {
+      "path": "packages/xgplayer-subtitles/src/xss/safeInlineTags.js",
+      "mode": "100644",
+      "sha": "0ff794aa454c31ddc2110adffe5881cb7fa2fcc2",
+      "size": 376
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/codec/aac.spec.js",
+      "mode": "100644",
+      "sha": "686807cc9f2854de2f6eedc2c006d9d8a4ff756a",
+      "size": 2389
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/codec/avc.spec.js",
+      "mode": "100644",
+      "sha": "a5b1ccc901a628c024893dda1a87b43ca813b1d5",
+      "size": 1460
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/codec/hevc.spec.js",
+      "mode": "100644",
+      "sha": "3118dc951b8e1da10820b3539479195787dabb04",
+      "size": 4792
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/codec/nalu.spec.js",
+      "mode": "100644",
+      "sha": "71def18f2eee9df579c63d91429f2db9d0bc01a1",
+      "size": 2663
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/codec/video-codec-registry.spec.js",
+      "mode": "100644",
+      "sha": "cee0fcd04ae613d50fe35a36d3d663a74bccddeb",
+      "size": 2388
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/codec/vvc.spec.js",
+      "mode": "100644",
+      "sha": "32527e2ffab4a004d4f43247afaa7387f18f0f4e",
+      "size": 1004
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/flv/amf.spec.js",
+      "mode": "100644",
+      "sha": "48e4b9828b6c9f5df6e02f7b793ece4e4838e012",
+      "size": 6501
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/flv/fixer.spec.js",
+      "mode": "100644",
+      "sha": "e608cafc91b6cf036ec209d4cee213a19fc544b0",
+      "size": 7670
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/flv/index.spec.js",
+      "mode": "100644",
+      "sha": "43b57f075fab9382d33a302a09fcf864defca249",
+      "size": 3892
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/model/audio-sample.spec.js",
+      "mode": "100644",
+      "sha": "a0b087e27cefa7537cd3806dc17bc132cb4ee03f",
+      "size": 447
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/model/audio-track.spec.js",
+      "mode": "100644",
+      "sha": "45e19e6c97773ad0f7139c53ae3a6eb3a420930a",
+      "size": 1125
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/model/metadata-track.spec.js",
+      "mode": "100644",
+      "sha": "6396f267a0ee46a897e6a08872e1e346d4423c93",
+      "size": 668
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/model/types.spec.js",
+      "mode": "100644",
+      "sha": "a1d1bb67e14ef38f1425ee63e68e7b7bc86cce08",
+      "size": 913
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/model/video-sample.spec.js",
+      "mode": "100644",
+      "sha": "0d546238ab2d07bb4cafed16ea1f8f3545dcbaa2",
+      "size": 664
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/model/video-track.spec.js",
+      "mode": "100644",
+      "sha": "bd3f983b12ea18af9fe21551c7021e58b7cf201b",
+      "size": 1235
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/movies/flv-avc/index.flv",
+      "mode": "100644",
+      "sha": "d9fa59b973ba0b82ff6af73e83a21a099497ecc1",
+      "size": 423979
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/movies/flv-avc/snapshot.js",
+      "mode": "100644",
+      "sha": "0ab87f78f3cf7d72152b52fec838139fc698e610",
+      "size": 782
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/movies/flv/h264_aac_48000.flv",
+      "mode": "100644",
+      "sha": "ac71951c745be266e6dd609536c73b7310219643",
+      "size": 291407
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/movies/flv/h264_only.flv",
+      "mode": "100644",
+      "sha": "10a301dcadb2e70e5e725cd0c01c4148ac16503c",
+      "size": 198040
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/movies/flv/h264_pcma_channel1_8000.flv",
+      "mode": "100644",
+      "sha": "401ecd3f074446c9e574914d80b9cf0c43294af4",
+      "size": 265953
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/movies/flv/h264_pcmu_channel1_8000.flv",
+      "mode": "100644",
+      "sha": "ccd2f105bd17b91f376434fb8ca218dfa22df4b7",
+      "size": 265954
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/movies/flv/h265_aac_44100.flv",
+      "mode": "100644",
+      "sha": "cf4e03d0c65d63f966c353d32ebe9bd8071e5fe7",
+      "size": 996035
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/movies/flv/mp3.flv",
+      "mode": "100644",
+      "sha": "aed570daddfe3a2d1b61359f77d3fe89fa78a90c",
+      "size": 199624
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/movies/ts-avc/index.ts",
+      "mode": "100644",
+      "sha": "383fbb4cbff11f94639b87543f72388ddb359381",
+      "size": 187436
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/movies/ts-avc/snapshot.js",
+      "mode": "100644",
+      "sha": "f220f62bb54433b052462983c2d2012337c4c3fa",
+      "size": 795
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/movies/ts-hevc/index.ts",
+      "mode": "100644",
+      "sha": "2616cfb56d4050b2c1443902e404662b175f51b0",
+      "size": 331256
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/movies/ts-hevc/snapshot.js",
+      "mode": "100644",
+      "sha": "45c8f408e21a75739c717655970bec65ec7b3a55",
+      "size": 933
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/movies/ts-multi-sps/index.ts",
+      "mode": "100644",
+      "sha": "1bec46513595cd5d25144c0393651883e79083a6",
+      "size": 104904
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/movies/ts-multi-sps/snapshot.js",
+      "mode": "100644",
+      "sha": "9596ba1679c031656f43376a7a9937db1ca68b76",
+      "size": 693
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/mp4/fmp4-remuxer.spec.js",
+      "mode": "100644",
+      "sha": "4b99366208b2e6aa7ebbbbaa90658d3e023095a1",
+      "size": 2352
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/mp4/mp4-demuxer.spec.js",
+      "mode": "100644",
+      "sha": "5e9e0ff762399882c56d2157b5aa584ba7c7f2af",
+      "size": 2903
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/mp4/mp4-parser.spec.js",
+      "mode": "100644",
+      "sha": "c470a2f55a805d643d8308cf7b88d600d0de51d9",
+      "size": 3095
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/mp4/mp4.spec.js",
+      "mode": "100644",
+      "sha": "5ea18732fb9f17833958bd05938729baf90a04ea",
+      "size": 385
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/mpeg-ts/fixer.spec.js",
+      "mode": "100644",
+      "sha": "ee87eae4875d8f1de6b507baad4f64d2f56d95b6",
+      "size": 4359
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/mpeg-ts/hevc-boundary.spec.js",
+      "mode": "100644",
+      "sha": "7ccde8edf215e23d88961addc8d18bdf01210552",
+      "size": 7296
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/mpeg-ts/index.spec.js",
+      "mode": "100644",
+      "sha": "11601f55358f0282fd0243e0feb38a3492149a7b",
+      "size": 2564
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/test-utils/index.js",
+      "mode": "100644",
+      "sha": "0cff19f3cb772b6bb5e0dcd2c697f11c4a3f198e",
+      "size": 2225
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/utils/byte-reader.spec.js",
+      "mode": "100644",
+      "sha": "13451d3d7c6f1b9a5bb47a0f226f67415bc98ee0",
+      "size": 462
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/utils/exp-golomb.spec.js",
+      "mode": "100644",
+      "sha": "b8e2a92abd943196c856ba3ca33ba1d26b589eec",
+      "size": 3638
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/__tests__/utils/index.spec.js",
+      "mode": "100644",
+      "sha": "e48e59a0a2e149efb87996591ce8609a7ad34328",
+      "size": 1433
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/package.json",
+      "mode": "100755",
+      "sha": "78834b9e4145a09cb48a0e42628dc0f53db1c4e7",
+      "size": 710
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/codec/aac.js",
+      "mode": "100644",
+      "sha": "b7c2460ac58f5b2ac3e0b9b480c9e987c0f1c6d9",
+      "size": 6782
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/codec/avc.js",
+      "mode": "100644",
+      "sha": "e57ec52d9f21527d7a0a3f3225c61af3bc20bd5c",
+      "size": 5364
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/codec/hevc.ts",
+      "mode": "100644",
+      "sha": "d73bfa48912d375f85e8b6ca176119097d69e203",
+      "size": 10641
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/codec/index.js",
+      "mode": "100644",
+      "sha": "e12bc5e20b3e8f0d614c44ffb5e7b805e5664af1",
+      "size": 290
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/codec/mpeg.js",
+      "mode": "100644",
+      "sha": "cdb6bbb41108dcf6192dd08958c13cdf98358ecb",
+      "size": 3853
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/codec/nalu.ts",
+      "mode": "100644",
+      "sha": "6137d53c1dfa454d96a162c7da7739844dee7773",
+      "size": 3599
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/codec/opus.js",
+      "mode": "100644",
+      "sha": "800620808adad8eb9611be6fe1888143042519a9",
+      "size": 2265
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/codec/video-codec-registry.js",
+      "mode": "100644",
+      "sha": "9336437ad329aa8ec179c75514b4be86b0c4dd38",
+      "size": 5057
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/codec/vvc.js",
+      "mode": "100644",
+      "sha": "e3a3e532f019d87acdad4c3e4f71ef08a14fd202",
+      "size": 14270
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/flv/amf.js",
+      "mode": "100644",
+      "sha": "06be533f44a3018fee486f1ad8e94234f307e119",
+      "size": 4348
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/flv/fixer.js",
+      "mode": "100644",
+      "sha": "db1cbf3809be4622ab0622c46ddc119063a838fb",
+      "size": 14097
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/flv/index.js",
+      "mode": "100644",
+      "sha": "18cd13a8f12c6ff93b3803a33fe78f188c2d2cc1",
+      "size": 14018
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/flv/soundFormat.js",
+      "mode": "100644",
+      "sha": "c64f9e521e3273be48c1a2e17bdeab5423302e46",
+      "size": 219
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/index.js",
+      "mode": "100644",
+      "sha": "b3c9f561016d03172fd27b00abb466cc26caf890",
+      "size": 250
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/index.umd.js",
+      "mode": "100644",
+      "sha": "32bb17d0911be7b46ea8ac3404d93b710cafd7f6",
+      "size": 284
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/model/audio-sample.ts",
+      "mode": "100644",
+      "sha": "0f6275fdca14a4cf70078bb38b0d7b303923ffab",
+      "size": 502
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/model/audio-track.ts",
+      "mode": "100644",
+      "sha": "950d957e084ae87ae8887f186f6c940a69c95838",
+      "size": 2023
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/model/index.ts",
+      "mode": "100644",
+      "sha": "b0d604d91d4d9e55dcfed98be8beeb4d6c57787a",
+      "size": 257
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/model/metadata-track.ts",
+      "mode": "100644",
+      "sha": "06f477ae98fb712955e5262600a0259238b7b006",
+      "size": 930
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/model/types.ts",
+      "mode": "100644",
+      "sha": "c88a9550ea9e44910c3b3cacfd68b2d548db3120",
+      "size": 1158
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/model/video-sample.ts",
+      "mode": "100644",
+      "sha": "107a33fa9cc7f4c5f6ad8de67cf33e8531eea531",
+      "size": 1037
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/model/video-track.ts",
+      "mode": "100644",
+      "sha": "19238940e4c36596a36246b06f3f61d44d075c73",
+      "size": 2243
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/mp4/buffer.js",
+      "mode": "100644",
+      "sha": "d59deae19b211dde49976ca01e0c085a8f75142c",
+      "size": 941
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/mp4/crypto/crypto.js",
+      "mode": "100644",
+      "sha": "e17ee7b0620789f450b554e48cf1bc1571532d17",
+      "size": 3563
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/mp4/fmp4-demuxer.js",
+      "mode": "100644",
+      "sha": "01c49a00d599536c3341cdf098a2968fd363deba",
+      "size": 10673
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/mp4/fmp4-remuxer.js",
+      "mode": "100644",
+      "sha": "eac814527bb00ee13a65a8ed20def8578c47d56f",
+      "size": 4020
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/mp4/index.js",
+      "mode": "100644",
+      "sha": "5826a0211a88e2f7cd669586c444fd17fb6d9fff",
+      "size": 270
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/mp4/logger.js",
+      "mode": "100644",
+      "sha": "832f16fcfcfe14752d56ee9907b28bdd92683a81",
+      "size": 811
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/mp4/mp4-demuxer.js",
+      "mode": "100644",
+      "sha": "f53a39f5fa4aadf1d2d62ba82bf4c4f3c9d2ce09",
+      "size": 14659
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/mp4/mp4-parser.js",
+      "mode": "100644",
+      "sha": "dc5c62fd74f1e450a7d4d22dd31581fd91119f8c",
+      "size": 44913
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/mp4/mp4-remuxer.js",
+      "mode": "100644",
+      "sha": "1ed2e01cc075124b48d666bd5e8a7e8b284fa4a2",
+      "size": 5218
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/mp4/mp4.js",
+      "mode": "100644",
+      "sha": "a08d7b7190001eb1330c67c744d613d83e6097c2",
+      "size": 48602
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/mpeg-ts/fixer.ts",
+      "mode": "100644",
+      "sha": "f4f8f8ba7e31d0ee015df0b1e5f4547481e40d7b",
+      "size": 18959
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/mpeg-ts/index.ts",
+      "mode": "100644",
+      "sha": "62102733941e0e0b9609954cf6962b0e2635883a",
+      "size": 13994
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/utils/bit-reader.ts",
+      "mode": "100644",
+      "sha": "1f962449ffa5b677e09df9b174f6ab5378ef8177",
+      "size": 1006
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/utils/byte-reader.ts",
+      "mode": "100644",
+      "sha": "27fd0887859ddddc9b33f76fbcbeabf1ca761fdb",
+      "size": 3734
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/utils/env.js",
+      "mode": "100644",
+      "sha": "d602df22c9743d5212ef113e3a54f0d03b7210cc",
+      "size": 411
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/utils/exp-golomb.ts",
+      "mode": "100644",
+      "sha": "b9538cbb34d8a46bd9395349615b6fd54f26e717",
+      "size": 3650
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/utils/index.ts",
+      "mode": "100644",
+      "sha": "bb973a88d2b19f899c77d370f72040e7a62c1435",
+      "size": 3245
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/utils/logger.js",
+      "mode": "100644",
+      "sha": "a04c85f80d39e4f261001ed359300c2cf7e5c8cf",
+      "size": 344
+    },
+    {
+      "path": "packages/xgplayer-transmuxer/src/utils/utf8.js",
+      "mode": "100644",
+      "sha": "0ff828958f87f5aef262820ec44fa6d7cde51ee2",
+      "size": 2014
+    },
+    {
+      "path": "packages/xgplayer/CHANGELOG.md",
+      "mode": "100755",
+      "sha": "c22652a45f66d221d65e29233dec7dfbaa2600e0",
+      "size": 23535
+    },
+    {
+      "path": "packages/xgplayer/README.md",
+      "mode": "100755",
+      "sha": "67eef4c4f4e7b360fa59d75d56dc4df12c29cf2d",
+      "size": 3031
+    },
+    {
+      "path": "packages/xgplayer/__tests__/hooksDescriptor.spec.js",
+      "mode": "100644",
+      "sha": "859b3eddcc4bf6dede17981ac610f95228d2e362",
+      "size": 10346
+    },
+    {
+      "path": "packages/xgplayer/__tests__/rotateFullscreen.spec.js",
+      "mode": "100644",
+      "sha": "19d21811b56f9abe1e6130cf5b23f02a044cd034",
+      "size": 614
+    },
+    {
+      "path": "packages/xgplayer/package.json",
+      "mode": "100755",
+      "sha": "53a9c1bcd4d06066edf5ab883688cf4df496883f",
+      "size": 930
+    },
+    {
+      "path": "packages/xgplayer/src/constant.js",
+      "mode": "100644",
+      "sha": "50b483272778ee98a6dd5f3d95c084c2314e9ad2",
+      "size": 421
+    },
+    {
+      "path": "packages/xgplayer/src/defaultConfig.js",
+      "mode": "100644",
+      "sha": "f5789e67f6fb25fa74f310d8ab5e14624a14fcf1",
+      "size": 8355
+    },
+    {
+      "path": "packages/xgplayer/src/error.js",
+      "mode": "100755",
+      "sha": "18185e2f3f293daea6d50dec9c9dafda9a1623db",
+      "size": 3145
+    },
+    {
+      "path": "packages/xgplayer/src/events.js",
+      "mode": "100644",
+      "sha": "b6ba3175263fd30bf94fd45dda011dd4583f1eb2",
+      "size": 2971
+    },
+    {
+      "path": "packages/xgplayer/src/icons.js",
+      "mode": "100644",
+      "sha": "03048022aa528342d367e8ea0f22c1a9041c5ce0",
+      "size": 20
+    },
+    {
+      "path": "packages/xgplayer/src/index.js",
+      "mode": "100644",
+      "sha": "5f8d4b955dcfe6ffccd6164b967a5df52a5212f3",
+      "size": 3147
+    },
+    {
+      "path": "packages/xgplayer/src/index.scss",
+      "mode": "100644",
+      "sha": "f76110fab10a2b46195afd4cc603f1e663a94077",
+      "size": 1025
+    },
+    {
+      "path": "packages/xgplayer/src/index.umd.js",
+      "mode": "100644",
+      "sha": "0622398feb61bfce85d5e68563f85849a425e83c",
+      "size": 1476
+    },
+    {
+      "path": "packages/xgplayer/src/instManager.js",
+      "mode": "100644",
+      "sha": "c70ee233ae4d9ae41a8b8768342aa44ff65e84cb",
+      "size": 3884
+    },
+    {
+      "path": "packages/xgplayer/src/lang/br.js",
+      "mode": "100644",
+      "sha": "321c1ae8828746e9d5b4a91590b8c69e3322d41e",
+      "size": 2537
+    },
+    {
+      "path": "packages/xgplayer/src/lang/de.js",
+      "mode": "100644",
+      "sha": "6a930d37d44840590ff093d0e390f6860600cffb",
+      "size": 2683
+    },
+    {
+      "path": "packages/xgplayer/src/lang/en.js",
+      "mode": "100644",
+      "sha": "97bb08a44e1f86fd1a3926ab4001e23803d933e7",
+      "size": 2322
+    },
+    {
+      "path": "packages/xgplayer/src/lang/es.js",
+      "mode": "100644",
+      "sha": "6ea85b7c64e8b465b6cfcbe1f824301d90ecb6ee",
+      "size": 2718
+    },
+    {
+      "path": "packages/xgplayer/src/lang/fr.js",
+      "mode": "100644",
+      "sha": "96629ece834dbe7513d52210c800305266a37298",
+      "size": 2693
+    },
+    {
+      "path": "packages/xgplayer/src/lang/i18n.js",
+      "mode": "100644",
+      "sha": "f972c5d9f8162cfbe208847e39b546b004a322ce",
+      "size": 3571
+    },
+    {
+      "path": "packages/xgplayer/src/lang/id.js",
+      "mode": "100644",
+      "sha": "e17079669e9fa6318071fe30e3d1d94e4e94546a",
+      "size": 2428
+    },
+    {
+      "path": "packages/xgplayer/src/lang/index.js",
+      "mode": "100644",
+      "sha": "a4c0341f4048d0b571453ad2e4a0a6c05956ad81",
+      "size": 46
+    },
+    {
+      "path": "packages/xgplayer/src/lang/it.js",
+      "mode": "100644",
+      "sha": "7b33e4bfd2c245e6f0e3b42542ca4fe664fda1aa",
+      "size": 2621
+    },
+    {
+      "path": "packages/xgplayer/src/lang/jp.js",
+      "mode": "100644",
+      "sha": "d74ee116c3bf652dadff437d9187fc6ea7f84a17",
+      "size": 3026
+    },
+    {
+      "path": "packages/xgplayer/src/lang/kr.js",
+      "mode": "100644",
+      "sha": "e95056bc1d7666624824ba08538c77a081aa30cf",
+      "size": 2772
+    },
+    {
+      "path": "packages/xgplayer/src/lang/ms-my.js",
+      "mode": "100644",
+      "sha": "482c20582e0d9dbbaf0402e6aa0687d37a2d501c",
+      "size": 2366
+    },
+    {
+      "path": "packages/xgplayer/src/lang/ru.js",
+      "mode": "100644",
+      "sha": "30aab1a1aa0aa862472de1d4b005570dad04ba55",
+      "size": 3393
+    },
+    {
+      "path": "packages/xgplayer/src/lang/th.js",
+      "mode": "100644",
+      "sha": "74ab37c75d22f6dea02f2dea82210919b0dd7d33",
+      "size": 3920
+    },
+    {
+      "path": "packages/xgplayer/src/lang/vn.js",
+      "mode": "100644",
+      "sha": "e631eac6517684895710055b6458eba7102de188",
+      "size": 2681
+    },
+    {
+      "path": "packages/xgplayer/src/lang/zh-cn.js",
+      "mode": "100644",
+      "sha": "a0e621f88039e614a402294cec1b0a5a9f34423a",
+      "size": 2226
+    },
+    {
+      "path": "packages/xgplayer/src/lang/zh-hk.js",
+      "mode": "100644",
+      "sha": "c303cbda2eeaee238315dda56bc1abb44d908630",
+      "size": 2226
+    },
+    {
+      "path": "packages/xgplayer/src/mediaProxy.js",
+      "mode": "100644",
+      "sha": "1534fc934769db90318781f7a595470ba2fa9a4b",
+      "size": 21742
+    },
+    {
+      "path": "packages/xgplayer/src/player.js",
+      "mode": "100644",
+      "sha": "2dd455feb003678d183ccc1fa95bf87112260d88",
+      "size": 70418
+    },
+    {
+      "path": "packages/xgplayer/src/plugin/basePlugin.js",
+      "mode": "100644",
+      "sha": "ba9815f4d5b46f1ef0aebab640b18b0040645ff2",
+      "size": 8322
+    },
+    {
+      "path": "packages/xgplayer/src/plugin/hooksDescriptor.js",
+      "mode": "100644",
+      "sha": "efc2c381d1056bff557b06db13ebfee927637287",
+      "size": 5955
+    },
+    {
+      "path": "packages/xgplayer/src/plugin/index.js",
+      "mode": "100644",
+      "sha": "23c10da5a7c01a9bbddcb2f94218c5b8d4e4b6ee",
+      "size": 578
+    },
+    {
+      "path": "packages/xgplayer/src/plugin/plugin.js",
+      "mode": "100644",
+      "sha": "9607f38f4e31d1250a36a0be92b2bae0e7a85f5d",
+      "size": 17041
+    },
+    {
+      "path": "packages/xgplayer/src/plugin/pluginsManager.js",
+      "mode": "100644",
+      "sha": "2ccb533e3754371e0490c9e48cb8ccc4640416be",
+      "size": 10808
+    },
+    {
+      "path": "packages/xgplayer/src/plugin/preset.js",
+      "mode": "100644",
+      "sha": "6043c8ddc44bdbb9a48ab269eb0b7e8cd828b2d2",
+      "size": 789
+    },
+    {
+      "path": "packages/xgplayer/src/plugin/resizeObserver.js",
+      "mode": "100644",
+      "sha": "5b6ddf6ec0ce5cbe698f8065cd4e5eaa7bf1086a",
+      "size": 2488
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/assets/back.svg",
+      "mode": "100644",
+      "sha": "4221f1451ac7b47f45477213a2879a681126f7dc",
+      "size": 723
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/assets/download.svg",
+      "mode": "100644",
+      "sha": "8ad432d30b75f86e67582b68fe3e5ef8e85d63bc",
+      "size": 1526
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/assets/exitCssFull.svg",
+      "mode": "100644",
+      "sha": "e1861cc2a9a2e43b055e5b3f640b820f7dc085f9",
+      "size": 380
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/assets/exitFull.svg",
+      "mode": "100644",
+      "sha": "318310263d95b3465fce3deb1d4b86ab5852e0c9",
+      "size": 300
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/assets/loading.svg",
+      "mode": "100644",
+      "sha": "7a1aa4396f0f263147f5679a967c90558e829d30",
+      "size": 208
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/assets/mobile/mPause.svg",
+      "mode": "100644",
+      "sha": "79dbc45680db9875f09b3164ce7750f56aff82e4",
+      "size": 1453
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/assets/mobile/mPlay.svg",
+      "mode": "100644",
+      "sha": "66e4406970fba26f9e21925338b5564b6b4c4717",
+      "size": 1561
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/assets/mobile/mPlayNext.svg",
+      "mode": "100644",
+      "sha": "b9621875b52504e3a76a265c39eba71fed5f7bf4",
+      "size": 1322
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/assets/panel.svg",
+      "mode": "100644",
+      "sha": "0d105cafb0bf28b3d91cad8705dcedd59a715028",
+      "size": 1336
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/assets/pause.svg",
+      "mode": "100644",
+      "sha": "523b4b0f2c6dc9edb0044e93c3ed49dba23e847c",
+      "size": 232
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/assets/pipIcon.svg",
+      "mode": "100644",
+      "sha": "57cfa2ecea4b6ebe17a3cdd9b3fd2758d9c742a4",
+      "size": 616
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/assets/pipIconExit.svg",
+      "mode": "100644",
+      "sha": "cf153e74d6b57df194ecff160c1b72211ff9faaf",
+      "size": 1086
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/assets/play.svg",
+      "mode": "100644",
+      "sha": "722c9608e1bfaaf80bcd398d68c53f647ce99fb6",
+      "size": 235
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/assets/playNext.svg",
+      "mode": "100644",
+      "sha": "577bd9ef1b428fea035feb4a9c21142ebf58f0b8",
+      "size": 194
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/assets/replay.svg",
+      "mode": "100644",
+      "sha": "1c1899756b4e58e9e60e528d3d62102e8e30dffb",
+      "size": 1181
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/assets/requestCssFull.svg",
+      "mode": "100644",
+      "sha": "127746c0a2120a9ad18ce1b0dc5a7e8d4f6ef009",
+      "size": 399
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/assets/requestFull.svg",
+      "mode": "100644",
+      "sha": "05f04dddcea2f59bbc917817ee61c74818850da6",
+      "size": 300
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/assets/rotate.svg",
+      "mode": "100644",
+      "sha": "24ece2448b2dc60310189cb3e677efd9e4b58267",
+      "size": 1590
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/assets/seekicon.svg",
+      "mode": "100644",
+      "sha": "179fc9e69b64f591ab15b5929463b62507e355d3",
+      "size": 587
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/assets/volumeLarge.svg",
+      "mode": "100644",
+      "sha": "670a9766619fe326c030034f3e1ea42490ae271d",
+      "size": 738
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/assets/volumeMuted.svg",
+      "mode": "100644",
+      "sha": "6bf8ef8373de2b5694136e7c99458a450749b782",
+      "size": 493
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/assets/volumeSmall.svg",
+      "mode": "100644",
+      "sha": "2c69a772e1641d8a9d1f3c4cc1f28870e6ba8f19",
+      "size": 731
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/common/iconPlugin.js",
+      "mode": "100644",
+      "sha": "b87245191619453010292cf1070613eaa9ea67ec",
+      "size": 593
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/common/iconTools.js",
+      "mode": "100644",
+      "sha": "d308f392867232dc2c49af8dd143c6ee63a3666b",
+      "size": 269
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/common/index.scss",
+      "mode": "100644",
+      "sha": "45fa790d6e9f0fa118a2cc5f3e7b942e5fb657a5",
+      "size": 57
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/common/optionList.js",
+      "mode": "100644",
+      "sha": "8ab29caf7d449941f7d5a5bc05c7d1c705a9370a",
+      "size": 2783
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/common/optionsIcon.js",
+      "mode": "100644",
+      "sha": "d05457c968714270a3f1dae66a89ee13e182b41a",
+      "size": 8316
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/common/optionsIcon.scss",
+      "mode": "100644",
+      "sha": "ee3b1548d4bd9b416f86aae0253e821493ab8961",
+      "size": 3152
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/common/thumbnail.js",
+      "mode": "100644",
+      "sha": "ad876ed579f098b2cd20d37f5406d720a30999d8",
+      "size": 6048
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/common/thumbnail.scss",
+      "mode": "100644",
+      "sha": "42d2b8f9863fa4045237718a7f070e20a2fa1ee7",
+      "size": 453
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/controls/index.js",
+      "mode": "100644",
+      "sha": "7142a8d3e60f687d85a462ffbcf3fb0b935a9b7d",
+      "size": 5351
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/controls/index.scss",
+      "mode": "100644",
+      "sha": "8948d026ebf9b07c429f7a4ebd6d8c2dca1dd441",
+      "size": 3781
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/cssFullScreen/index.js",
+      "mode": "100644",
+      "sha": "c7023992c9a7312a290dcdda101f8b4bb3f9c831",
+      "size": 3040
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/cssFullScreen/index.scss",
+      "mode": "100644",
+      "sha": "d5e4438fdfeb7d4088d1010fa9bf6d746bc65477",
+      "size": 290
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/danmu/danmuIcon.js",
+      "mode": "100644",
+      "sha": "18b55500c2dfc32f0e074650496fe30bc46c27d0",
+      "size": 1873
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/danmu/danmuPanel.js",
+      "mode": "100644",
+      "sha": "ddac556a899886f526ec05221878de5842392f71",
+      "size": 6643
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/danmu/index.js",
+      "mode": "100644",
+      "sha": "78f6bfd1aa54d1511116854087013dee108ca880",
+      "size": 8385
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/danmu/index.scss",
+      "mode": "100644",
+      "sha": "b57acb707db048222d3d997f3eccafd22f1dacbc",
+      "size": 8153
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/definition/index.js",
+      "mode": "100644",
+      "sha": "a0b8d1e7c11496d95127620289adcfb369e8a6ed",
+      "size": 4074
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/definition/index.scss",
+      "mode": "100644",
+      "sha": "d210629b6d9909839d83ae82899419ab6a7df2d9",
+      "size": 61
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/download/index.js",
+      "mode": "100644",
+      "sha": "96bcd7d50ca60df415cf14f2d62dcbd88bb45f72",
+      "size": 2526
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/download/index.scss",
+      "mode": "100644",
+      "sha": "ce6bbb9cd9dbf74aacdafd3169c4c173eafbee8e",
+      "size": 315
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/download/saveAs.js",
+      "mode": "100644",
+      "sha": "480452d4b7aea1f1138e986499be9b6cbe8cb6b0",
+      "size": 12177
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/dynamicBg/index.js",
+      "mode": "100644",
+      "sha": "d1ee2708a57720af683737231969b1e7181f508c",
+      "size": 11487
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/dynamicBg/index.scss",
+      "mode": "100644",
+      "sha": "2e47ff083d279076f2050152b32eb307678c98d7",
+      "size": 372
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/enter/index.js",
+      "mode": "100644",
+      "sha": "d953c821576edd8e12bef95e8a950c69b52ee601",
+      "size": 967
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/enter/index.scss",
+      "mode": "100644",
+      "sha": "2a6265311d96818d4943e11625a729ae9a641955",
+      "size": 1533
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/error/index.js",
+      "mode": "100644",
+      "sha": "f4a3df0af883c69ecc460afc96a1e2f01ba1f265",
+      "size": 1698
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/error/index.scss",
+      "mode": "100644",
+      "sha": "2c36e6a3865cece7e202c24781050c124d21ae7c",
+      "size": 591
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/fpsDetect/index.js",
+      "mode": "100644",
+      "sha": "4be2dd30980b737f8883507efa5c732032f438cc",
+      "size": 3401
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/fullscreen/backicon.js",
+      "mode": "100644",
+      "sha": "c41bc4973c92518cbc6d9f9aba95801d1ccea754",
+      "size": 924
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/fullscreen/index.js",
+      "mode": "100644",
+      "sha": "f29cec573d02cde2e2233612f2e9cc485ea26880",
+      "size": 6435
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/fullscreen/index.scss",
+      "mode": "100644",
+      "sha": "45cea0a00678bb6019a269cc6015d1e3b4789424",
+      "size": 564
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/gapJump/index.js",
+      "mode": "100644",
+      "sha": "d473aca591be2dbd186c25307054319d79cfaed6",
+      "size": 3464
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/heatmap/index.js",
+      "mode": "100644",
+      "sha": "0ed00a7286002c4990bd4e002c1c6af6de6f31fd",
+      "size": 8721
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/heatmap/index.scss",
+      "mode": "100644",
+      "sha": "139b0931ec192501d6bee5d2ef4fd6108f2a979e",
+      "size": 477
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/keyboard/index.js",
+      "mode": "100644",
+      "sha": "6b08c540022cbbbdec4abb992c725d10175dc0b4",
+      "size": 11274
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/loading/index.js",
+      "mode": "100644",
+      "sha": "e9925d640b3504c5ba8ebaad603e7346a8b09f4b",
+      "size": 627
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/loading/index.scss",
+      "mode": "100644",
+      "sha": "f2c93026693174a58d288748419d814cbaea1355",
+      "size": 1120
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/logger/index.js",
+      "mode": "100644",
+      "sha": "9750c0f9257428ea7663a842e489b996ec92f301",
+      "size": 8639
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/miniScreen/index.js",
+      "mode": "100644",
+      "sha": "a2dbc657eb48f1d3b3839c606800d5d5a34bd560",
+      "size": 6702
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/miniScreen/index.scss",
+      "mode": "100644",
+      "sha": "e2fbf7feb0a9a444f929b6eb644c605f61485564",
+      "size": 3865
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/miniScreen/miniScreenIcon.js",
+      "mode": "100644",
+      "sha": "585a6d2affb1ce425f4f3007cbd5f15b84154230",
+      "size": 920
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/mobile/index.js",
+      "mode": "100644",
+      "sha": "b3d873dae9df09a6cbd8026290303acdbe7d8868",
+      "size": 23072
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/mobile/index.scss",
+      "mode": "100644",
+      "sha": "017a6256d0e645bf74cfc78c2064eb88ef5b7a77",
+      "size": 3722
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/mobile/touch.js",
+      "mode": "100644",
+      "sha": "bae2e7244a4ffca8abd00f0cdd593ef7cf58e534",
+      "size": 4924
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/netAdaption/index.js",
+      "mode": "100644",
+      "sha": "86270577441cdd5053463864a9b59f174ed1c9ac",
+      "size": 864
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/pc/index.js",
+      "mode": "100755",
+      "sha": "443075de7675ba8e66e89548109b5d4ea87e8dc7",
+      "size": 5620
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/pc/index.scss",
+      "mode": "100644",
+      "sha": "1dca7fbcd869591d050578a397edba1b7ff18345",
+      "size": 58
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/pip/index.js",
+      "mode": "100644",
+      "sha": "2277d96f0d74eeed61f71c34cdbae6ad85221d23",
+      "size": 10382
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/pip/index.scss",
+      "mode": "100644",
+      "sha": "4f1ac22b0f5d00e2889484acc3752fca6015de74",
+      "size": 267
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/play/index.js",
+      "mode": "100644",
+      "sha": "9597903209c66598c0ea34f521f9348d68bbac3f",
+      "size": 2345
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/play/index.scss",
+      "mode": "100644",
+      "sha": "00a11e9252a5f2202e9804798823b43568e13d20",
+      "size": 272
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/playNext/index.js",
+      "mode": "100644",
+      "sha": "9b50c8c18617e6950bd8da5d2240bb49dba00af8",
+      "size": 2020
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/playNext/index.scss",
+      "mode": "100644",
+      "sha": "78ea04f68c36569aea5d72e9639990fe790b831e",
+      "size": 538
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/playbackRate/index.js",
+      "mode": "100644",
+      "sha": "7b286f541a01735a16dae3a29403d108a4d58711",
+      "size": 3243
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/playbackRate/index.scss",
+      "mode": "100644",
+      "sha": "17b107c25b169f0ed3e39ec56a25d80b843abfbc",
+      "size": 85
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/poster/index.js",
+      "mode": "100644",
+      "sha": "6cb410ec663c4f479f161b05b1c11e2e57e6492c",
+      "size": 4080
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/poster/index.scss",
+      "mode": "100644",
+      "sha": "23f4b4cae19dc29172a258189b096db3ac8afb35",
+      "size": 1023
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/progress/index.js",
+      "mode": "100644",
+      "sha": "0d43ae5f5289599bab7d86ce0a16dde84f4664e6",
+      "size": 23714
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/progress/index.scss",
+      "mode": "100644",
+      "sha": "19cc8a99950ada390d374d2f3609ef5666f146e2",
+      "size": 5893
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/progress/innerList.js",
+      "mode": "100644",
+      "sha": "7fd52f64f6ceeb20de202ca76294b9a38134800b",
+      "size": 7423
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/progress/miniProgress.js",
+      "mode": "100644",
+      "sha": "b7921230dff7365fe209fea19618dab99d80d403",
+      "size": 2328
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/progressPreview/dotsApi.js",
+      "mode": "100644",
+      "sha": "b48ab64fe1acad5f2624817b66fc0f30f8277749",
+      "size": 7467
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/progressPreview/index.js",
+      "mode": "100644",
+      "sha": "c5da189970112c829bfd4fa4bc75d6e68161f543",
+      "size": 14968
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/progressPreview/index.scss",
+      "mode": "100644",
+      "sha": "b4586c98a93d819fafebd53aa2cb9ba2a4643dcc",
+      "size": 4370
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/prompt/index.js",
+      "mode": "100644",
+      "sha": "3c0c1e137f4fdf7e1114576f7590a3f55e8a37ea",
+      "size": 2368
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/prompt/index.scss",
+      "mode": "100644",
+      "sha": "3efe7277d9c098866a481d031fe2ac983828be62",
+      "size": 1094
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/replay/index.js",
+      "mode": "100644",
+      "sha": "e6708adbba80a4321e5d8618efaac46b379829ef",
+      "size": 2212
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/replay/index.scss",
+      "mode": "100644",
+      "sha": "bb3b35c17c3729d64a9a916fe3706a6d8e4151c5",
+      "size": 780
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/rotate/index.js",
+      "mode": "100644",
+      "sha": "2b5a82f85119a9b8e152f2a2591f4cf81a4023a2",
+      "size": 3984
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/rotate/index.scss",
+      "mode": "100644",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/screenShot/index.js",
+      "mode": "100644",
+      "sha": "563e01d72bb2ff7e42f3185a8b7be66611eb9754",
+      "size": 5256
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/screenShot/index.scss",
+      "mode": "100644",
+      "sha": "f03c333b7769c636f3ba02ee9f913c89e10bfb06",
+      "size": 55
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/start/index.js",
+      "mode": "100644",
+      "sha": "2ef031bb98d2b5ab7e5e8d2818e6859eaafdb315",
+      "size": 6742
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/start/index.scss",
+      "mode": "100644",
+      "sha": "c2fbc226bfddbefe9eb476dd1fe3ff2e5b54589c",
+      "size": 1962
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/stats/index.js",
+      "mode": "100644",
+      "sha": "1bb98d9e9d691544ae8444ca294d5ffa70226462",
+      "size": 3942
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/testspeed/index.js",
+      "mode": "100644",
+      "sha": "a1d42d966f99a62de153bd575378c3cb774c1ad8",
+      "size": 5620
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/time/index.js",
+      "mode": "100644",
+      "sha": "77c2ce40ff447dc9dd2b29b55dee81231372dc80",
+      "size": 6160
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/time/index.scss",
+      "mode": "100644",
+      "sha": "a8b52c733ecefc8c6f2d12c5daa59473fcdd55e3",
+      "size": 1091
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/time/timesegments.js",
+      "mode": "100644",
+      "sha": "1b47179a691609464f83933fb806707cb044a062",
+      "size": 5976
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/track/index.js",
+      "mode": "100644",
+      "sha": "0198a1a31fa5e0cf7d4bbcdafa3698fbdfaf6d05",
+      "size": 13802
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/track/index.scss",
+      "mode": "100644",
+      "sha": "47f628f44b3f11b26febac632baca53a9e9cade5",
+      "size": 2117
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/track/nativeSubTitle.js",
+      "mode": "100644",
+      "sha": "d0cba2067bca0ab7b83e15ab592db81fb71dc687",
+      "size": 2213
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/volume/index.js",
+      "mode": "100644",
+      "sha": "9fa40f0f447860bb6e646688715e217098b0e8fa",
+      "size": 9365
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/volume/index.scss",
+      "mode": "100644",
+      "sha": "b03368834207e4ac7d263ab5b1d8faa4370d97c6",
+      "size": 2276
+    },
+    {
+      "path": "packages/xgplayer/src/plugins/waitingTimeoutJump/index.js",
+      "mode": "100644",
+      "sha": "b47e9cccff6c5b5e74ca644cb5025c15ed4bbefa",
+      "size": 1916
+    },
+    {
+      "path": "packages/xgplayer/src/presets/default-en.js",
+      "mode": "100644",
+      "sha": "9cc887a7fbb6c4f93fc5a96400e807797ff7a2a6",
+      "size": 2726
+    },
+    {
+      "path": "packages/xgplayer/src/presets/default.js",
+      "mode": "100644",
+      "sha": "3f0ffe6d539d492410f2c23d2503f29d0ea4642f",
+      "size": 2980
+    },
+    {
+      "path": "packages/xgplayer/src/presets/index.js",
+      "mode": "100644",
+      "sha": "f4f115616d822dfb21b3dc09d9355747d07267d8",
+      "size": 209
+    },
+    {
+      "path": "packages/xgplayer/src/presets/live.js",
+      "mode": "100644",
+      "sha": "85f7f22c9acc1ec6614d4fcf7c009bccf7b8cc97",
+      "size": 1446
+    },
+    {
+      "path": "packages/xgplayer/src/presets/mobile.js",
+      "mode": "100644",
+      "sha": "ce3b3c402175ba9dfc56792175d696488b559c6a",
+      "size": 1557
+    },
+    {
+      "path": "packages/xgplayer/src/state.js",
+      "mode": "100644",
+      "sha": "d2f1d423d33239cc89e70c2ca88ba9534774777b",
+      "size": 287
+    },
+    {
+      "path": "packages/xgplayer/src/stateClassMap.js",
+      "mode": "100644",
+      "sha": "7c09ea49f7c7037117e0caa6508d13ca41397be6",
+      "size": 1059
+    },
+    {
+      "path": "packages/xgplayer/src/style/common.scss",
+      "mode": "100644",
+      "sha": "ac92db8e592a2177343462f36bf9ea5e656b6cd7",
+      "size": 8344
+    },
+    {
+      "path": "packages/xgplayer/src/style/common/animation.scss",
+      "mode": "100755",
+      "sha": "6060a64876dd58f7ea8e0c9230bee49a4ac520ff",
+      "size": 221
+    },
+    {
+      "path": "packages/xgplayer/src/style/common/svg-url.scss",
+      "mode": "100755",
+      "sha": "189a82a7b4cf018b1534fc96020dd980989c9922",
+      "size": 2068
+    },
+    {
+      "path": "packages/xgplayer/src/style/index.scss",
+      "mode": "100755",
+      "sha": "6c26c4f8a8c8e7e18522e7bf25beb52c1cabba58",
+      "size": 99
+    },
+    {
+      "path": "packages/xgplayer/src/style/variable.scss",
+      "mode": "100755",
+      "sha": "428e1c67d4a497ab88b7aa3b6001eb168e69c42f",
+      "size": 1582
+    },
+    {
+      "path": "packages/xgplayer/src/utils/database.js",
+      "mode": "100755",
+      "sha": "64ba8b7a7ed7b58d335c4bac3c955e0f736bedb3",
+      "size": 3771
+    },
+    {
+      "path": "packages/xgplayer/src/utils/debug.js",
+      "mode": "100644",
+      "sha": "1c10306f4e48773fa47cc41cb11c4c85b09706ee",
+      "size": 1169
+    },
+    {
+      "path": "packages/xgplayer/src/utils/draggabilly.js",
+      "mode": "100644",
+      "sha": "0280252638fbb323130cf9c35291379aab2ccc77",
+      "size": 11601
+    },
+    {
+      "path": "packages/xgplayer/src/utils/screen.js",
+      "mode": "100644",
+      "sha": "9ff9f10f198fc0a9df9e0b47c12ee833f82d548f",
+      "size": 186
+    },
+    {
+      "path": "packages/xgplayer/src/utils/sniffer.js",
+      "mode": "100755",
+      "sha": "a0a528748f4dfe0fab022f8e31ff542c4c256010",
+      "size": 6408
+    },
+    {
+      "path": "packages/xgplayer/src/utils/url.js",
+      "mode": "100755",
+      "sha": "1111e70fbb141be990446fdb6619ca78fb3063d7",
+      "size": 251
+    },
+    {
+      "path": "packages/xgplayer/src/utils/util.js",
+      "mode": "100755",
+      "sha": "291b6a251e32071dbb88764a301afaeecc03362a",
+      "size": 28153
+    },
+    {
+      "path": "packages/xgplayer/src/utils/xgplayerTimeRange.js",
+      "mode": "100644",
+      "sha": "d6bab7310e1675debb7be746e7181777c823bef6",
+      "size": 300
+    },
+    {
+      "path": "packages/xgplayer/src/version.js",
+      "mode": "100644",
+      "sha": "be327251d66b4d8d35e90f26b89e83659265fbd6",
+      "size": 55
+    },
+    {
+      "path": "scripts/cli.js",
+      "mode": "100755",
+      "sha": "5a1e8a9bfe2175bd06d282ff0142dc7bc988b1e9",
+      "size": 1648
+    },
+    {
+      "path": "scripts/commands/build-demo/index.js",
+      "mode": "100644",
+      "sha": "495e1b1a08910cb1a6d89d4c7e1f9452a83cd635",
+      "size": 1608
+    },
+    {
+      "path": "scripts/commands/build/index.js",
+      "mode": "100644",
+      "sha": "023049a4efa0236137126e94db82930c9e01a13c",
+      "size": 14390
+    },
+    {
+      "path": "scripts/commands/changelog/index.js",
+      "mode": "100644",
+      "sha": "5b858a7e2db571f161bdd2d4915b00e033f05227",
+      "size": 1543
+    },
+    {
+      "path": "scripts/commands/dev/index.js",
+      "mode": "100644",
+      "sha": "ebccd17bcb1aa3fc1d2e86738c7f5da8b0fdd1e5",
+      "size": 1701
+    },
+    {
+      "path": "scripts/commands/link/index.js",
+      "mode": "100644",
+      "sha": "c1be5f4084d8032380f24dbfbcf8490c3d57dd4d",
+      "size": 1635
+    },
+    {
+      "path": "scripts/commands/release/index.js",
+      "mode": "100644",
+      "sha": "6a2c44a0cb550b59a3474b096b2add5386a94a36",
+      "size": 7809
+    },
+    {
+      "path": "scripts/context.js",
+      "mode": "100644",
+      "sha": "e25ee48fadb3025d0d98c756d3e131c70dd56914",
+      "size": 5795
+    },
+    {
+      "path": "scripts/index.d.ts",
+      "mode": "100644",
+      "sha": "779c5453c4b52bcb77c9d447f9d3a7c4e743c612",
+      "size": 7247
+    },
+    {
+      "path": "scripts/rollup.base.js",
+      "mode": "100644",
+      "sha": "d4f37bec76f6557918f4331d7b8ba11445c8215a",
+      "size": 3107
+    },
+    {
+      "path": "scripts/rollup.prod.js",
+      "mode": "100644",
+      "sha": "9892378e04d8197c2db73e947f2c28694e0bd7f1",
+      "size": 3290
+    },
+    {
+      "path": "scripts/utils/config.js",
+      "mode": "100644",
+      "sha": "fc8b3e28e4f128d1164578030828aa3f81e5021c",
+      "size": 8489
+    },
+    {
+      "path": "scripts/utils/index.js",
+      "mode": "100644",
+      "sha": "fbae4197f7989b5a3be26455a7b99713cb5f6606",
+      "size": 2389
+    },
+    {
+      "path": "scripts/utils/legacy/index.js",
+      "mode": "100644",
+      "sha": "756287a344f8fb5673dcbb3f5a8213a0478b9856",
+      "size": 1544
+    },
+    {
+      "path": "scripts/utils/logger.js",
+      "mode": "100644",
+      "sha": "c130de451115e579063aa9d8683c9bb7ed0c711c",
+      "size": 1285
+    },
+    {
+      "path": "scripts/workflow/block-list.mjs",
+      "mode": "100644",
+      "sha": "63e8ab898c62c55180381de8ba74e6de8afcd5bb",
+      "size": 36
+    },
+    {
+      "path": "scripts/workflow/create-github-release.js",
+      "mode": "100644",
+      "sha": "a607a1f54e38131a0c3d045c75c402168ab76a4d",
+      "size": 4745
+    },
+    {
+      "path": "scripts/workflow/create-release-pr.js",
+      "mode": "100644",
+      "sha": "528ba396fe965c9fe0dc818cbee0ca03d2416af3",
+      "size": 350
+    },
+    {
+      "path": "scripts/workflow/get-package-version.mjs",
+      "mode": "100755",
+      "sha": "c5fc07ed7b72a4ab0ab50ce72f35d7c1d7cc5c37",
+      "size": 745
+    },
+    {
+      "path": "scripts/workflow/npm-publish.mjs",
+      "mode": "100644",
+      "sha": "1ff9375c53e390861cca3b019526cad75fadcac7",
+      "size": 2142
+    },
+    {
+      "path": "scripts/workflow/set-package-version.mjs",
+      "mode": "100755",
+      "sha": "ff0328f5852e6bf6578051efc491eef38757791f",
+      "size": 1491
+    },
+    {
+      "path": "scripts/workflow/version-helper.mjs",
+      "mode": "100755",
+      "sha": "ddfe11160b4a69d95b432ffe9f94c33836b66141",
+      "size": 1802
+    },
+    {
+      "path": "tsconfig.json",
+      "mode": "100644",
+      "sha": "ec889a288c74ac63bb3dc18d29d00953016cb911",
+      "size": 528
+    },
+    {
+      "path": "tsconfig.typecheck.json",
+      "mode": "100644",
+      "sha": "afd8eed9a937eb24d9e10eb4e545460a1513696c",
+      "size": 232
+    },
+    {
+      "path": "xgplayer.png",
+      "mode": "100755",
+      "sha": "a082f055a2e956618228d29d9400cc0ceb668b44",
+      "size": 12687
+    },
+    {
+      "path": "yarn.lock",
+      "mode": "100644",
+      "sha": "bbbc6217707cdec0f7a6d254a4cfa2946e42c060",
+      "size": 289749
+    }
+  ],
+  "execution_repository": "dvd233/flowgram.ai",
+  "execution_ref": "refs/heads/verify/xgplayer-hls-query-native-20261008",
+  "validation_parent": "56b191dad5a59e037d62816e8a3d85d6e9b59b59",
+  "payload_paths": [
+    ".github/workflows/xgplayer-query-native.yml",
+    "xgplayer-hosted-validation/README.md",
+    "xgplayer-hosted-validation/local-setup-failures.txt",
+    "xgplayer-hosted-validation/manifest.json",
+    "xgplayer-hosted-validation/parser.spec.js",
+    "xgplayer-hosted-validation/run.py",
+    "xgplayer-hosted-validation/utils.js"
+  ],
+  "node_version": "v24.19.0",
+  "production_path": "packages/xgplayer-hls/src/hls/manifest-loader/parser/utils.js",
+  "test_path": "packages/xgplayer-hls/__tests__/parser.spec.js",
+  "candidate_files": {
+    "utils.js": {
+      "sha256": "b666c955d095391382c7ed741a491d7ff15840b52d6809e2a0b90d5b9734bd1f",
+      "bytes": 3010
+    },
+    "parser.spec.js": {
+      "sha256": "e855f13b23505b4b6dc802954aeb25b3f78a1b918d1b669cf772ac45e5bcdbe1",
+      "bytes": 18045
+    }
+  },
+  "original_test_names": [
+    "m3u8 parser No #EXTM3U",
+    "m3u8 parser Master Playlist",
+    "m3u8 parser Audio and video separation",
+    "m3u8 parser Media Playlist"
+  ],
+  "new_test_names": [
+    "m3u8 parser resolves a query-only media URL: ?segment=1.ts",
+    "m3u8 parser resolves a query-only media URL: ?",
+    "m3u8 parser resolves a query-only media URL: ?segment=1.ts#part",
+    "m3u8 parser resolves a query-only media URL: ?segment=/a/b.ts",
+    "m3u8 parser resolves query-only key and map URLs against the playlist file",
+    "m3u8 parser resolves query-only variant and rendition URLs against the master file",
+    "m3u8 parser resolves a query-only low-latency part URL against the playlist file"
+  ],
+  "tool_versions": {
+    "jest": "28.1.3",
+    "jest-environment-jsdom": "28.1.3",
+    "babel-jest": "27.5.1",
+    "@babel/core": "7.21.8",
+    "@babel/preset-env": "7.21.5",
+    "@babel/preset-typescript": "7.26.0",
+    "@biomejs/biome": "2.1.3"
+  },
+  "yarn": {
+    "version": "1.22.22",
+    "url": "https://registry.npmjs.org/yarn/-/yarn-1.22.22.tgz",
+    "tarball_bytes": 1238429,
+    "expanded_bytes": 5340487,
+    "sha512": "a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
+    "files": [
+      "LICENSE",
+      "README.md",
+      "bin/yarn",
+      "bin/yarn.cmd",
+      "bin/yarn.js",
+      "bin/yarnpkg",
+      "bin/yarnpkg.cmd",
+      "lib/cli.js",
+      "lib/v8-compile-cache.js",
+      "package.json",
+      "preinstall.js"
+    ]
+  },
+  "registry_hosts": [
+    "registry.npmjs.org",
+    "registry.yarnpkg.com"
+  ],
+  "limits": {
+    "overall_seconds": 1200,
+    "install_seconds": 900,
+    "workspace_bytes": 2147483648,
+    "minimum_free_bytes": 1073741824,
+    "log_bytes": 4194304,
+    "artifact_bytes": 20971520
+  },
+  "scope": "Original project parser Jest suite only, five comparison phases, read-only Biome on changed production file. No full suite, browser playback, new credentials, runtime server, media requests or production PR."
+}

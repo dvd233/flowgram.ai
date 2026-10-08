@@ -1,0 +1,85 @@
+name: xgplayer query-only HLS native comparison
+on:
+  push:
+    branches: [verify/xgplayer-hls-query-native-20261008]
+permissions:
+  contents: read
+concurrency:
+  group: xgplayer-query-native-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  validate:
+    name: Original parser, regression, candidate and negative control
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      EXPECTED_REPOSITORY: dvd233/flowgram.ai
+      EXPECTED_REPOSITORY_ID: '1352889832'
+      EXPECTED_OWNER_ID: '111864431'
+      EXPECTED_REF: refs/heads/verify/xgplayer-hls-query-native-20261008
+    steps:
+      - name: Check exact public repository, push, ref and standard hosted runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_EVENT_NAME" = push
+          test "$GITHUB_REPOSITORY" = "$EXPECTED_REPOSITORY"
+          test "$GITHUB_REPOSITORY_ID" = "$EXPECTED_REPOSITORY_ID"
+          test "$GITHUB_REPOSITORY_OWNER_ID" = "$EXPECTED_OWNER_ID"
+          test "$GITHUB_REF" = "$EXPECTED_REF"
+          test "$RUNNER_ENVIRONMENT" = github-hosted
+          test "$RUNNER_OS" = Linux
+          test "$RUNNER_ARCH" = X64
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          [[ "$GITHUB_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test "$GITHUB_WORKFLOW_SHA" = "$GITHUB_SHA"
+          python3 - <<'PY'
+          import json, os
+          event = json.load(open(os.environ['GITHUB_EVENT_PATH']))
+          assert event['after'] == os.environ['GITHUB_SHA']
+          assert event['ref'] == os.environ['EXPECTED_REF']
+          assert not event.get('deleted')
+          assert event.get('created') is True
+          assert event['repository']['full_name'] == os.environ['EXPECTED_REPOSITORY']
+          assert str(event['repository']['id']) == os.environ['EXPECTED_REPOSITORY_ID']
+          assert str(event['repository']['owner']['id']) == os.environ['EXPECTED_OWNER_ID']
+          assert event['repository']['private'] is False
+          PY
+      - name: Checkout exact validation commit without persisted credentials
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # official v4.2.2
+        with:
+          ref: ${{ github.sha }}
+          path: payload
+          persist-credentials: false
+          fetch-depth: 2
+          submodules: false
+          lfs: false
+      - name: Checkout fixed public xgplayer source without persisted credentials
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # official v4.2.2
+        with:
+          repository: bytedance/xgplayer
+          ref: 65b6a0ec223e3a92d55c4453df419197806967d4
+          path: source
+          persist-credentials: false
+          fetch-depth: 1
+          submodules: false
+          lfs: false
+      - name: Set exact Node runtime without project cache
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # official v4.4.0
+        with:
+          node-version: 24.19.0
+          check-latest: false
+      - name: Run original native parser tests and bounded comparison
+        id: native
+        shell: bash
+        run: python3 payload/xgplayer-hosted-validation/run.py "$GITHUB_WORKSPACE/source"
+      - name: Upload bounded native evidence
+        if: ${{ always() && steps.native.outcome != 'skipped' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # official v4.6.2
+        with:
+          name: xgplayer-query-native-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/xgplayer-query-evidence.tar.gz
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 3
+          include-hidden-files: false

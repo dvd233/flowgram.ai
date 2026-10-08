@@ -39,7 +39,8 @@ jobs:
           assert event['after'] == os.environ['GITHUB_SHA']
           assert event['ref'] == os.environ['EXPECTED_REF']
           assert not event.get('deleted')
-          assert event.get('created') is True
+          assert event.get('created') is False
+          assert event['before'] == '4512928234f3aea261357fdfa01cc3089d4c2c4b'
           assert event['repository']['full_name'] == os.environ['EXPECTED_REPOSITORY']
           assert str(event['repository']['id']) == os.environ['EXPECTED_REPOSITORY_ID']
           assert str(event['repository']['owner']['id']) == os.environ['EXPECTED_OWNER_ID']

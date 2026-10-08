@@ -3399,7 +3399,7 @@
   ],
   "execution_repository": "dvd233/flowgram.ai",
   "execution_ref": "refs/heads/verify/xgplayer-hls-query-native-20261008",
-  "validation_parent": "56b191dad5a59e037d62816e8a3d85d6e9b59b59",
+  "validation_parent": "4512928234f3aea261357fdfa01cc3089d4c2c4b",
   "payload_paths": [
     ".github/workflows/xgplayer-query-native.yml",
     "xgplayer-hosted-validation/README.md",
@@ -3478,5 +3478,17 @@
     "log_bytes": 4194304,
     "artifact_bytes": 20971520
   },
-  "scope": "Original project parser Jest suite only, five comparison phases, read-only Biome on changed production file. No full suite, browser playback, new credentials, runtime server, media requests or production PR."
+  "scope": "Original project parser red/green/negative controls, original and candidate HLS package tests (10 explicit files), and read-only Biome on changed production file. No full monorepo suite, browser playback, new credentials, runtime server, media requests or production PR.",
+  "hls_test_counts": {
+    "packages/xgplayer-hls/__tests__/hls.spec.js": 13,
+    "packages/xgplayer-hls/__tests__/index.spec.js": 2,
+    "packages/xgplayer-hls/__tests__/mse-airplay.spec.js": 4,
+    "packages/xgplayer-hls/__tests__/options.spec.js": 2,
+    "packages/xgplayer-hls/__tests__/parser.spec.js": 4,
+    "packages/xgplayer-hls/__tests__/playlist.spec.js": 3,
+    "packages/xgplayer-hls/__tests__/plugin-extenasion.spec.js": 3,
+    "packages/xgplayer-hls/__tests__/plugin.spec.js": 8,
+    "packages/xgplayer-hls/__tests__/services/buffer.spec.js": 13,
+    "packages/xgplayer-hls/__tests__/utils.spec.js": 1
+  }
 }

@@ -71,6 +71,24 @@ def assess_jest(data, expected_names, failures):
     check(all(c["status"] in ("passed", "failed") for c in cases), "Unfinished native test")
     return [{"name": c["fullName"], "status": c["status"], "failureMessages": c.get("failureMessages", [])} for c in cases]
 
+def assess_hls(data, source, expected_counts):
+    check(data.get("numRuntimeErrorTestSuites", 0) == 0, "HLS runtime/setup failure")
+    check(data.get("numPendingTests", 0) == 0 and data.get("numTodoTests", 0) == 0, "HLS skipped/todo tests")
+    check(len(data["testResults"]) == len(expected_counts), "HLS suite count mismatch")
+    result = []
+    seen = set()
+    for suite in data["testResults"]:
+        path = str(Path(suite["name"]).resolve().relative_to(source.resolve()))
+        check(path in expected_counts and path not in seen, "Unexpected or duplicate HLS suite")
+        seen.add(path)
+        cases = suite["assertionResults"]
+        check(len(cases) == expected_counts[path], "HLS case count mismatch: " + path)
+        check(len({c["fullName"] for c in cases}) == len(cases), "Duplicate HLS case identity")
+        check(all(c["status"] in ("passed", "failed") for c in cases), "Unfinished HLS case")
+        result.extend({"file": path, "name": c["fullName"], "status": c["status"], "failureMessages": c.get("failureMessages", [])} for c in cases)
+    check(data["numTotalTests"] == sum(expected_counts.values()), "HLS total test count mismatch")
+    return result
+
 def main():
     manifest = json.loads((HERE / "manifest.json").read_text())
     source = Path(sys.argv[1]).resolve(strict=True)
@@ -96,7 +114,7 @@ def main():
     report = {
         "status": "not_validated", "source_commit": manifest["source_commit"],
         "source_tree": manifest["source_tree"], "steps": [], "source_checks": [],
-        "native_results": {}, "candidate_lint_exit": None, "scoped_fix_verified": False,
+        "native_results": {}, "broader_results": {}, "candidate_lint_exit": None, "scoped_fix_verified": False,
         "all_requested_checks_passed": False, "child_environment_keys": sorted(env),
         "limits": manifest["limits"], "artifact_complete": True,
         "run": {k: os.environ.get(k) for k in ("GITHUB_REPOSITORY", "GITHUB_SHA", "GITHUB_REF", "GITHUB_RUN_ID", "GITHUB_RUN_ATTEMPT")},
@@ -231,6 +249,23 @@ def main():
             for path in files:
                 tar.add(path, arcname=path.name, recursive=False)
         check(destination.stat().st_size <= manifest["limits"]["artifact_bytes"], "Archive exceeds artifact bound")
+    def hls_jest(name, candidate=False):
+        result = out / (name + ".json")
+        counts = dict(manifest["hls_test_counts"])
+        if candidate:
+            counts[manifest["test_path"]] += len(manifest["new_test_names"])
+        argv = [node, str(source / "node_modules/jest/bin/jest.js"), "--config", str(source / "jest.config.js"),
+                "--runTestsByPath", *[str(source / path) for path in counts], "--runInBand", "--verbose=false", "--silent",
+                "--json", "--outputFile", str(result)]
+        result_code = run(name, argv, 180)
+        check(result_code in (0, 1), "Unexpected HLS Jest process result")
+        data = json.loads(result.read_text())
+        cases = assess_hls(data, source, counts)
+        check(result_code == (1 if data["numFailedTests"] else 0), "HLS process/JSON outcome mismatch")
+        report["broader_results"][name] = {"passed": data["numPassedTests"], "failed": data["numFailedTests"],
+                                          "total": data["numTotalTests"], "exit_code": result_code, "cases": cases}
+        save()
+        return cases
     code = 1
     try:
         check(os.environ.get("GITHUB_REPOSITORY") == manifest["execution_repository"], "Unexpected execution repository")
@@ -282,6 +317,8 @@ def main():
         new_names = manifest["new_test_names"]
         all_names = baseline_names + new_names
         jest("original-baseline", baseline_names)
+        hls_base = hls_jest("hls-baseline")
+        verify_source("after-hls-baseline")
         biome = [node, str(source / "node_modules/@biomejs/biome/bin/biome"), "check", manifest["production_path"], "--reporter=json"]
         report["baseline_lint_exit"] = run("baseline-lint", biome, 120)
         original_production = (source / manifest["production_path"]).read_bytes()
@@ -303,9 +340,17 @@ def main():
         (source / manifest["production_path"]).write_bytes(candidate_production)
         verify_source("restored", both_overrides)
         jest("restored-green", all_names)
+        hls_candidate = hls_jest("hls-candidate", candidate=True)
+        verify_source("after-hls-candidate", both_overrides)
+        base_cases = {(c["file"], c["name"]): c["status"] for c in hls_base}
+        candidate_cases = {(c["file"], c["name"]): c["status"] for c in hls_candidate}
+        expected_new = {(manifest["test_path"], name) for name in new_names}
+        check(set(candidate_cases) == set(base_cases) | expected_new, "HLS existing case identity changed")
+        check(all(candidate_cases[key] == status for key, status in base_cases.items()), "HLS existing case outcome changed")
+        check(all(candidate_cases[key] == "passed" for key in expected_new), "HLS candidate regression case failed")
         report["scoped_fix_verified"] = True
-        report["all_requested_checks_passed"] = report["candidate_lint_exit"] == 0
-        report["status"] = "passed" if report["all_requested_checks_passed"] else "native_fix_verified_lint_requires_review"
+        report["all_requested_checks_passed"] = report["candidate_lint_exit"] == 0 and all(result["exit_code"] == 0 for result in report["broader_results"].values())
+        report["status"] = "passed" if report["all_requested_checks_passed"] else "native_fix_verified_checks_require_review"
         code = 0 if report["all_requested_checks_passed"] else 1
     except Exception as error:
         report["status"] = "failed"
@@ -322,6 +367,7 @@ def main():
             code = 1
         summary = {k: report.get(k) for k in ("status", "scoped_fix_verified", "all_requested_checks_passed", "error", "elapsed_seconds", "final_workspace_bytes", "artifact_complete", "baseline_lint_exit", "candidate_lint_exit")}
         summary["native_counts"] = {name: {k: result[k] for k in ("passed", "failed", "total")} for name, result in report["native_results"].items()}
+        summary["broader_counts"] = {name: {k: result[k] for k in ("passed", "failed", "total")} for name, result in report["broader_results"].items()}
         print(json.dumps(summary))
     return code
 

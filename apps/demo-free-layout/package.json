@@ -28,8 +28,8 @@
     "lint:fix": "eslint ./src --fix",
     "ts-check": "tsc --noEmit",
     "start": "cross-env NODE_ENV=development rsbuild dev --open",
-    "test": "exit",
-    "test:cov": "exit",
+    "test": "vitest run",
+    "test:cov": "vitest run --coverage",
     "watch": "exit 0"
   },
   "dependencies": {
@@ -68,7 +68,9 @@
     "@types/styled-components": "^5",
     "typescript": "^5.8.3",
     "eslint": "^9.0.0",
-    "cross-env": "~7.0.3"
+    "cross-env": "~7.0.3",
+    "vitest": "^3.2.4",
+    "@vitest/coverage-v8": "^3.2.4"
   },
   "publishConfig": {
     "access": "public",

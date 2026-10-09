@@ -31,6 +31,8 @@ namespace UniqueWorkflowUtils {
     isUniqueId: (id: string) => boolean
   ): Map<string, string> => {
     const nodeReplaceMap = new Map<string, string>(); // create map for id replacement - 创建ID替换映射
+    // Reserve IDs that later clipboard nodes may keep, as well as newly generated IDs.
+    const reservedIds = new Set(nodeIds);
     nodeIds.forEach((id) => {
       if (isUniqueId(id)) {
         nodeReplaceMap.set(id, id); // keep original id if unique - 如果ID唯一则保持不变
@@ -38,7 +40,8 @@ namespace UniqueWorkflowUtils {
         let newId: string;
         do {
           newId = generateUniqueId(); // generate new id until unique - 生成新ID直到唯一
-        } while (!isUniqueId(newId));
+        } while (!isUniqueId(newId) || reservedIds.has(newId));
+        reservedIds.add(newId);
         nodeReplaceMap.set(id, newId);
       }
     });
